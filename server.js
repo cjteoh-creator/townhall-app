@@ -165,3 +165,19 @@ wss.on('connection', (ws, req) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Townhall running on port ${PORT}`));
+
+// Debug endpoint — visit /debug to see live server state
+app.get('/debug', (req, res) => {
+  const clients = [];
+  wss.clients.forEach(c => {
+    clients.push({ role: clientRoles.get(c), readyState: c.readyState });
+  });
+  res.json({
+    phase: state.phase,
+    queueLength: state.queue.length,
+    participantCount: state.participantCount,
+    currentIndex: state.currentIndex,
+    liveClients: clients,
+    totalWsClients: wss.clients.size,
+  });
+});
