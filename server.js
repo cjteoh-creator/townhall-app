@@ -79,6 +79,11 @@ wss.on('connection', (ws, req) => {
       if (msg.action === 'show_results') { if (state.phase === 'collecting') { state.phase = 'results'; broadcast({ type: 'state', state }); } }
       if (msg.action === 'close') { state.phase = 'idle'; broadcast({ type: 'state', state }); }
       if (msg.action === 'end_session') { state.phase = 'ended'; broadcast({ type: 'state', state }); }
+      if (msg.action === 'reset_session_keep_queue') {
+        const savedQueue = state.queue;
+        state = { phase: 'idle', queue: savedQueue, currentIndex: -1, current: null, participantCount };
+        broadcast({ type: 'state', state });
+      }
       if (msg.action === 'reset') {
         participantCount = 0;
         state = { phase: 'idle', queue: [], currentIndex: -1, current: null, participantCount: 0 };

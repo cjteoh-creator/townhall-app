@@ -8,52 +8,66 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #FDF6EC;
+      --bg: #F0FAFA;
       --surface: #FFFFFF;
-      --surface2: #FFF0DC;
-      --border: #F5D9B0;
+      --surface2: #E0F5F5;
+      --border: #A8DEDE;
       --orange: #F97316;
       --orange-dark: #EA580C;
       --orange-light: #FED7AA;
-      --text: #3D1F00;
-      --muted: #9A6B3A;
+      --teal: #00B5B8;
+      --teal-dark: #008F92;
+      --teal-light: #CCEFF0;
+      --text: #1A3A3A;
+      --muted: #5A8A8A;
       --success: #16A34A;
       --danger: #DC2626;
-      --accent2: #F43F5E;
     }
+
     body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 32px; }
-    h1 { font-size: 20px; font-weight: 900; color: var(--text); }
+
+    .header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+    h1 { font-size: 22px; font-weight: 900; color: var(--text); }
+    .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
+    .brand-dot2 { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); }
     .subtitle { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 20px; }
 
+    /* LINKS */
+    .links-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    .link-chip { flex: 1; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .link-chip-name { font-size: 12px; font-weight: 800; color: var(--muted); }
+    .copy-btn { background: var(--teal); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 8px; cursor: pointer; transition: opacity 0.15s; }
+    .copy-btn:hover { opacity: 0.85; }
+
+    /* TABS */
     .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--surface2); border-radius: 14px; padding: 4px; width: fit-content; border: 2px solid var(--border); }
-    .tab { padding: 8px 20px; border-radius: 11px; font-size: 14px; font-weight: 800; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; font-family: 'Nunito', sans-serif; }
+    .tab { padding: 8px 22px; border-radius: 11px; font-size: 14px; font-weight: 800; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; font-family: 'Nunito', sans-serif; }
     .tab.active { background: var(--orange); color: #fff; box-shadow: 0 2px 10px rgba(249,115,22,0.3); }
+    .tab.active.teal { background: var(--teal); box-shadow: 0 2px 10px rgba(0,181,184,0.3); }
 
     #view-setup { display: block; }
     #view-live { display: none; }
 
     .section-title { font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 
+    /* QUESTION CARDS */
     .q-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-
-    .q-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(249,115,22,0.06); }
+    .q-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(0,181,184,0.07); }
     .q-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .q-type-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; }
     .q-type-badge.poll { background: var(--orange-light); color: var(--orange-dark); }
-    .q-type-badge.wordcloud { background: #FCE7F3; color: #BE185D; }
+    .q-type-badge.wordcloud { background: var(--teal-light); color: var(--teal-dark); }
     .q-card-actions { margin-left: auto; display: flex; gap: 6px; }
-
     .icon-btn { background: none; border: 2px solid var(--border); color: var(--muted); font-size: 13px; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: all 0.15s; }
     .icon-btn:hover { border-color: var(--danger); color: var(--danger); }
-    .icon-btn.move:hover { border-color: var(--orange); color: var(--orange); }
+    .icon-btn.move:hover { border-color: var(--teal); color: var(--teal); }
 
-    label { display: block; font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 5px; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    label { display: block; font-size: 11px; font-weight: 900; color: var(--muted); margin-bottom: 5px; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
     label:first-of-type { margin-top: 0; }
     input[type="text"] { width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 13px; border-radius: 10px; outline: none; transition: border-color 0.15s; }
-    input[type="text"]:focus { border-color: var(--orange); }
+    input[type="text"]:focus { border-color: var(--teal); }
 
-    /* Multi-select toggle */
     .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; background: var(--surface2); border-radius: 10px; border: 2px solid var(--border); }
     .toggle-label { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
     .toggle-sublabel { font-size: 11px; font-weight: 600; color: var(--muted); display: block; }
@@ -70,14 +84,14 @@
     .remove-opt { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; transition: color 0.15s; }
     .remove-opt:hover { color: var(--danger); }
     .add-opt-btn { background: none; border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; padding: 8px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 7px; transition: all 0.15s; }
-    .add-opt-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .add-opt-btn:hover { border-color: var(--teal); color: var(--teal); }
 
     .add-q-row { display: flex; gap: 10px; }
     .add-q-btn { flex: 1; background: var(--surface); border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
-    .add-q-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--surface2); }
-    .add-q-btn.wc:hover { border-color: #BE185D; color: #BE185D; }
+    .add-q-btn:hover { border-color: var(--orange); color: var(--orange); background: #FFF7F0; }
+    .add-q-btn.wc:hover { border-color: var(--teal); color: var(--teal); background: var(--surface2); }
 
-    .launch-btn { width: 100%; background: var(--orange); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; transition: opacity 0.15s; box-shadow: 0 4px 16px rgba(249,115,22,0.3); }
+    .launch-btn { width: 100%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; transition: opacity 0.15s; box-shadow: 0 4px 16px rgba(0,181,184,0.3); }
     .launch-btn:hover { opacity: 0.88; }
 
     /* LIVE VIEW */
@@ -88,80 +102,87 @@
     .q-progress { font-size: 13px; font-weight: 700; color: var(--muted); }
     .q-progress span { color: var(--text); font-weight: 900; }
 
-    .current-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 14px rgba(249,115,22,0.08); }
-    .current-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .current-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 14px rgba(0,181,184,0.1); }
+    .current-card.collecting-active { border-color: var(--orange); }
+    .current-card.results-active { border-color: var(--teal); }
+    .current-tag { font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
     .current-tag.poll { color: var(--orange); }
-    .current-tag.wordcloud { color: #BE185D; }
-    .current-q { font-size: 18px; font-weight: 900; margin-bottom: 6px; color: var(--text); }
+    .current-tag.wordcloud { color: var(--teal); }
+    .current-q { font-size: 18px; font-weight: 900; margin-bottom: 8px; color: var(--text); }
     .current-status { font-size: 12px; font-weight: 700; margin-bottom: 16px; padding: 5px 12px; border-radius: 99px; display: inline-block; }
     .current-status.collecting { background: #FEF3C7; color: #D97706; }
-    .current-status.results { background: #DCFCE7; color: var(--success); }
+    .current-status.results { background: var(--teal-light); color: var(--teal-dark); }
     .current-status.idle { background: var(--surface2); color: var(--muted); }
 
     .live-stats { margin-bottom: 16px; }
     .stat-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
     .stat-meta { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; }
-    .stat-bar-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+    .stat-bar-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
     .stat-bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
     .word-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-    .word-chip { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; padding: 4px 12px; font-size: 13px; font-weight: 700; color: var(--text); }
+    .word-chip { background: var(--teal-light); border: 1.5px solid var(--teal); border-radius: 8px; padding: 4px 12px; font-size: 13px; font-weight: 700; color: var(--teal-dark); }
 
     .ctrl-buttons { display: flex; gap: 10px; }
-    .ctrl-btn { flex: 1; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
+    .ctrl-btn { flex: 1; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 14px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
     .ctrl-btn:hover { opacity: 0.88; }
     .ctrl-btn:active { transform: scale(0.98); }
-    .ctrl-btn.open { background: var(--orange); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.3); }
-    .ctrl-btn.show-results { background: #7C3AED; color: #fff; }
-    .ctrl-btn.next { background: var(--success); color: #fff; }
-    .ctrl-btn.stop { background: var(--surface2); color: var(--text); border: 2px solid var(--border); }
-    .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .ctrl-btn.open { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
+    .ctrl-btn.show-results { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
+    .ctrl-btn.next { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
+    .ctrl-btn.end { background: linear-gradient(135deg, #F97316, #EA580C); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
 
     .queue-overview { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
     .queue-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 5px; transition: background 0.15s; }
     .queue-item:hover { background: var(--surface2); }
-    .queue-item.active { background: var(--orange-light); border: 2px solid var(--orange); }
+    .queue-item.active { background: var(--teal-light); border: 2px solid var(--teal); }
     .queue-item.done { opacity: 0.4; }
     .q-item-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
-    .queue-item.active .q-item-num { background: var(--orange); color: #fff; }
+    .queue-item.active .q-item-num { background: var(--teal); color: #fff; }
     .q-item-text { font-size: 13px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
-    .q-item-type { font-size: 11px; font-weight: 800; flex-shrink: 0; }
-    .q-item-type.poll { color: var(--orange); }
-    .q-item-type.wordcloud { color: #BE185D; }
+    .q-item-type { font-size: 14px; flex-shrink: 0; }
 
-    .bottom-actions { display: flex; gap: 10px; margin-bottom: 0; }
-    .end-btn { flex: 1; background: #FEF3C7; border: 2px solid #F59E0B; color: #B45309; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-    .end-btn:hover { background: #FDE68A; }
-    .reset-btn { flex: 1; background: none; border: 2px solid var(--danger); color: var(--danger); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-    .reset-btn:hover { background: #FEE2E2; }
+    .bottom-actions { display: flex; gap: 10px; margin-top: 4px; }
+    .end-btn { flex: 1; background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 12px; cursor: pointer; border: none; box-shadow: 0 3px 12px rgba(249,115,22,0.3); transition: opacity 0.15s; }
+    .end-btn:hover { opacity: 0.88; }
+    .reset-btn { flex: 1; background: none; border: 2px solid var(--danger); color: var(--danger); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+    .reset-btn:hover { background: #FEF2F2; }
 
-    .links-row { display: flex; gap: 10px; margin-bottom: 20px; }
-    .link-chip { flex: 1; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
-    .link-chip-name { font-size: 12px; font-weight: 800; color: var(--muted); }
-    .copy-btn { background: var(--surface2); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 8px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-    .copy-btn:hover { border-color: var(--orange); color: var(--orange); }
+    /* ENDED state in control */
+    #view-ended { display: none; text-align: center; padding: 48px 20px; }
+    .ended-ctl-icon { font-size: 60px; margin-bottom: 16px; }
+    .ended-ctl-title { font-size: 22px; font-weight: 900; color: var(--orange); margin-bottom: 8px; }
+    .ended-ctl-sub { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 28px; }
+    .new-session-btn { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; padding: 14px 36px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 3px 12px rgba(0,181,184,0.3); transition: opacity 0.15s; margin-right: 10px; }
+    .new-session-btn:hover { opacity: 0.88; }
+    .reset-session-btn { background: none; border: 2px solid var(--danger); color: var(--danger); font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; padding: 14px 36px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+    .reset-session-btn:hover { background: #FEF2F2; }
 
-    .empty-state { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; font-weight: 700; }
+    .empty-state { text-align: center; padding: 24px; color: var(--muted); font-size: 14px; font-weight: 600; }
   </style>
 </head>
 <body>
 
-<h1>🎛️ Control Panel</h1>
-<div class="subtitle">BeLive Townhall — Presenter Only</div>
+<div class="header-row">
+  <div class="brand-dot"></div>
+  <h1>Control Panel</h1>
+  <div class="brand-dot2"></div>
+</div>
+<div class="subtitle">Townhall Live Session — Presenter Only</div>
 
 <div class="links-row">
   <div class="link-chip">
     <div class="link-chip-name">📱 Participant Link</div>
-    <button class="copy-btn" onclick="copyUrl('/')">Copy</button>
+    <button class="copy-btn" onclick="copyUrl('/')">Copy Link</button>
   </div>
   <div class="link-chip">
-    <div class="link-chip-name">🖥️ Big Screen</div>
-    <button class="copy-btn" onclick="copyUrl('/display.html')">Copy</button>
+    <div class="link-chip-name">🖥️ Big Screen Display</div>
+    <button class="copy-btn" onclick="copyUrl('/display.html')">Copy Link</button>
   </div>
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('setup')">⚙️ Setup Questions</button>
-  <button class="tab" onclick="switchTab('live')">🔴 Live Control</button>
+  <button class="tab active" id="tab-setup" onclick="switchTab('setup')">⚙️ Setup Questions</button>
+  <button class="tab teal" id="tab-live" onclick="switchTab('live')">🔴 Live Control</button>
 </div>
 
 <!-- SETUP VIEW -->
@@ -175,21 +196,19 @@
   <button class="launch-btn" onclick="saveAndLaunch()">✅ Save & Go to Live Control →</button>
 </div>
 
-<!-- LIVE CONTROL VIEW -->
+<!-- LIVE VIEW -->
 <div id="view-live">
   <div class="live-header">
     <div class="live-badge"><div class="live-dot"></div> LIVE SESSION</div>
-    <div class="q-progress">Q <span id="q-current-num">-</span> of <span id="q-total">-</span></div>
+    <div class="q-progress">Question <span id="q-current-num">-</span> of <span id="q-total">-</span></div>
   </div>
 
-  <div class="current-card">
+  <div class="current-card" id="current-card">
     <div class="current-tag" id="current-tag"></div>
-    <div class="current-q" id="current-q">No question selected</div>
-    <div class="current-status idle" id="current-status">Waiting to start</div>
-    <div id="live-stats" class="live-stats"></div>
-    <div class="ctrl-buttons" id="ctrl-buttons">
-      <button class="ctrl-btn open" onclick="openQuestion()">▶ Start — Open Q1</button>
-    </div>
+    <div class="current-q" id="current-q">Ready — press Open to start</div>
+    <div class="current-status idle" id="current-status">Waiting</div>
+    <div class="live-stats" id="live-stats"></div>
+    <div class="ctrl-buttons" id="ctrl-buttons"></div>
   </div>
 
   <div class="queue-overview">
@@ -198,8 +217,18 @@
   </div>
 
   <div class="bottom-actions">
-    <button class="end-btn" onclick="endSession()">🏁 End Session</button>
     <button class="reset-btn" onclick="fullReset()">↺ Full Reset</button>
+  </div>
+</div>
+
+<!-- ENDED VIEW -->
+<div id="view-ended">
+  <div class="ended-ctl-icon">🎊</div>
+  <div class="ended-ctl-title">Session Complete!</div>
+  <div class="ended-ctl-sub">Thank You screen is showing to all participants.</div>
+  <div>
+    <button class="new-session-btn" onclick="runAgain()">▶ Run Again (Same Questions)</button>
+    <button class="reset-session-btn" onclick="fullReset()">↺ Reset Everything</button>
   </div>
 </div>
 
@@ -213,10 +242,20 @@
   }
 
   function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'setup') || (i === 1 && tab === 'live')));
+    document.getElementById('tab-setup').classList.toggle('active', tab === 'setup');
+    document.getElementById('tab-live').classList.toggle('active', tab === 'live');
     document.getElementById('view-setup').style.display = tab === 'setup' ? 'block' : 'none';
     document.getElementById('view-live').style.display = tab === 'live' ? 'block' : 'none';
+    document.getElementById('view-ended').style.display = 'none';
     if (tab === 'live') renderLiveView();
+  }
+
+  function showEndedView() {
+    document.getElementById('view-setup').style.display = 'none';
+    document.getElementById('view-live').style.display = 'none';
+    document.getElementById('view-ended').style.display = 'block';
+    document.getElementById('tab-setup').classList.remove('active');
+    document.getElementById('tab-live').classList.remove('active');
   }
 
   // --- SETUP ---
@@ -240,9 +279,9 @@
     if (questions[i].options.length > 2) { questions[i].options.splice(j, 1); renderSetup(); }
   }
 
-  function toggleMultiSelect(i, val) {
-    questions[i].multiSelect = val;
-  }
+  function toggleMultiSelect(i, val) { questions[i].multiSelect = val; }
+
+  function escHtml(str) { return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
   function renderSetup() {
     const list = document.getElementById('q-list');
@@ -277,28 +316,26 @@
           <div class="toggle-row">
             <div class="toggle-label">
               Allow multiple selections
-              <span class="toggle-sublabel">Participants can pick more than one answer</span>
+              <span class="toggle-sublabel">Off = pick one only · On = pick many</span>
             </div>
             <label class="toggle">
               <input type="checkbox" ${q.multiSelect ? 'checked' : ''} onchange="toggleMultiSelect(${i}, this.checked)" />
               <span class="toggle-slider"></span>
             </label>
           </div>
-        ` : '<div style="margin-top:10px;font-size:13px;font-weight:600;color:var(--muted)">Participants can type any word or phrase. Multiple submissions allowed.</div>'}
+        ` : '<div style="margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)">Participants can submit multiple words.</div>'}
       </div>
     `).join('');
   }
 
-  function escHtml(str) { return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
-
   function saveAndLaunch() {
+    if (questions.length === 0) { alert('Add at least one question first.'); return; }
     const valid = questions.every(q => {
       if (!q.question.trim()) return false;
       if (q.type === 'poll' && q.options.filter(o => o.trim()).length < 2) return false;
       return true;
     });
-    if (questions.length === 0) { alert('Add at least one question first.'); return; }
-    if (!valid) { alert('Please fill in all questions and ensure polls have at least 2 options.'); return; }
+    if (!valid) { alert('Please fill in all questions. Polls need at least 2 options.'); return; }
     const cleanQueue = questions.map(q => ({
       type: q.type,
       question: q.question.trim(),
@@ -310,7 +347,7 @@
   }
 
   // --- LIVE CONTROL ---
-  const barColors = ['#F97316','#F43F5E','#7C3AED','#0EA5E9','#16A34A','#F59E0B'];
+  const barColors = ['#F97316', '#00B5B8', '#7C3AED', '#16A34A', '#F59E0B', '#EC4899'];
 
   function renderLiveView() {
     const s = serverState;
@@ -318,28 +355,35 @@
     document.getElementById('q-total').textContent = total;
     document.getElementById('q-current-num').textContent = s.currentIndex >= 0 ? s.currentIndex + 1 : '-';
 
+    // Queue list
     const qll = document.getElementById('queue-list-live');
-    if (!total) { qll.innerHTML = '<div class="empty-state">No questions loaded. Go to Setup first.</div>'; }
-    else {
+    if (!total) {
+      qll.innerHTML = '<div class="empty-state">No questions loaded. Go to Setup first.</div>';
+    } else {
       qll.innerHTML = (s.queue || []).map((q, i) => `
         <div class="queue-item ${i === s.currentIndex ? 'active' : ''} ${i < s.currentIndex ? 'done' : ''}">
           <div class="q-item-num">${i + 1}</div>
           <div class="q-item-text">${escHtml(q.question)}</div>
-          <div class="q-item-type ${q.type}">${q.type === 'poll' ? '📊' : '☁️'}</div>
+          <div class="q-item-type">${q.type === 'poll' ? '📊' : '☁️'}</div>
         </div>
       `).join('');
     }
 
     const cur = s.current;
+    const card = document.getElementById('current-card');
+
     if (!cur) {
+      card.className = 'current-card';
       document.getElementById('current-tag').textContent = '';
-      document.getElementById('current-q').textContent = s.queue?.length ? 'Ready — press Open to start Q1' : 'No questions loaded';
+      document.getElementById('current-q').textContent = total ? 'Ready — press Open to start Q1' : 'No questions loaded';
       document.getElementById('current-status').textContent = 'Waiting';
       document.getElementById('current-status').className = 'current-status idle';
       document.getElementById('live-stats').innerHTML = '';
       renderCtrlButtons('idle');
       return;
     }
+
+    card.className = `current-card ${s.phase === 'collecting' ? 'collecting-active' : s.phase === 'results' ? 'results-active' : ''}`;
 
     const tagEl = document.getElementById('current-tag');
     tagEl.textContent = cur.type === 'poll' ? '📊 LIVE POLL' : '☁️ WORD CLOUD';
@@ -352,13 +396,13 @@
 
     const statsEl = document.getElementById('live-stats');
     if (cur.type === 'poll') {
-      const totalVoters = cur.totalVoters || 0;
-      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Total voters: <strong style="color:var(--text)">${totalVoters}</strong></div>` +
+      const tv = cur.totalVoters || 0;
+      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Total voters: <strong style="color:var(--text)">${tv}</strong></div>` +
         cur.options.map((opt, i) => {
           const v = cur.votes?.[i] || 0;
-          const pct = totalVoters > 0 ? Math.round(v / totalVoters * 100) : 0;
+          const pct = tv > 0 ? Math.round(v / tv * 100) : 0;
           return `<div class="stat-row">
-            <div class="stat-meta"><span>${opt}</span><span>${v} (${pct}%)</span></div>
+            <div class="stat-meta"><span>${escHtml(opt)}</span><span>${v} (${pct}%)</span></div>
             <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%;background:${barColors[i % barColors.length]}"></div></div>
           </div>`;
         }).join('');
@@ -366,7 +410,7 @@
       const words = [...(cur.words || [])].sort((a, b) => b.count - a.count).slice(0, 10);
       const total = (cur.words || []).reduce((a, w) => a + w.count, 0);
       statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Responses: <strong style="color:var(--text)">${total}</strong></div>
-        <div class="word-chips">${words.map(w => `<div class="word-chip">${escHtml(w.text)} <span style="color:var(--muted)">${w.count}</span></div>`).join('')}</div>`;
+        <div class="word-chips">${words.map(w => `<div class="word-chip">${escHtml(w.text)} <span style="opacity:0.7">${w.count}</span></div>`).join('')}</div>`;
     }
 
     renderCtrlButtons(s.phase);
@@ -374,16 +418,27 @@
 
   function renderCtrlButtons(phase) {
     const s = serverState;
-    const hasNext = s.currentIndex < (s.queue?.length || 0) - 1;
+    const total = s.queue?.length || 0;
     const isFirst = s.currentIndex === -1;
+    const isLast = total > 0 && s.currentIndex === total - 1;
     const el = document.getElementById('ctrl-buttons');
+
     if (phase === 'idle') {
-      el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ ${isFirst ? 'Start — Open Q1' : 'Open Q' + ((s.currentIndex || 0) + 2)}</button>`;
+      if (isFirst) {
+        el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Start — Open Q1</button>`;
+      } else {
+        // After showing results and closing — shouldn't normally hit idle mid-session
+        el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Open Next Question</button>`;
+      }
     } else if (phase === 'collecting') {
       el.innerHTML = `<button class="ctrl-btn show-results" onclick="showResults()">📊 Close & Show Results</button>`;
     } else if (phase === 'results') {
-      if (hasNext) el.innerHTML = `<button class="ctrl-btn next" onclick="nextQuestion()">Next Question →</button>`;
-      else el.innerHTML = `<button class="ctrl-btn stop" onclick="closeSession()">⏹ Close Results</button>`;
+      if (isLast) {
+        // Last question — show End Session
+        el.innerHTML = `<button class="ctrl-btn end" onclick="endSession()">🏁 End Session</button>`;
+      } else {
+        el.innerHTML = `<button class="ctrl-btn next" onclick="nextQuestion()">Next Question →</button>`;
+      }
     }
   }
 
@@ -403,14 +458,19 @@
     }, 300);
   }
 
-  function closeSession() { send({ action: 'close' }); }
-
   function endSession() {
-    if (confirm('End session? This shows the Thank You screen to everyone.')) send({ action: 'end_session' });
+    // NO confirmation — directly end
+    send({ action: 'end_session' });
+  }
+
+  function runAgain() {
+    // Reset session state but keep questions
+    send({ action: 'reset_session_keep_queue' });
+    switchTab('live');
   }
 
   function fullReset() {
-    if (confirm('Full reset? This clears all answers and the question queue.')) {
+    if (confirm('Full reset? This clears all questions and answers.')) {
       send({ action: 'reset' });
       questions = [];
       renderSetup();
@@ -418,6 +478,7 @@
     }
   }
 
+  // WebSocket
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
   const ws = new WebSocket(`${proto}://${location.host}?presenter=1`);
 
@@ -425,7 +486,11 @@
     const msg = JSON.parse(e.data);
     if (msg.type === 'state') {
       serverState = msg.state;
-      if (document.getElementById('view-live').style.display !== 'none') renderLiveView();
+      if (msg.state.phase === 'ended') {
+        showEndedView();
+      } else if (document.getElementById('view-live').style.display !== 'none') {
+        renderLiveView();
+      }
     }
   };
 
