@@ -4,149 +4,149 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Control Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0c0c14;
-      --surface: #161622;
-      --surface2: #1e1e2e;
-      --border: #2a2a3e;
-      --accent: #6c63ff;
-      --accent2: #ff6584;
-      --accent3: #43e8c0;
-      --text: #f0f0f8;
-      --muted: #777790;
-      --danger: #ff4d6d;
-      --success: #4ade80;
-      --warning: #fbbf24;
+      --bg: #FDF6EC;
+      --surface: #FFFFFF;
+      --surface2: #FFF0DC;
+      --border: #F5D9B0;
+      --orange: #F97316;
+      --orange-dark: #EA580C;
+      --orange-light: #FED7AA;
+      --text: #3D1F00;
+      --muted: #9A6B3A;
+      --success: #16A34A;
+      --danger: #DC2626;
+      --accent2: #F43F5E;
     }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 28px 36px; }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 32px; }
+    h1 { font-size: 20px; font-weight: 900; color: var(--text); }
+    .subtitle { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 20px; }
 
-    h1 { font-size: 20px; font-weight: 700; }
-    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+    .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--surface2); border-radius: 14px; padding: 4px; width: fit-content; border: 2px solid var(--border); }
+    .tab { padding: 8px 20px; border-radius: 11px; font-size: 14px; font-weight: 800; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; font-family: 'Nunito', sans-serif; }
+    .tab.active { background: var(--orange); color: #fff; box-shadow: 0 2px 10px rgba(249,115,22,0.3); }
 
-    /* TABS */
-    .tabs { display: flex; gap: 4px; margin-bottom: 28px; background: var(--surface); border-radius: 12px; padding: 4px; width: fit-content; }
-    .tab { padding: 8px 20px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; }
-    .tab.active { background: var(--accent); color: #fff; }
-
-    /* SETUP VIEW */
     #view-setup { display: block; }
     #view-live { display: none; }
 
-    .section-title { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .section-title { font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 
-    /* Question builder */
-    .q-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .q-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 
-    .q-card {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .q-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .q-type-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
-    .q-type-badge.poll { background: rgba(108,99,255,0.2); color: var(--accent); }
-    .q-type-badge.wordcloud { background: rgba(255,101,132,0.2); color: var(--accent2); }
+    .q-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(249,115,22,0.06); }
+    .q-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .q-type-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; }
+    .q-type-badge.poll { background: var(--orange-light); color: var(--orange-dark); }
+    .q-type-badge.wordcloud { background: #FCE7F3; color: #BE185D; }
     .q-card-actions { margin-left: auto; display: flex; gap: 6px; }
 
-    .icon-btn { background: none; border: 1.5px solid var(--border); color: var(--muted); font-size: 14px; padding: 4px 10px; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+    .icon-btn { background: none; border: 2px solid var(--border); color: var(--muted); font-size: 13px; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: all 0.15s; }
     .icon-btn:hover { border-color: var(--danger); color: var(--danger); }
-    .icon-btn.move:hover { border-color: var(--accent); color: var(--accent); }
+    .icon-btn.move:hover { border-color: var(--orange); color: var(--orange); }
 
-    label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; margin-top: 12px; }
+    label { display: block; font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 5px; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
     label:first-of-type { margin-top: 0; }
-    input[type="text"] { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 10px 13px; border-radius: 9px; outline: none; transition: border-color 0.15s; }
-    input[type="text"]:focus { border-color: var(--accent); }
+    input[type="text"] { width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 13px; border-radius: 10px; outline: none; transition: border-color 0.15s; }
+    input[type="text"]:focus { border-color: var(--orange); }
+
+    /* Multi-select toggle */
+    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; background: var(--surface2); border-radius: 10px; border: 2px solid var(--border); }
+    .toggle-label { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
+    .toggle-sublabel { font-size: 11px; font-weight: 600; color: var(--muted); display: block; }
+    .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 99px; cursor: pointer; transition: 0.2s; }
+    .toggle-slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .toggle input:checked + .toggle-slider { background: var(--orange); }
+    .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
 
     .options-list { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
     .opt-row { display: flex; gap: 7px; align-items: center; }
     .opt-row input { flex: 1; }
-    .remove-opt { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 0 4px; transition: color 0.15s; }
+    .remove-opt { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; transition: color 0.15s; }
     .remove-opt:hover { color: var(--danger); }
-    .add-opt-btn { background: none; border: 1.5px dashed var(--border); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 8px; border-radius: 9px; cursor: pointer; width: 100%; margin-top: 7px; transition: all 0.15s; }
-    .add-opt-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .add-opt-btn { background: none; border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; padding: 8px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 7px; transition: all 0.15s; }
+    .add-opt-btn:hover { border-color: var(--orange); color: var(--orange); }
 
     .add-q-row { display: flex; gap: 10px; }
-    .add-q-btn { flex: 1; background: var(--surface); border: 1.5px dashed var(--border); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 13px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-    .add-q-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,0.05); }
-    .add-q-btn.wc:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(255,101,132,0.05); }
+    .add-q-btn { flex: 1; background: var(--surface); border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
+    .add-q-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--surface2); }
+    .add-q-btn.wc:hover { border-color: #BE185D; color: #BE185D; }
 
-    .launch-btn { width: 100%; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; padding: 15px; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; transition: opacity 0.15s; }
+    .launch-btn { width: 100%; background: var(--orange); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; transition: opacity 0.15s; box-shadow: 0 4px 16px rgba(249,115,22,0.3); }
     .launch-btn:hover { opacity: 0.88; }
 
-    /* LIVE CONTROL VIEW */
-    .live-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-    .live-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: var(--success); }
+    /* LIVE VIEW */
+    .live-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .live-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 800; color: var(--success); }
     .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 1.4s ease infinite; }
-    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
+    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.3)} }
+    .q-progress { font-size: 13px; font-weight: 700; color: var(--muted); }
+    .q-progress span { color: var(--text); font-weight: 900; }
 
-    .q-progress { font-size: 13px; color: var(--muted); }
-    .q-progress span { color: var(--text); font-weight: 700; }
+    .current-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 14px rgba(249,115,22,0.08); }
+    .current-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .current-tag.poll { color: var(--orange); }
+    .current-tag.wordcloud { color: #BE185D; }
+    .current-q { font-size: 18px; font-weight: 900; margin-bottom: 6px; color: var(--text); }
+    .current-status { font-size: 12px; font-weight: 700; margin-bottom: 16px; padding: 5px 12px; border-radius: 99px; display: inline-block; }
+    .current-status.collecting { background: #FEF3C7; color: #D97706; }
+    .current-status.results { background: #DCFCE7; color: var(--success); }
+    .current-status.idle { background: var(--surface2); color: var(--muted); }
 
-    /* Current question card */
-    .current-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-    .current-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
-    .current-tag.poll { color: var(--accent); }
-    .current-tag.wordcloud { color: var(--accent2); }
-    .current-q { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-    .current-status { font-size: 13px; margin-bottom: 20px; }
-    .current-status.collecting { color: var(--warning); }
-    .current-status.results { color: var(--success); }
-    .current-status.idle { color: var(--muted); }
-
-    /* Live stats */
-    .live-stats { margin-bottom: 20px; }
+    .live-stats { margin-bottom: 16px; }
     .stat-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-    .stat-meta { display: flex; justify-content: space-between; font-size: 13px; }
-    .stat-bar-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+    .stat-meta { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; }
+    .stat-bar-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
     .stat-bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
-    .word-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .word-chip { background: var(--surface2); border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 600; }
+    .word-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .word-chip { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 8px; padding: 4px 12px; font-size: 13px; font-weight: 700; color: var(--text); }
 
-    /* Control buttons */
     .ctrl-buttons { display: flex; gap: 10px; }
-    .ctrl-btn { flex: 1; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; padding: 13px; border-radius: 11px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
+    .ctrl-btn { flex: 1; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
     .ctrl-btn:hover { opacity: 0.88; }
     .ctrl-btn:active { transform: scale(0.98); }
-    .ctrl-btn.open { background: var(--accent); color: #fff; }
-    .ctrl-btn.show-results { background: var(--accent3); color: #000; }
-    .ctrl-btn.next { background: var(--success); color: #000; }
-    .ctrl-btn.stop { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
+    .ctrl-btn.open { background: var(--orange); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.3); }
+    .ctrl-btn.show-results { background: #7C3AED; color: #fff; }
+    .ctrl-btn.next { background: var(--success); color: #fff; }
+    .ctrl-btn.stop { background: var(--surface2); color: var(--text); border: 2px solid var(--border); }
     .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    /* Queue list (right panel) */
-    .queue-overview { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
-    .queue-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 6px; cursor: pointer; transition: background 0.15s; }
+    .queue-overview { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
+    .queue-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 5px; transition: background 0.15s; }
     .queue-item:hover { background: var(--surface2); }
-    .queue-item.active { background: rgba(108,99,255,0.15); border: 1.5px solid var(--accent); }
-    .queue-item.done { opacity: 0.45; }
-    .q-item-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .queue-item.active .q-item-num { background: var(--accent); }
-    .q-item-text { font-size: 13px; font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .q-item-type { font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .q-item-type.poll { color: var(--accent); }
-    .q-item-type.wordcloud { color: var(--accent2); }
+    .queue-item.active { background: var(--orange-light); border: 2px solid var(--orange); }
+    .queue-item.done { opacity: 0.4; }
+    .q-item-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+    .queue-item.active .q-item-num { background: var(--orange); color: #fff; }
+    .q-item-text { font-size: 13px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+    .q-item-type { font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .q-item-type.poll { color: var(--orange); }
+    .q-item-type.wordcloud { color: #BE185D; }
 
-    .reset-btn { width: 100%; background: none; border: 1.5px solid var(--danger); color: var(--danger); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; padding: 11px; border-radius: 11px; cursor: pointer; transition: all 0.15s; }
-    .reset-btn:hover { background: rgba(255,77,109,0.1); }
+    .bottom-actions { display: flex; gap: 10px; margin-bottom: 0; }
+    .end-btn { flex: 1; background: #FEF3C7; border: 2px solid #F59E0B; color: #B45309; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+    .end-btn:hover { background: #FDE68A; }
+    .reset-btn { flex: 1; background: none; border: 2px solid var(--danger); color: var(--danger); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+    .reset-btn:hover { background: #FEE2E2; }
 
-    .links-row { display: flex; gap: 10px; margin-bottom: 24px; }
-    .link-chip { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
-    .link-chip-name { font-size: 12px; font-weight: 700; color: var(--muted); }
-    .copy-btn { background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .empty-state { text-align: center; padding: 32px; color: var(--muted); font-size: 14px; }
+    .links-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    .link-chip { flex: 1; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .link-chip-name { font-size: 12px; font-weight: 800; color: var(--muted); }
+    .copy-btn { background: var(--surface2); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 8px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+    .copy-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    .empty-state { text-align: center; padding: 28px; color: var(--muted); font-size: 14px; font-weight: 700; }
   </style>
 </head>
 <body>
 
 <h1>🎛️ Control Panel</h1>
-<div class="subtitle">Townhall Live Session — Presenter Only</div>
+<div class="subtitle">BeLive Townhall — Presenter Only</div>
 
 <div class="links-row">
   <div class="link-chip">
@@ -179,16 +179,16 @@
 <div id="view-live">
   <div class="live-header">
     <div class="live-badge"><div class="live-dot"></div> LIVE SESSION</div>
-    <div class="q-progress">Question <span id="q-current-num">-</span> of <span id="q-total">-</span></div>
+    <div class="q-progress">Q <span id="q-current-num">-</span> of <span id="q-total">-</span></div>
   </div>
 
   <div class="current-card">
-    <div class="current-tag" id="current-tag">-</div>
+    <div class="current-tag" id="current-tag"></div>
     <div class="current-q" id="current-q">No question selected</div>
     <div class="current-status idle" id="current-status">Waiting to start</div>
     <div id="live-stats" class="live-stats"></div>
     <div class="ctrl-buttons" id="ctrl-buttons">
-      <button class="ctrl-btn open" id="btn-open" onclick="openQuestion()">▶ Open for Answers</button>
+      <button class="ctrl-btn open" onclick="openQuestion()">▶ Start — Open Q1</button>
     </div>
   </div>
 
@@ -197,15 +197,15 @@
     <div id="queue-list-live"></div>
   </div>
 
-  <div style="display:flex;gap:10px;margin-bottom:16px">
-    <button class="ctrl-btn" style="flex:1;background:#1e1e2e;border:1.5px solid #fbbf24;color:#fbbf24;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;padding:13px;border-radius:11px;cursor:pointer" onclick="endSession()">🏁 End Session</button>
+  <div class="bottom-actions">
+    <button class="end-btn" onclick="endSession()">🏁 End Session</button>
+    <button class="reset-btn" onclick="fullReset()">↺ Full Reset</button>
   </div>
-  <button class="reset-btn" onclick="fullReset()">↺ Full Reset</button>
 </div>
 
 <script>
   const base = location.origin;
-  let questions = []; // local question queue
+  let questions = [];
   let serverState = {};
 
   function copyUrl(path) {
@@ -213,7 +213,7 @@
   }
 
   function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='setup')||(i===1&&tab==='live')));
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'setup') || (i === 1 && tab === 'live')));
     document.getElementById('view-setup').style.display = tab === 'setup' ? 'block' : 'none';
     document.getElementById('view-live').style.display = tab === 'live' ? 'block' : 'none';
     if (tab === 'live') renderLiveView();
@@ -221,14 +221,11 @@
 
   // --- SETUP ---
   function addQuestion(type) {
-    questions.push({ type, question: '', options: type === 'poll' ? ['', ''] : [] });
+    questions.push({ type, question: '', options: type === 'poll' ? ['', ''] : [], multiSelect: false });
     renderSetup();
   }
 
-  function removeQuestion(i) {
-    questions.splice(i, 1);
-    renderSetup();
-  }
+  function removeQuestion(i) { questions.splice(i, 1); renderSetup(); }
 
   function moveQuestion(i, dir) {
     const j = i + dir;
@@ -237,13 +234,14 @@
     renderSetup();
   }
 
-  function addOption(i) {
-    questions[i].options.push('');
-    renderSetup();
-  }
+  function addOption(i) { questions[i].options.push(''); renderSetup(); }
 
   function removeOption(i, j) {
     if (questions[i].options.length > 2) { questions[i].options.splice(j, 1); renderSetup(); }
+  }
+
+  function toggleMultiSelect(i, val) {
+    questions[i].multiSelect = val;
   }
 
   function renderSetup() {
@@ -255,11 +253,11 @@
     list.innerHTML = questions.map((q, i) => `
       <div class="q-card">
         <div class="q-card-header">
-          <div class="q-num">${i+1}</div>
+          <div class="q-num">${i + 1}</div>
           <div class="q-type-badge ${q.type}">${q.type === 'poll' ? '📊 Poll' : '☁️ Word Cloud'}</div>
           <div class="q-card-actions">
-            <button class="icon-btn move" onclick="moveQuestion(${i},-1)" ${i===0?'disabled':''}>↑</button>
-            <button class="icon-btn move" onclick="moveQuestion(${i},1)" ${i===questions.length-1?'disabled':''}>↓</button>
+            <button class="icon-btn move" onclick="moveQuestion(${i},-1)" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="icon-btn move" onclick="moveQuestion(${i},1)" ${i === questions.length - 1 ? 'disabled' : ''}>↓</button>
             <button class="icon-btn" onclick="removeQuestion(${i})">✕</button>
           </div>
         </div>
@@ -270,18 +268,28 @@
           <div class="options-list">
             ${q.options.map((opt, j) => `
               <div class="opt-row">
-                <input type="text" value="${escHtml(opt)}" placeholder="Option ${String.fromCharCode(65+j)}" oninput="questions[${i}].options[${j}]=this.value" />
+                <input type="text" value="${escHtml(opt)}" placeholder="Option ${String.fromCharCode(65 + j)}" oninput="questions[${i}].options[${j}]=this.value" />
                 <button class="remove-opt" onclick="removeOption(${i},${j})">×</button>
               </div>
             `).join('')}
           </div>
           <button class="add-opt-btn" onclick="addOption(${i})">+ Add Option</button>
-        ` : '<div style="margin-top:10px;font-size:13px;color:var(--muted)">Participants type any word or phrase.</div>'}
+          <div class="toggle-row">
+            <div class="toggle-label">
+              Allow multiple selections
+              <span class="toggle-sublabel">Participants can pick more than one answer</span>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" ${q.multiSelect ? 'checked' : ''} onchange="toggleMultiSelect(${i}, this.checked)" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        ` : '<div style="margin-top:10px;font-size:13px;font-weight:600;color:var(--muted)">Participants can type any word or phrase. Multiple submissions allowed.</div>'}
       </div>
     `).join('');
   }
 
-  function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+  function escHtml(str) { return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
   function saveAndLaunch() {
     const valid = questions.every(q => {
@@ -291,20 +299,18 @@
     });
     if (questions.length === 0) { alert('Add at least one question first.'); return; }
     if (!valid) { alert('Please fill in all questions and ensure polls have at least 2 options.'); return; }
-
-    // Clean options
     const cleanQueue = questions.map(q => ({
       type: q.type,
       question: q.question.trim(),
       options: q.options.map(o => o.trim()).filter(Boolean),
+      multiSelect: q.multiSelect || false,
     }));
-
     send({ action: 'set_queue', queue: cleanQueue });
     switchTab('live');
   }
 
   // --- LIVE CONTROL ---
-  const colors = ['#6c63ff','#ff6584','#43e8c0','#ffd166','#a78bfa','#fb923c'];
+  const barColors = ['#F97316','#F43F5E','#7C3AED','#0EA5E9','#16A34A','#F59E0B'];
 
   function renderLiveView() {
     const s = serverState;
@@ -312,20 +318,18 @@
     document.getElementById('q-total').textContent = total;
     document.getElementById('q-current-num').textContent = s.currentIndex >= 0 ? s.currentIndex + 1 : '-';
 
-    // Queue list
     const qll = document.getElementById('queue-list-live');
     if (!total) { qll.innerHTML = '<div class="empty-state">No questions loaded. Go to Setup first.</div>'; }
     else {
       qll.innerHTML = (s.queue || []).map((q, i) => `
         <div class="queue-item ${i === s.currentIndex ? 'active' : ''} ${i < s.currentIndex ? 'done' : ''}">
-          <div class="q-item-num">${i+1}</div>
+          <div class="q-item-num">${i + 1}</div>
           <div class="q-item-text">${escHtml(q.question)}</div>
           <div class="q-item-type ${q.type}">${q.type === 'poll' ? '📊' : '☁️'}</div>
         </div>
       `).join('');
     }
 
-    // Current question
     const cur = s.current;
     if (!cur) {
       document.getElementById('current-tag').textContent = '';
@@ -343,32 +347,26 @@
     document.getElementById('current-q').textContent = cur.question;
 
     const statusEl = document.getElementById('current-status');
-    if (s.phase === 'collecting') {
-      statusEl.textContent = '🟡 Collecting answers...';
-      statusEl.className = 'current-status collecting';
-    } else if (s.phase === 'results') {
-      statusEl.textContent = '✅ Showing results';
-      statusEl.className = 'current-status results';
-    }
+    if (s.phase === 'collecting') { statusEl.textContent = '🟡 Collecting answers...'; statusEl.className = 'current-status collecting'; }
+    else if (s.phase === 'results') { statusEl.textContent = '✅ Showing results'; statusEl.className = 'current-status results'; }
 
-    // Live stats
     const statsEl = document.getElementById('live-stats');
     if (cur.type === 'poll') {
-      const total = Object.values(cur.votes || {}).reduce((a,b)=>a+b,0);
-      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">Total votes: <strong style="color:var(--text)">${total}</strong></div>` +
+      const totalVoters = cur.totalVoters || 0;
+      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Total voters: <strong style="color:var(--text)">${totalVoters}</strong></div>` +
         cur.options.map((opt, i) => {
           const v = cur.votes?.[i] || 0;
-          const pct = total > 0 ? Math.round(v/total*100) : 0;
+          const pct = totalVoters > 0 ? Math.round(v / totalVoters * 100) : 0;
           return `<div class="stat-row">
             <div class="stat-meta"><span>${opt}</span><span>${v} (${pct}%)</span></div>
-            <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%;background:${colors[i%colors.length]}"></div></div>
+            <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%;background:${barColors[i % barColors.length]}"></div></div>
           </div>`;
         }).join('');
     } else {
-      const words = [...(cur.words||[])].sort((a,b)=>b.count-a.count).slice(0,12);
-      const total = (cur.words||[]).reduce((a,w)=>a+w.count,0);
-      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">Responses: <strong style="color:var(--text)">${total}</strong></div>
-        <div class="word-chips">${words.map(w=>`<div class="word-chip">${escHtml(w.text)} <span style="color:var(--muted)">${w.count}</span></div>`).join('')}</div>`;
+      const words = [...(cur.words || [])].sort((a, b) => b.count - a.count).slice(0, 10);
+      const total = (cur.words || []).reduce((a, w) => a + w.count, 0);
+      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Responses: <strong style="color:var(--text)">${total}</strong></div>
+        <div class="word-chips">${words.map(w => `<div class="word-chip">${escHtml(w.text)} <span style="color:var(--muted)">${w.count}</span></div>`).join('')}</div>`;
     }
 
     renderCtrlButtons(s.phase);
@@ -376,59 +374,43 @@
 
   function renderCtrlButtons(phase) {
     const s = serverState;
-    const hasNext = s.currentIndex < (s.queue?.length||0) - 1;
+    const hasNext = s.currentIndex < (s.queue?.length || 0) - 1;
     const isFirst = s.currentIndex === -1;
     const el = document.getElementById('ctrl-buttons');
-
     if (phase === 'idle') {
-      el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Open Q${(s.currentIndex||0)+2} for Answers</button>`;
-      if (isFirst) el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Start — Open Q1</button>`;
+      el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ ${isFirst ? 'Start — Open Q1' : 'Open Q' + ((s.currentIndex || 0) + 2)}</button>`;
     } else if (phase === 'collecting') {
       el.innerHTML = `<button class="ctrl-btn show-results" onclick="showResults()">📊 Close & Show Results</button>`;
     } else if (phase === 'results') {
-      if (hasNext) {
-        el.innerHTML = `<button class="ctrl-btn next" onclick="nextQuestion()">Next Question →</button>`;
-      } else {
-        el.innerHTML = `<button class="ctrl-btn stop" onclick="closeSession()">⏹ End Session</button>`;
-      }
+      if (hasNext) el.innerHTML = `<button class="ctrl-btn next" onclick="nextQuestion()">Next Question →</button>`;
+      else el.innerHTML = `<button class="ctrl-btn stop" onclick="closeSession()">⏹ Close Results</button>`;
     }
   }
 
   function openQuestion() {
-    const s = serverState;
-    const nextIdx = s.currentIndex + 1;
-    if (nextIdx >= (s.queue?.length||0)) return;
+    const nextIdx = (serverState.currentIndex ?? -1) + 1;
+    if (nextIdx >= (serverState.queue?.length || 0)) return;
     send({ action: 'open_question', index: nextIdx });
   }
 
-  function showResults() {
-    send({ action: 'show_results' });
-  }
+  function showResults() { send({ action: 'show_results' }); }
 
   function nextQuestion() {
     send({ action: 'close' });
-    // After close, auto-open next
     setTimeout(() => {
-      const s = serverState;
-      const nextIdx = (s.currentIndex ?? -1) + 1;
-      if (nextIdx < (s.queue?.length||0)) {
-        send({ action: 'open_question', index: nextIdx });
-      }
+      const nextIdx = (serverState.currentIndex ?? -1) + 1;
+      if (nextIdx < (serverState.queue?.length || 0)) send({ action: 'open_question', index: nextIdx });
     }, 300);
   }
 
-  function closeSession() {
-    send({ action: 'close' });
-  }
+  function closeSession() { send({ action: 'close' }); }
 
   function endSession() {
-    if (confirm('End the session? This will show the Thank You screen to all participants.')) {
-      send({ action: 'end_session' });
-    }
+    if (confirm('End session? This shows the Thank You screen to everyone.')) send({ action: 'end_session' });
   }
 
   function fullReset() {
-    if (confirm('Reset everything? This clears all answers and the queue.')) {
+    if (confirm('Full reset? This clears all answers and the question queue.')) {
       send({ action: 'reset' });
       questions = [];
       renderSetup();
@@ -436,9 +418,8 @@
     }
   }
 
-  // --- WebSocket ---
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-  const ws = new WebSocket(`${proto}://${location.host}`);
+  const ws = new WebSocket(`${proto}://${location.host}?presenter=1`);
 
   ws.onmessage = (e) => {
     const msg = JSON.parse(e.data);
@@ -452,7 +433,6 @@
     if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'presenter', ...data }));
   }
 
-  // Init
   renderSetup();
 </script>
 </body>
