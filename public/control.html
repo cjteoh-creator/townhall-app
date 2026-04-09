@@ -19,408 +19,432 @@
       --muted: #777790;
       --danger: #ff4d6d;
       --success: #4ade80;
+      --warning: #fbbf24;
     }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 28px 36px; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 32px 40px;
-    }
+    h1 { font-size: 20px; font-weight: 700; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
 
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
+    /* TABS */
+    .tabs { display: flex; gap: 4px; margin-bottom: 28px; background: var(--surface); border-radius: 12px; padding: 4px; width: fit-content; }
+    .tab { padding: 8px 20px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; }
+    .tab.active { background: var(--accent); color: #fff; }
 
-    .subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 32px;
-    }
+    /* SETUP VIEW */
+    #view-setup { display: block; }
+    #view-live { display: none; }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin-bottom: 32px;
-    }
+    .section-title { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
 
-    .status-badge.idle { background: var(--surface2); color: var(--muted); }
-    .status-badge.live-poll { background: rgba(108,99,255,0.2); color: var(--accent); }
-    .status-badge.live-wc { background: rgba(255,101,132,0.2); color: var(--accent2); }
+    /* Question builder */
+    .q-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
 
-    .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
-    }
-
-    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
-
-    .card {
+    .q-card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
     }
 
-    .card-title {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .q-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .q-type-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+    .q-type-badge.poll { background: rgba(108,99,255,0.2); color: var(--accent); }
+    .q-type-badge.wordcloud { background: rgba(255,101,132,0.2); color: var(--accent2); }
+    .q-card-actions { margin-left: auto; display: flex; gap: 6px; }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 6px;
-      margin-top: 14px;
-    }
+    .icon-btn { background: none; border: 1.5px solid var(--border); color: var(--muted); font-size: 14px; padding: 4px 10px; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+    .icon-btn:hover { border-color: var(--danger); color: var(--danger); }
+    .icon-btn.move:hover { border-color: var(--accent); color: var(--accent); }
 
+    label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 5px; margin-top: 12px; }
     label:first-of-type { margin-top: 0; }
+    input[type="text"] { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 10px 13px; border-radius: 9px; outline: none; transition: border-color 0.15s; }
+    input[type="text"]:focus { border-color: var(--accent); }
 
-    input[type="text"], textarea {
-      width: 100%;
-      background: var(--surface2);
-      border: 1.5px solid var(--border);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      padding: 11px 14px;
-      border-radius: 10px;
-      outline: none;
-      transition: border-color 0.15s;
-      resize: none;
-    }
+    .options-list { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+    .opt-row { display: flex; gap: 7px; align-items: center; }
+    .opt-row input { flex: 1; }
+    .remove-opt { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 0 4px; transition: color 0.15s; }
+    .remove-opt:hover { color: var(--danger); }
+    .add-opt-btn { background: none; border: 1.5px dashed var(--border); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 8px; border-radius: 9px; cursor: pointer; width: 100%; margin-top: 7px; transition: all 0.15s; }
+    .add-opt-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    input[type="text"]:focus, textarea:focus { border-color: var(--accent); }
+    .add-q-row { display: flex; gap: 10px; }
+    .add-q-btn { flex: 1; background: var(--surface); border: 1.5px dashed var(--border); color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 13px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+    .add-q-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(108,99,255,0.05); }
+    .add-q-btn.wc:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(255,101,132,0.05); }
 
-    .options-list { display: flex; flex-direction: column; gap: 8px; }
+    .launch-btn { width: 100%; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; padding: 15px; border: none; border-radius: 12px; cursor: pointer; margin-top: 20px; transition: opacity 0.15s; }
+    .launch-btn:hover { opacity: 0.88; }
 
-    .option-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
+    /* LIVE CONTROL VIEW */
+    .live-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .live-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: var(--success); }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 1.4s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
 
-    .option-row input { flex: 1; }
+    .q-progress { font-size: 13px; color: var(--muted); }
+    .q-progress span { color: var(--text); font-weight: 700; }
 
-    .remove-btn {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 18px;
-      cursor: pointer;
-      padding: 0 4px;
-      line-height: 1;
-      transition: color 0.15s;
-    }
+    /* Current question card */
+    .current-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+    .current-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .current-tag.poll { color: var(--accent); }
+    .current-tag.wordcloud { color: var(--accent2); }
+    .current-q { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+    .current-status { font-size: 13px; margin-bottom: 20px; }
+    .current-status.collecting { color: var(--warning); }
+    .current-status.results { color: var(--success); }
+    .current-status.idle { color: var(--muted); }
 
-    .remove-btn:hover { color: var(--danger); }
+    /* Live stats */
+    .live-stats { margin-bottom: 20px; }
+    .stat-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .stat-meta { display: flex; justify-content: space-between; font-size: 13px; }
+    .stat-bar-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+    .stat-bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+    .word-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .word-chip { background: var(--surface2); border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 600; }
 
-    .add-option-btn {
-      background: none;
-      border: 1.5px dashed var(--border);
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 9px;
-      border-radius: 10px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 8px;
-      transition: all 0.15s;
-    }
+    /* Control buttons */
+    .ctrl-buttons { display: flex; gap: 10px; }
+    .ctrl-btn { flex: 1; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; padding: 13px; border-radius: 11px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
+    .ctrl-btn:hover { opacity: 0.88; }
+    .ctrl-btn:active { transform: scale(0.98); }
+    .ctrl-btn.open { background: var(--accent); color: #fff; }
+    .ctrl-btn.show-results { background: var(--accent3); color: #000; }
+    .ctrl-btn.next { background: var(--success); color: #000; }
+    .ctrl-btn.stop { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
+    .ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    .add-option-btn:hover { border-color: var(--accent); color: var(--accent); }
+    /* Queue list (right panel) */
+    .queue-overview { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .queue-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 6px; cursor: pointer; transition: background 0.15s; }
+    .queue-item:hover { background: var(--surface2); }
+    .queue-item.active { background: rgba(108,99,255,0.15); border: 1.5px solid var(--accent); }
+    .queue-item.done { opacity: 0.45; }
+    .q-item-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .queue-item.active .q-item-num { background: var(--accent); }
+    .q-item-text { font-size: 13px; font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .q-item-type { font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .q-item-type.poll { color: var(--accent); }
+    .q-item-type.wordcloud { color: var(--accent2); }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 13px 20px;
-      border-radius: 11px;
-      cursor: pointer;
-      border: none;
-      transition: opacity 0.15s, transform 0.1s;
-      width: 100%;
-      margin-top: 18px;
-    }
+    .reset-btn { width: 100%; background: none; border: 1.5px solid var(--danger); color: var(--danger); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; padding: 11px; border-radius: 11px; cursor: pointer; transition: all 0.15s; }
+    .reset-btn:hover { background: rgba(255,77,109,0.1); }
 
-    .btn:hover { opacity: 0.88; }
-    .btn:active { transform: scale(0.98); }
-
-    .btn-poll { background: var(--accent); color: #fff; }
-    .btn-wc { background: var(--accent2); color: #fff; }
-    .btn-stop { background: var(--surface2); color: var(--text); border: 1.5px solid var(--border); }
-    .btn-reset { background: none; color: var(--danger); border: 1.5px solid var(--danger); }
-
-    .action-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .action-row .btn { flex: 1; margin-top: 0; }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 28px 0;
-    }
-
-    .links-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    .links-title {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .link-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .link-row:last-child { border-bottom: none; }
-
-    .link-name { font-size: 14px; font-weight: 600; }
-    .link-url { font-size: 13px; color: var(--muted); }
-
-    .copy-btn {
-      background: var(--surface2);
-      border: 1.5px solid var(--border);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.15s;
-      white-space: nowrap;
-    }
-
+    .links-row { display: flex; gap: 10px; margin-bottom: 24px; }
+    .link-chip { flex: 1; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .link-chip-name { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .copy-btn { background: var(--surface2); border: 1.5px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
     .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    .live-preview {
-      background: var(--surface2);
-      border-radius: 10px;
-      padding: 16px;
-      font-size: 14px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    #live-summary { }
+    .empty-state { text-align: center; padding: 32px; color: var(--muted); font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <h1>🎛️ Control Panel</h1>
-  <div class="subtitle">Townhall Live Session — Presenter Only</div>
+<h1>🎛️ Control Panel</h1>
+<div class="subtitle">Townhall Live Session — Presenter Only</div>
 
-  <div id="status-badge" class="status-badge idle">
-    <div class="dot" style="background:var(--muted)"></div>
-    <span id="status-text">Session Idle</span>
+<div class="links-row">
+  <div class="link-chip">
+    <div class="link-chip-name">📱 Participant Link</div>
+    <button class="copy-btn" onclick="copyUrl('/')">Copy</button>
+  </div>
+  <div class="link-chip">
+    <div class="link-chip-name">🖥️ Big Screen</div>
+    <button class="copy-btn" onclick="copyUrl('/display.html')">Copy</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('setup')">⚙️ Setup Questions</button>
+  <button class="tab" onclick="switchTab('live')">🔴 Live Control</button>
+</div>
+
+<!-- SETUP VIEW -->
+<div id="view-setup">
+  <div class="section-title">Your Question Queue</div>
+  <div class="q-list" id="q-list"></div>
+  <div class="add-q-row">
+    <button class="add-q-btn" onclick="addQuestion('poll')">+ Add Poll Question</button>
+    <button class="add-q-btn wc" onclick="addQuestion('wordcloud')">+ Add Word Cloud</button>
+  </div>
+  <button class="launch-btn" onclick="saveAndLaunch()">✅ Save & Go to Live Control →</button>
+</div>
+
+<!-- LIVE CONTROL VIEW -->
+<div id="view-live">
+  <div class="live-header">
+    <div class="live-badge"><div class="live-dot"></div> LIVE SESSION</div>
+    <div class="q-progress">Question <span id="q-current-num">-</span> of <span id="q-total">-</span></div>
   </div>
 
-  <div class="links-card">
-    <div class="links-title">🔗 Session Links</div>
-    <div class="link-row">
-      <div>
-        <div class="link-name">📱 Participant Link</div>
-        <div class="link-url" id="participant-url"></div>
-      </div>
-      <button class="copy-btn" onclick="copyLink('participant')">Copy</button>
-    </div>
-    <div class="link-row">
-      <div>
-        <div class="link-name">🖥️ Display (Big Screen)</div>
-        <div class="link-url" id="display-url"></div>
-      </div>
-      <button class="copy-btn" onclick="copyLink('display')">Copy</button>
+  <div class="current-card">
+    <div class="current-tag" id="current-tag">-</div>
+    <div class="current-q" id="current-q">No question selected</div>
+    <div class="current-status idle" id="current-status">Waiting to start</div>
+    <div id="live-stats" class="live-stats"></div>
+    <div class="ctrl-buttons" id="ctrl-buttons">
+      <button class="ctrl-btn open" id="btn-open" onclick="openQuestion()">▶ Open for Answers</button>
     </div>
   </div>
 
-  <div class="grid">
-    <!-- POLL CARD -->
-    <div class="card">
-      <div class="card-title">📊 Live Poll</div>
+  <div class="queue-overview">
+    <div class="section-title">All Questions</div>
+    <div id="queue-list-live"></div>
+  </div>
 
-      <label>Question</label>
-      <input type="text" id="poll-question" placeholder="e.g. How are you feeling today?" />
+  <button class="reset-btn" onclick="fullReset()">↺ Full Reset</button>
+</div>
 
-      <label>Answer Options</label>
-      <div class="options-list" id="options-list">
-        <div class="option-row">
-          <input type="text" placeholder="Option A" />
-          <button class="remove-btn" onclick="removeOption(this)">×</button>
+<script>
+  const base = location.origin;
+  let questions = []; // local question queue
+  let serverState = {};
+
+  function copyUrl(path) {
+    navigator.clipboard.writeText(base + path).then(() => alert('Copied: ' + base + path));
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='setup')||(i===1&&tab==='live')));
+    document.getElementById('view-setup').style.display = tab === 'setup' ? 'block' : 'none';
+    document.getElementById('view-live').style.display = tab === 'live' ? 'block' : 'none';
+    if (tab === 'live') renderLiveView();
+  }
+
+  // --- SETUP ---
+  function addQuestion(type) {
+    questions.push({ type, question: '', options: type === 'poll' ? ['', ''] : [] });
+    renderSetup();
+  }
+
+  function removeQuestion(i) {
+    questions.splice(i, 1);
+    renderSetup();
+  }
+
+  function moveQuestion(i, dir) {
+    const j = i + dir;
+    if (j < 0 || j >= questions.length) return;
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+    renderSetup();
+  }
+
+  function addOption(i) {
+    questions[i].options.push('');
+    renderSetup();
+  }
+
+  function removeOption(i, j) {
+    if (questions[i].options.length > 2) { questions[i].options.splice(j, 1); renderSetup(); }
+  }
+
+  function renderSetup() {
+    const list = document.getElementById('q-list');
+    if (questions.length === 0) {
+      list.innerHTML = '<div class="empty-state">No questions yet. Add a poll or word cloud below.</div>';
+      return;
+    }
+    list.innerHTML = questions.map((q, i) => `
+      <div class="q-card">
+        <div class="q-card-header">
+          <div class="q-num">${i+1}</div>
+          <div class="q-type-badge ${q.type}">${q.type === 'poll' ? '📊 Poll' : '☁️ Word Cloud'}</div>
+          <div class="q-card-actions">
+            <button class="icon-btn move" onclick="moveQuestion(${i},-1)" ${i===0?'disabled':''}>↑</button>
+            <button class="icon-btn move" onclick="moveQuestion(${i},1)" ${i===questions.length-1?'disabled':''}>↓</button>
+            <button class="icon-btn" onclick="removeQuestion(${i})">✕</button>
+          </div>
         </div>
-        <div class="option-row">
-          <input type="text" placeholder="Option B" />
-          <button class="remove-btn" onclick="removeOption(this)">×</button>
-        </div>
+        <label>Question</label>
+        <input type="text" value="${escHtml(q.question)}" placeholder="Type your question here..." oninput="questions[${i}].question=this.value" />
+        ${q.type === 'poll' ? `
+          <label>Answer Options</label>
+          <div class="options-list">
+            ${q.options.map((opt, j) => `
+              <div class="opt-row">
+                <input type="text" value="${escHtml(opt)}" placeholder="Option ${String.fromCharCode(65+j)}" oninput="questions[${i}].options[${j}]=this.value" />
+                <button class="remove-opt" onclick="removeOption(${i},${j})">×</button>
+              </div>
+            `).join('')}
+          </div>
+          <button class="add-opt-btn" onclick="addOption(${i})">+ Add Option</button>
+        ` : '<div style="margin-top:10px;font-size:13px;color:var(--muted)">Participants type any word or phrase.</div>'}
       </div>
-      <button class="add-option-btn" onclick="addOption()">+ Add Option</button>
+    `).join('');
+  }
 
-      <button class="btn btn-poll" onclick="startPoll()">▶ Launch Poll</button>
-    </div>
+  function escHtml(str) { return (str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
-    <!-- WORD CLOUD CARD -->
-    <div class="card">
-      <div class="card-title">☁️ Word Cloud</div>
+  function saveAndLaunch() {
+    const valid = questions.every(q => {
+      if (!q.question.trim()) return false;
+      if (q.type === 'poll' && q.options.filter(o => o.trim()).length < 2) return false;
+      return true;
+    });
+    if (questions.length === 0) { alert('Add at least one question first.'); return; }
+    if (!valid) { alert('Please fill in all questions and ensure polls have at least 2 options.'); return; }
 
-      <label>Question / Prompt</label>
-      <input type="text" id="wc-question" placeholder="e.g. In one word, describe our team culture" />
+    // Clean options
+    const cleanQueue = questions.map(q => ({
+      type: q.type,
+      question: q.question.trim(),
+      options: q.options.map(o => o.trim()).filter(Boolean),
+    }));
 
-      <div style="margin-top: 60px"></div>
+    send({ action: 'set_queue', queue: cleanQueue });
+    switchTab('live');
+  }
 
-      <button class="btn btn-wc" onclick="startWordCloud()">▶ Launch Word Cloud</button>
-    </div>
-  </div>
+  // --- LIVE CONTROL ---
+  const colors = ['#6c63ff','#ff6584','#43e8c0','#ffd166','#a78bfa','#fb923c'];
 
-  <!-- STOP / RESET -->
-  <div class="action-row">
-    <button class="btn btn-stop" onclick="stopSession()">⏹ Stop Activity</button>
-    <button class="btn btn-reset" onclick="resetSession()">↺ Full Reset</button>
-  </div>
+  function renderLiveView() {
+    const s = serverState;
+    const total = s.queue?.length || 0;
+    document.getElementById('q-total').textContent = total;
+    document.getElementById('q-current-num').textContent = s.currentIndex >= 0 ? s.currentIndex + 1 : '-';
 
-  <hr class="divider" />
-
-  <div class="live-preview" id="live-summary">No active activity.</div>
-
-  <script>
-    const base = location.origin;
-    document.getElementById('participant-url').textContent = base + '/';
-    document.getElementById('display-url').textContent = base + '/display.html';
-
-    function copyLink(type) {
-      const url = type === 'participant' ? base + '/' : base + '/display.html';
-      navigator.clipboard.writeText(url).then(() => alert('Copied: ' + url));
+    // Queue list
+    const qll = document.getElementById('queue-list-live');
+    if (!total) { qll.innerHTML = '<div class="empty-state">No questions loaded. Go to Setup first.</div>'; }
+    else {
+      qll.innerHTML = (s.queue || []).map((q, i) => `
+        <div class="queue-item ${i === s.currentIndex ? 'active' : ''} ${i < s.currentIndex ? 'done' : ''}">
+          <div class="q-item-num">${i+1}</div>
+          <div class="q-item-text">${escHtml(q.question)}</div>
+          <div class="q-item-type ${q.type}">${q.type === 'poll' ? '📊' : '☁️'}</div>
+        </div>
+      `).join('');
     }
 
-    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-    const ws = new WebSocket(`${proto}://${location.host}`);
+    // Current question
+    const cur = s.current;
+    if (!cur) {
+      document.getElementById('current-tag').textContent = '';
+      document.getElementById('current-q').textContent = s.queue?.length ? 'Ready — press Open to start Q1' : 'No questions loaded';
+      document.getElementById('current-status').textContent = 'Waiting';
+      document.getElementById('current-status').className = 'current-status idle';
+      document.getElementById('live-stats').innerHTML = '';
+      renderCtrlButtons('idle');
+      return;
+    }
 
-    ws.onmessage = (e) => {
-      const msg = JSON.parse(e.data);
-      if (msg.type === 'state') updateStatus(msg.state);
-    };
+    const tagEl = document.getElementById('current-tag');
+    tagEl.textContent = cur.type === 'poll' ? '📊 LIVE POLL' : '☁️ WORD CLOUD';
+    tagEl.className = `current-tag ${cur.type}`;
+    document.getElementById('current-q').textContent = cur.question;
 
-    function updateStatus(state) {
-      const badge = document.getElementById('status-badge');
-      const statusText = document.getElementById('status-text');
-      const summary = document.getElementById('live-summary');
+    const statusEl = document.getElementById('current-status');
+    if (s.phase === 'collecting') {
+      statusEl.textContent = '🟡 Collecting answers...';
+      statusEl.className = 'current-status collecting';
+    } else if (s.phase === 'results') {
+      statusEl.textContent = '✅ Showing results';
+      statusEl.className = 'current-status results';
+    }
 
-      badge.className = 'status-badge';
+    // Live stats
+    const statsEl = document.getElementById('live-stats');
+    if (cur.type === 'poll') {
+      const total = Object.values(cur.votes || {}).reduce((a,b)=>a+b,0);
+      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">Total votes: <strong style="color:var(--text)">${total}</strong></div>` +
+        cur.options.map((opt, i) => {
+          const v = cur.votes?.[i] || 0;
+          const pct = total > 0 ? Math.round(v/total*100) : 0;
+          return `<div class="stat-row">
+            <div class="stat-meta"><span>${opt}</span><span>${v} (${pct}%)</span></div>
+            <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%;background:${colors[i%colors.length]}"></div></div>
+          </div>`;
+        }).join('');
+    } else {
+      const words = [...(cur.words||[])].sort((a,b)=>b.count-a.count).slice(0,12);
+      const total = (cur.words||[]).reduce((a,w)=>a+w.count,0);
+      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">Responses: <strong style="color:var(--text)">${total}</strong></div>
+        <div class="word-chips">${words.map(w=>`<div class="word-chip">${escHtml(w.text)} <span style="color:var(--muted)">${w.count}</span></div>`).join('')}</div>`;
+    }
 
-      if (state.mode === 'idle') {
-        badge.classList.add('idle');
-        badge.querySelector('.dot').style.background = 'var(--muted)';
-        statusText.textContent = 'Session Idle';
-        summary.textContent = 'No active activity.';
-      } else if (state.mode === 'poll') {
-        badge.classList.add('live-poll');
-        badge.querySelector('.dot').style.background = 'var(--accent)';
-        statusText.textContent = 'Poll Live';
-        const totalVotes = Object.values(state.poll.votes).reduce((a, b) => a + b, 0);
-        let lines = [`📊 ${state.poll.question}`, `Total votes: ${totalVotes}`, ''];
-        state.poll.options.forEach((opt, i) => {
-          const v = state.poll.votes[i] || 0;
-          const pct = totalVotes > 0 ? Math.round(v / totalVotes * 100) : 0;
-          lines.push(`${opt}: ${v} votes (${pct}%)`);
-        });
-        summary.innerHTML = lines.map(l => `<div>${l}</div>`).join('');
-      } else if (state.mode === 'wordcloud') {
-        badge.classList.add('live-wc');
-        badge.querySelector('.dot').style.background = 'var(--accent2)';
-        statusText.textContent = 'Word Cloud Live';
-        const total = state.wordcloud.words.reduce((a, w) => a + w.count, 0);
-        const top = [...state.wordcloud.words].sort((a,b) => b.count - a.count).slice(0, 8);
-        summary.innerHTML = `<div>☁️ ${state.wordcloud.question}</div><div style="margin-top:8px;color:var(--text)">${top.map(w => `${w.text} (${w.count})`).join(' · ')}</div><div style="margin-top:8px">Total: ${total} responses</div>`;
+    renderCtrlButtons(s.phase);
+  }
+
+  function renderCtrlButtons(phase) {
+    const s = serverState;
+    const hasNext = s.currentIndex < (s.queue?.length||0) - 1;
+    const isFirst = s.currentIndex === -1;
+    const el = document.getElementById('ctrl-buttons');
+
+    if (phase === 'idle') {
+      el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Open Q${(s.currentIndex||0)+2} for Answers</button>`;
+      if (isFirst) el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Start — Open Q1</button>`;
+    } else if (phase === 'collecting') {
+      el.innerHTML = `<button class="ctrl-btn show-results" onclick="showResults()">📊 Close & Show Results</button>`;
+    } else if (phase === 'results') {
+      if (hasNext) {
+        el.innerHTML = `<button class="ctrl-btn next" onclick="nextQuestion()">Next Question →</button>`;
+      } else {
+        el.innerHTML = `<button class="ctrl-btn stop" onclick="closeSession()">⏹ End Session</button>`;
       }
     }
+  }
 
-    function send(data) {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'presenter', ...data }));
+  function openQuestion() {
+    const s = serverState;
+    const nextIdx = s.currentIndex + 1;
+    if (nextIdx >= (s.queue?.length||0)) return;
+    send({ action: 'open_question', index: nextIdx });
+  }
+
+  function showResults() {
+    send({ action: 'show_results' });
+  }
+
+  function nextQuestion() {
+    send({ action: 'close' });
+    // After close, auto-open next
+    setTimeout(() => {
+      const s = serverState;
+      const nextIdx = (s.currentIndex ?? -1) + 1;
+      if (nextIdx < (s.queue?.length||0)) {
+        send({ action: 'open_question', index: nextIdx });
       }
-    }
+    }, 300);
+  }
 
-    function addOption() {
-      const list = document.getElementById('options-list');
-      const count = list.children.length;
-      const letters = ['A','B','C','D','E','F'];
-      const row = document.createElement('div');
-      row.className = 'option-row';
-      row.innerHTML = `<input type="text" placeholder="Option ${letters[count] || count+1}" /><button class="remove-btn" onclick="removeOption(this)">×</button>`;
-      list.appendChild(row);
-    }
+  function closeSession() {
+    send({ action: 'close' });
+  }
 
-    function removeOption(btn) {
-      const list = document.getElementById('options-list');
-      if (list.children.length > 2) btn.parentElement.remove();
+  function fullReset() {
+    if (confirm('Reset everything? This clears all answers and the queue.')) {
+      send({ action: 'reset' });
+      questions = [];
+      renderSetup();
+      switchTab('setup');
     }
+  }
 
-    function startPoll() {
-      const question = document.getElementById('poll-question').value.trim();
-      if (!question) { alert('Please enter a poll question.'); return; }
-      const opts = [...document.querySelectorAll('#options-list input')].map(i => i.value.trim()).filter(Boolean);
-      if (opts.length < 2) { alert('Please enter at least 2 options.'); return; }
-      send({ action: 'start_poll', question, options: opts });
-    }
+  // --- WebSocket ---
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  const ws = new WebSocket(`${proto}://${location.host}`);
 
-    function startWordCloud() {
-      const question = document.getElementById('wc-question').value.trim();
-      if (!question) { alert('Please enter a word cloud question.'); return; }
-      send({ action: 'start_wordcloud', question });
+  ws.onmessage = (e) => {
+    const msg = JSON.parse(e.data);
+    if (msg.type === 'state') {
+      serverState = msg.state;
+      if (document.getElementById('view-live').style.display !== 'none') renderLiveView();
     }
+  };
 
-    function stopSession() {
-      if (confirm('Stop the current activity?')) send({ action: 'stop' });
-    }
+  function send(data) {
+    if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'presenter', ...data }));
+  }
 
-    function resetSession() {
-      if (confirm('Reset everything? This clears all votes and words.')) send({ action: 'reset' });
-    }
-  </script>
+  // Init
+  renderSetup();
+</script>
 </body>
 </html>

@@ -7,223 +7,52 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0f0f13;
-      --surface: #1a1a24;
-      --border: #2a2a38;
-      --accent: #6c63ff;
-      --accent2: #ff6584;
-      --text: #f0f0f5;
-      --muted: #888899;
-      --success: #4ade80;
+      --bg: #0f0f13; --surface: #1a1a24; --border: #2a2a38;
+      --accent: #6c63ff; --accent2: #ff6584; --text: #f0f0f5;
+      --muted: #888899; --success: #4ade80;
     }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; }
+    .logo { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 40px; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 20px;
-    }
-
-    .logo {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 40px;
-    }
-
-    #screen-idle {
-      text-align: center;
-    }
-
-    .idle-icon {
-      font-size: 56px;
-      margin-bottom: 16px;
-    }
-
-    .idle-title {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .idle-sub {
-      font-size: 15px;
-      color: var(--muted);
-    }
+    /* IDLE */
+    #screen-idle { text-align: center; }
+    .idle-icon { font-size: 52px; margin-bottom: 14px; }
+    .idle-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .idle-sub { font-size: 14px; color: var(--muted); }
 
     /* POLL */
-    #screen-poll {
-      width: 100%;
-      max-width: 420px;
-      display: none;
-    }
-
-    .question-label {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .question-text {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.35;
-      margin-bottom: 28px;
-    }
-
-    .option-btn {
-      width: 100%;
-      background: var(--surface);
-      border: 2px solid var(--border);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      padding: 16px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      text-align: left;
-      margin-bottom: 12px;
-      transition: all 0.18s;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .option-btn:hover, .option-btn:active {
-      border-color: var(--accent);
-      background: rgba(108,99,255,0.12);
-    }
-
-    .option-btn.selected {
-      border-color: var(--accent);
-      background: rgba(108,99,255,0.2);
-    }
-
-    .option-letter {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .voted-msg {
-      text-align: center;
-      padding: 32px 0;
-    }
-
-    .voted-msg .check {
-      font-size: 52px;
-      margin-bottom: 12px;
-    }
-
-    .voted-msg p {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--success);
-    }
-
-    .voted-msg small {
-      color: var(--muted);
-      font-size: 14px;
-      display: block;
-      margin-top: 6px;
-    }
+    #screen-poll { width: 100%; max-width: 420px; display: none; }
+    .question-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .question-text { font-size: 19px; font-weight: 700; line-height: 1.35; margin-bottom: 24px; }
+    .option-btn { width: 100%; background: var(--surface); border: 2px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; padding: 15px 18px; border-radius: 12px; cursor: pointer; text-align: left; margin-bottom: 10px; transition: all 0.18s; display: flex; align-items: center; gap: 12px; }
+    .option-btn:hover, .option-btn:active { border-color: var(--accent); background: rgba(108,99,255,0.12); }
+    .option-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .voted-msg { text-align: center; padding: 28px 0; display: none; }
+    .voted-msg .check { font-size: 48px; margin-bottom: 10px; }
+    .voted-msg p { font-size: 17px; font-weight: 600; color: var(--success); }
+    .voted-msg small { color: var(--muted); font-size: 13px; display: block; margin-top: 5px; }
 
     /* WORD CLOUD */
-    #screen-wordcloud {
-      width: 100%;
-      max-width: 420px;
-      display: none;
-    }
-
-    .word-input {
-      width: 100%;
-      background: var(--surface);
-      border: 2px solid var(--border);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 500;
-      padding: 16px 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-      margin-bottom: 16px;
-      outline: none;
-      transition: border-color 0.18s;
-    }
-
-    .word-input:focus {
-      border-color: var(--accent2);
-    }
-
-    .submit-btn {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: opacity 0.18s, transform 0.1s;
-    }
-
+    #screen-wordcloud { width: 100%; max-width: 420px; display: none; }
+    .word-input { width: 100%; background: var(--surface); border: 2px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 500; padding: 15px 18px; border-radius: 12px; margin-top: 18px; margin-bottom: 14px; outline: none; transition: border-color 0.18s; }
+    .word-input:focus { border-color: var(--accent2); }
+    .submit-btn { width: 100%; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; padding: 15px; border: none; border-radius: 12px; cursor: pointer; transition: opacity 0.18s; }
     .submit-btn:hover { opacity: 0.88; }
-    .submit-btn:active { transform: scale(0.98); }
-
-    .word-submitted {
-      text-align: center;
-      padding: 32px 0;
-      display: none;
-    }
-
-    .word-submitted .check { font-size: 52px; margin-bottom: 12px; }
-    .word-submitted p { font-size: 18px; font-weight: 600; color: var(--success); }
-    .word-submitted small { color: var(--muted); font-size: 14px; display: block; margin-top: 6px; }
-
-    .submit-another {
-      background: transparent;
-      border: 2px solid var(--border);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 16px;
-      transition: border-color 0.18s;
-    }
-
+    .word-submitted { text-align: center; padding: 28px 0; display: none; }
+    .word-submitted .check { font-size: 48px; margin-bottom: 10px; }
+    .word-submitted p { font-size: 17px; font-weight: 600; color: var(--success); }
+    .word-submitted small { color: var(--muted); font-size: 13px; display: block; margin-top: 5px; }
+    .submit-another { background: transparent; border: 2px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 11px 22px; border-radius: 10px; cursor: pointer; margin-top: 14px; transition: border-color 0.18s; }
     .submit-another:hover { border-color: var(--accent2); }
 
-    .connecting {
-      color: var(--muted);
-      font-size: 14px;
-      text-align: center;
-      margin-top: 40px;
-    }
+    /* RESULTS WAITING */
+    #screen-results { text-align: center; display: none; }
+    .results-icon { font-size: 52px; margin-bottom: 14px; }
+    .results-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .results-sub { font-size: 14px; color: var(--muted); }
+
+    .conn-status { color: var(--muted); font-size: 13px; text-align: center; margin-top: 40px; }
   </style>
 </head>
 <body>
@@ -232,17 +61,17 @@
   <div id="screen-idle">
     <div class="idle-icon">⏳</div>
     <div class="idle-title">Waiting for presenter...</div>
-    <div class="idle-sub">Stay on this page. The activity will appear here.</div>
+    <div class="idle-sub">Stay on this page. The question will appear here.</div>
   </div>
 
   <div id="screen-poll">
     <div class="question-label">📊 Live Poll</div>
     <div class="question-text" id="poll-question"></div>
     <div id="poll-options"></div>
-    <div class="voted-msg" id="voted-msg" style="display:none">
+    <div class="voted-msg" id="voted-msg">
       <div class="check">✅</div>
       <p>Vote submitted!</p>
-      <small>Results will show on the big screen.</small>
+      <small>Presenter will show results shortly.</small>
     </div>
   </div>
 
@@ -256,63 +85,72 @@
     <div class="word-submitted" id="word-submitted">
       <div class="check">✅</div>
       <p>Word submitted!</p>
-      <small>You can see it on the big screen.</small>
+      <small>Presenter will show results shortly.</small>
       <br/>
       <button class="submit-another" onclick="submitAnother()">+ Submit another</button>
     </div>
   </div>
 
-  <div class="connecting" id="conn-status">Connecting...</div>
+  <div id="screen-results">
+    <div class="results-icon">📊</div>
+    <div class="results-title">Results are on screen!</div>
+    <div class="results-sub">Next question coming up...</div>
+  </div>
+
+  <div class="conn-status" id="conn-status">Connecting...</div>
 
   <script>
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
     const ws = new WebSocket(`${proto}://${location.host}`);
     let hasVoted = false;
+    let lastQuestionIndex = -1;
 
-    ws.onopen = () => {
-      document.getElementById('conn-status').style.display = 'none';
-    };
-
-    ws.onerror = () => {
-      document.getElementById('conn-status').textContent = 'Connection error. Please refresh.';
-    };
-
+    ws.onopen = () => { document.getElementById('conn-status').style.display = 'none'; };
+    ws.onerror = () => { document.getElementById('conn-status').textContent = 'Connection error. Please refresh.'; };
     ws.onmessage = (e) => {
       const msg = JSON.parse(e.data);
       if (msg.type === 'state') render(msg.state);
     };
 
     function render(state) {
-      document.getElementById('screen-idle').style.display = 'none';
-      document.getElementById('screen-poll').style.display = 'none';
-      document.getElementById('screen-wordcloud').style.display = 'none';
-
-      if (state.mode === 'idle') {
-        document.getElementById('screen-idle').style.display = 'block';
+      // Reset voted flag if new question
+      if (state.currentIndex !== lastQuestionIndex) {
         hasVoted = false;
-      } else if (state.mode === 'poll') {
-        document.getElementById('screen-poll').style.display = 'block';
-        document.getElementById('poll-question').textContent = state.poll.question;
-        if (!hasVoted) {
-          document.getElementById('voted-msg').style.display = 'none';
-          const container = document.getElementById('poll-options');
-          container.innerHTML = '';
-          state.poll.options.forEach((opt, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65+i)}</span> ${opt}`;
-            btn.onclick = () => vote(i);
-            container.appendChild(btn);
-          });
-        } else {
-          document.getElementById('poll-options').style.display = 'none';
-          document.getElementById('voted-msg').style.display = 'block';
+        lastQuestionIndex = state.currentIndex;
+      }
+
+      ['screen-idle','screen-poll','screen-wordcloud','screen-results'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+
+      if (state.phase === 'idle' || !state.current) {
+        document.getElementById('screen-idle').style.display = 'block';
+      } else if (state.phase === 'results') {
+        document.getElementById('screen-results').style.display = 'block';
+      } else if (state.phase === 'collecting') {
+        if (state.current.type === 'poll') {
+          document.getElementById('screen-poll').style.display = 'block';
+          document.getElementById('poll-question').textContent = state.current.question;
+          if (!hasVoted) {
+            document.getElementById('voted-msg').style.display = 'none';
+            const container = document.getElementById('poll-options');
+            container.style.display = 'block';
+            container.innerHTML = '';
+            state.current.options.forEach((opt, i) => {
+              const btn = document.createElement('button');
+              btn.className = 'option-btn';
+              btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65+i)}</span> ${opt}`;
+              btn.onclick = () => vote(i);
+              container.appendChild(btn);
+            });
+          } else {
+            document.getElementById('poll-options').style.display = 'none';
+            document.getElementById('voted-msg').style.display = 'block';
+          }
+        } else if (state.current.type === 'wordcloud') {
+          document.getElementById('screen-wordcloud').style.display = 'block';
+          document.getElementById('wc-question').textContent = state.current.question;
         }
-      } else if (state.mode === 'wordcloud') {
-        document.getElementById('screen-wordcloud').style.display = 'block';
-        document.getElementById('wc-question').textContent = state.wordcloud.question;
-        document.getElementById('word-submitted').style.display = 'none';
-        document.getElementById('wc-form').style.display = 'block';
       }
     }
 
@@ -339,9 +177,7 @@
       document.getElementById('word-input').focus();
     }
 
-    document.getElementById('word-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') submitWord();
-    });
+    document.getElementById('word-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitWord(); });
   </script>
 </body>
 </html>
