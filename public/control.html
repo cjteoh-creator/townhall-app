@@ -14,116 +14,120 @@
       --text: #1A3A3A; --muted: #5A8A8A; --success: #16A34A; --danger: #DC2626;
       --cream: #FEF3E2;
     }
-    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 32px; }
-    .header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-    h1 { font-size: 22px; font-weight: 900; }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px 28px; }
+    .header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 3px; }
+    h1 { font-size: 21px; font-weight: 900; }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .subtitle { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 18px; }
+    .subtitle { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 16px; }
 
-    .links-row { display: flex; gap: 10px; margin-bottom: 18px; }
-    .link-chip { flex: 1; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .links-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .link-chip { flex: 1; background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 9px 12px; display: flex; justify-content: space-between; align-items: center; }
     .link-name { font-size: 12px; font-weight: 800; color: var(--muted); }
-    .copy-btn { background: var(--teal); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: opacity 0.15s; }
+    .copy-btn { background: var(--teal); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 7px; cursor: pointer; }
     .copy-btn:hover { opacity: 0.85; }
 
-    .tabs { display: flex; gap: 4px; margin-bottom: 22px; background: var(--surface2); border-radius: 14px; padding: 4px; width: fit-content; border: 2px solid var(--border); }
-    .tab { padding: 8px 22px; border-radius: 11px; font-size: 14px; font-weight: 800; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; font-family: 'Nunito', sans-serif; }
-    .tab.active { background: var(--orange); color: #fff; box-shadow: 0 2px 10px rgba(249,115,22,0.3); }
-    .tab.active.live { background: var(--teal); box-shadow: 0 2px 10px rgba(0,181,184,0.3); }
+    .conn-bar { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; margin-bottom: 14px; padding: 7px 14px; border-radius: 10px; }
+    .conn-bar.ok { background: #DCFCE7; color: var(--success); }
+    .conn-bar.bad { background: #FEF2F2; color: var(--danger); }
+    .conn-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .conn-bar.ok .conn-dot { background: var(--success); animation: pulse 1.5s ease infinite; }
+    .conn-bar.bad .conn-dot { background: var(--danger); }
+    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
 
-    .section-title { font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    .q-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-    .q-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(0,181,184,0.07); }
-    .q-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .q-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; }
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--surface2); border-radius: 12px; padding: 4px; width: fit-content; border: 2px solid var(--border); }
+    .tab { padding: 8px 20px; border-radius: 9px; font-size: 14px; font-weight: 800; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; font-family: 'Nunito', sans-serif; }
+    .tab.active-setup { background: var(--orange); color: #fff; box-shadow: 0 2px 10px rgba(249,115,22,0.3); }
+    .tab.active-live { background: var(--teal); color: #fff; box-shadow: 0 2px 10px rgba(0,181,184,0.3); }
+
+    .section-title { font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .q-list { display: flex; flex-direction: column; gap: 9px; margin-bottom: 12px; }
+    .q-card { background: var(--surface); border: 2px solid var(--border); border-radius: 14px; padding: 14px; }
+    .q-card-hdr { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
+    .q-num { width: 24px; height: 24px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .q-badge { font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 99px; }
     .q-badge.poll { background: var(--orange-light); color: var(--orange-dark); }
     .q-badge.wordcloud { background: var(--teal-light); color: var(--teal-dark); }
-    .q-actions { margin-left: auto; display: flex; gap: 6px; }
-    .icon-btn { background: none; border: 2px solid var(--border); color: var(--muted); font-size: 13px; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: all 0.15s; }
+    .q-acts { margin-left: auto; display: flex; gap: 5px; }
+    .icon-btn { background: none; border: 2px solid var(--border); color: var(--muted); font-size: 12px; padding: 3px 9px; border-radius: 7px; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: all 0.15s; }
     .icon-btn:hover { border-color: var(--danger); color: var(--danger); }
-    .icon-btn.move:hover { border-color: var(--teal); color: var(--teal); }
-    label { display: block; font-size: 11px; font-weight: 900; color: var(--muted); margin-bottom: 5px; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .icon-btn.mv:hover { border-color: var(--teal); color: var(--teal); }
+    label { display: block; font-size: 11px; font-weight: 900; color: var(--muted); margin-bottom: 4px; margin-top: 11px; text-transform: uppercase; letter-spacing: 0.07em; }
     label:first-of-type { margin-top: 0; }
-    input[type="text"] { width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 13px; border-radius: 10px; outline: none; transition: border-color 0.15s; }
+    input[type="text"] { width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; padding: 9px 12px; border-radius: 9px; outline: none; transition: border-color 0.15s; }
     input[type="text"]:focus { border-color: var(--teal); }
-    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; background: var(--surface2); border-radius: 10px; border: 2px solid var(--border); }
-    .toggle-label { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
+    .toggle-row { display: flex; align-items: center; gap: 9px; margin-top: 11px; padding: 9px 13px; background: var(--surface2); border-radius: 9px; border: 2px solid var(--border); }
+    .toggle-lbl { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
     .toggle-sub { font-size: 11px; font-weight: 600; color: var(--muted); display: block; }
-    .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .toggle { position: relative; width: 42px; height: 22px; flex-shrink: 0; }
     .toggle input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 99px; cursor: pointer; transition: 0.2s; }
-    .toggle-slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-    .toggle input:checked + .toggle-slider { background: var(--orange); }
-    .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
-    .options-list { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
-    .opt-row { display: flex; gap: 7px; align-items: center; }
+    .toggle-sl { position: absolute; inset: 0; background: var(--border); border-radius: 99px; cursor: pointer; transition: 0.2s; }
+    .toggle-sl:before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .toggle input:checked + .toggle-sl { background: var(--orange); }
+    .toggle input:checked + .toggle-sl:before { transform: translateX(20px); }
+    .opts-list { display: flex; flex-direction: column; gap: 6px; margin-top: 7px; }
+    .opt-row { display: flex; gap: 6px; align-items: center; }
     .opt-row input { flex: 1; }
-    .remove-opt { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; transition: color 0.15s; }
-    .remove-opt:hover { color: var(--danger); }
-    .add-opt-btn { background: none; border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; padding: 8px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 7px; transition: all 0.15s; }
-    .add-opt-btn:hover { border-color: var(--teal); color: var(--teal); }
-    .add-q-row { display: flex; gap: 10px; }
-    .add-q-btn { flex: 1; background: var(--surface); border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
-    .add-q-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--cream); }
-    .add-q-btn.wc:hover { border-color: var(--teal); color: var(--teal); background: var(--surface2); }
-    .launch-btn { width: 100%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; box-shadow: 0 4px 16px rgba(0,181,184,0.3); transition: opacity 0.15s; }
+    .rm-opt { background: none; border: none; color: var(--muted); font-size: 17px; cursor: pointer; padding: 0 3px; transition: color 0.15s; }
+    .rm-opt:hover { color: var(--danger); }
+    .add-opt { background: none; border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700; padding: 7px; border-radius: 9px; cursor: pointer; width: 100%; margin-top: 6px; transition: all 0.15s; }
+    .add-opt:hover { border-color: var(--teal); color: var(--teal); }
+    .add-q-row { display: flex; gap: 9px; }
+    .add-q { flex: 1; background: var(--surface); border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+    .add-q:hover { border-color: var(--orange); color: var(--orange); background: var(--cream); }
+    .add-q.wc:hover { border-color: var(--teal); color: var(--teal); background: var(--surface2); }
+    .launch-btn { width: 100%; background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900; padding: 14px; border: none; border-radius: 13px; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 16px rgba(0,181,184,0.3); transition: opacity 0.15s; }
     .launch-btn:hover { opacity: 0.88; }
 
     /* LIVE */
-    .live-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-    .live-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 800; color: var(--success); }
-    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 1.4s ease infinite; }
-    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.3)} }
-    .q-progress { font-size: 13px; font-weight: 700; color: var(--muted); }
-    .q-progress b { color: var(--text); }
-    .current-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 14px rgba(0,181,184,0.08); transition: border-color 0.3s; }
-    .current-card.coll { border-color: var(--orange); }
-    .current-card.res { border-color: var(--teal); }
-    .cur-tag { font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .live-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .live-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; color: var(--success); }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); animation: pulse 1.4s ease infinite; }
+    .q-prog { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .q-prog b { color: var(--text); }
+    .cur-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 12px; transition: border-color 0.3s; }
+    .cur-card.coll { border-color: var(--orange); }
+    .cur-card.res { border-color: var(--teal); }
+    .cur-tag { font-size: 10px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
     .cur-tag.poll { color: var(--orange); }
     .cur-tag.wordcloud { color: var(--teal-dark); }
-    .cur-q { font-size: 18px; font-weight: 900; margin-bottom: 8px; }
-    .cur-status { font-size: 12px; font-weight: 700; margin-bottom: 14px; padding: 5px 12px; border-radius: 99px; display: inline-block; }
-    .cur-status.collecting { background: #FEF3C7; color: #D97706; }
-    .cur-status.results { background: var(--teal-light); color: var(--teal-dark); }
-    .cur-status.idle { background: var(--surface2); color: var(--muted); }
-    .live-stats { margin-bottom: 14px; }
-    .stat-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 9px; }
-    .stat-meta { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; }
-    .stat-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+    .cur-q { font-size: 17px; font-weight: 900; margin-bottom: 7px; }
+    .cur-st { font-size: 11px; font-weight: 700; margin-bottom: 13px; padding: 4px 11px; border-radius: 99px; display: inline-block; }
+    .cur-st.coll { background: #FEF3C7; color: #D97706; }
+    .cur-st.res { background: var(--teal-light); color: var(--teal-dark); }
+    .cur-st.idle { background: var(--surface2); color: var(--muted); }
+    .live-stats { margin-bottom: 13px; }
+    .stat-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+    .stat-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; }
+    .stat-track { height: 7px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
     .stat-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
-    .word-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .word-chip { background: var(--teal-light); border: 1.5px solid var(--teal); border-radius: 8px; padding: 4px 12px; font-size: 13px; font-weight: 700; color: var(--teal-dark); }
-    .ctrl-btns { display: flex; gap: 10px; }
-    .ctrl-btn { flex: 1; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 14px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
+    .word-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .word-chip { background: var(--teal-light); border: 1.5px solid var(--teal); border-radius: 7px; padding: 3px 10px; font-size: 12px; font-weight: 700; color: var(--teal-dark); }
+    .ctrl-btns { display: flex; gap: 9px; }
+    .ctrl-btn { flex: 1; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 11px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
     .ctrl-btn:hover { opacity: 0.88; }
     .ctrl-btn:active { transform: scale(0.98); }
     .ctrl-btn.open { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
-    .ctrl-btn.show-r { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
-    .ctrl-btn.next-q { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
-    .ctrl-btn.end-last { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
-    .queue-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 18px; margin-bottom: 14px; }
-    .q-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; margin-bottom: 4px; transition: background 0.15s; }
+    .ctrl-btn.show-r { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; }
+    .ctrl-btn.next-q { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; }
+    .ctrl-btn.end-last { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; }
+    .q-list-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    .q-item { display: flex; align-items: center; gap: 9px; padding: 8px 11px; border-radius: 9px; margin-bottom: 3px; transition: background 0.15s; }
     .q-item:hover { background: var(--surface2); }
     .q-item.active { background: var(--teal-light); border: 2px solid var(--teal); }
     .q-item.done { opacity: 0.35; }
-    .q-item-n { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+    .q-item-n { width: 20px; height: 20px; border-radius: 50%; background: var(--border); font-size: 10px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
     .q-item.active .q-item-n { background: var(--teal); color: #fff; }
     .q-item-txt { font-size: 13px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .q-item-ico { font-size: 14px; flex-shrink: 0; }
-
-    /* 3-BUTTON ROW */
-    .action-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 4px; }
-    .action-btn { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; padding: 12px 8px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s; text-align: center; line-height: 1.3; }
+    .q-item-ico { font-size: 13px; flex-shrink: 0; }
+    .action-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .action-btn { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; padding: 11px 6px; border-radius: 11px; cursor: pointer; border: none; transition: opacity 0.15s; text-align: center; }
     .action-btn:hover { opacity: 0.85; }
-    .action-btn.end { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.3); }
-    .action-btn.restart { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.3); }
+    .action-btn.end { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 10px rgba(249,115,22,0.3); }
+    .action-btn.restart { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 10px rgba(0,181,184,0.3); }
     .action-btn.reset { background: none; border: 2px solid var(--danger); color: var(--danger); }
-    .action-btn.reset:hover { background: #FEF2F2; }
-
-    .empty-state { text-align: center; padding: 24px; color: var(--muted); font-size: 14px; font-weight: 600; }
-    .barC0{background:var(--orange)} .barC1{background:var(--teal)} .barC2{background:#7C3AED} .barC3{background:var(--success)} .barC4{background:#F59E0B} .barC5{background:#EC4899}
+    .action-btn.reset:hover { background: #FEF2F2; opacity: 1; }
+    .empty-state { text-align: center; padding: 20px; color: var(--muted); font-size: 13px; font-weight: 600; }
+    .bc0{background:var(--orange)} .bc1{background:var(--teal)} .bc2{background:#7C3AED} .bc3{background:var(--success)} .bc4{background:#F59E0B} .bc5{background:#EC4899}
   </style>
 </head>
 <body>
@@ -146,88 +150,101 @@
   </div>
 </div>
 
+<div class="conn-bar bad" id="conn-bar">
+  <div class="conn-dot"></div>
+  <span id="conn-text">Connecting to server...</span>
+</div>
+
 <div class="tabs">
-  <button class="tab active" id="tab-setup" onclick="switchTab('setup')">⚙️ Setup</button>
-  <button class="tab live" id="tab-live" onclick="switchTab('live')">🔴 Live Control</button>
+  <button class="tab" id="tab-setup" onclick="switchTab('setup')">⚙️ Setup</button>
+  <button class="tab" id="tab-live" onclick="switchTab('live')">🔴 Live Control</button>
 </div>
 
 <!-- SETUP -->
-<div id="view-setup">
+<div id="view-setup" style="display:none">
   <div class="section-title">Question Queue</div>
   <div class="q-list" id="q-list"></div>
   <div class="add-q-row">
-    <button class="add-q-btn" onclick="addQ('poll')">+ Add Poll</button>
-    <button class="add-q-btn wc" onclick="addQ('wordcloud')">+ Add Word Cloud</button>
+    <button class="add-q" onclick="addQ('poll')">+ Add Poll</button>
+    <button class="add-q wc" onclick="addQ('wordcloud')">+ Add Word Cloud</button>
   </div>
   <button class="launch-btn" onclick="saveAndLaunch()">✅ Save & Go Live →</button>
 </div>
 
 <!-- LIVE -->
 <div id="view-live" style="display:none">
-  <div class="live-header">
+  <div class="live-hdr">
     <div class="live-badge"><div class="live-dot"></div> LIVE SESSION</div>
-    <div class="q-progress">Q <b id="q-num">-</b> of <b id="q-tot">-</b></div>
+    <div class="q-prog">Q <b id="q-num">-</b> of <b id="q-tot">-</b></div>
   </div>
 
-  <div class="current-card" id="cur-card">
+  <div class="cur-card" id="cur-card">
     <div class="cur-tag" id="cur-tag"></div>
     <div class="cur-q" id="cur-q">Ready — press Open to start Q1</div>
-    <div class="cur-status idle" id="cur-status">Waiting</div>
+    <div class="cur-st idle" id="cur-st">Waiting</div>
     <div class="live-stats" id="live-stats"></div>
     <div class="ctrl-btns" id="ctrl-btns"></div>
   </div>
 
-  <div class="queue-card">
+  <div class="q-list-card">
     <div class="section-title">All Questions</div>
-    <div id="q-list-live"></div>
+    <div id="q-live-list"></div>
   </div>
 
   <div class="action-row">
-    <button class="action-btn end" onclick="doEndSession()">🏁 End Session</button>
+    <button class="action-btn end" onclick="doEnd()">🏁 End Session</button>
     <button class="action-btn restart" onclick="doRestart()">🔄 Restart</button>
-    <button class="action-btn reset" onclick="doFullReset()">↺ Full Reset</button>
+    <button class="action-btn reset" onclick="doReset()">↺ Full Reset</button>
   </div>
 </div>
 
 <script>
   const base = location.origin;
-  let questions = [];
-  let sv = {};
+  let questions = [];  // local setup state
+  let sv = {};         // server state mirror
+  let wsReady = false;
+  let pendingSend = null; // queue one send if WS not ready
 
-  function copyUrl(p) { navigator.clipboard.writeText(base + p).then(() => alert('Copied!')); }
+  function copyUrl(p) { navigator.clipboard.writeText(base + p).then(() => alert('Copied: ' + base + p)); }
 
   function switchTab(t) {
-    document.getElementById('tab-setup').classList.toggle('active', t === 'setup');
-    document.getElementById('tab-setup').classList.remove('live');
-    document.getElementById('tab-live').classList.toggle('active', t === 'live');
-    if (t === 'live') document.getElementById('tab-live').classList.add('live');
-    else document.getElementById('tab-live').classList.remove('live');
+    document.getElementById('tab-setup').className = `tab ${t === 'setup' ? 'active-setup' : ''}`;
+    document.getElementById('tab-live').className = `tab ${t === 'live' ? 'active-live' : ''}`;
     document.getElementById('view-setup').style.display = t === 'setup' ? 'block' : 'none';
     document.getElementById('view-live').style.display = t === 'live' ? 'block' : 'none';
     if (t === 'live') renderLive();
   }
 
+  // Start on setup tab
+  switchTab('setup');
+
   function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
   // --- SETUP ---
-  function addQ(type) { questions.push({ type, question: '', options: type === 'poll' ? ['',''] : [], multiSelect: false }); renderSetup(); }
+  function addQ(type) {
+    questions.push({ type, question: '', options: type === 'poll' ? ['',''] : [], multiSelect: false });
+    renderSetup();
+  }
   function removeQ(i) { questions.splice(i,1); renderSetup(); }
   function moveQ(i,d) { const j=i+d; if(j<0||j>=questions.length)return; [questions[i],questions[j]]=[questions[j],questions[i]]; renderSetup(); }
   function addOpt(i) { questions[i].options.push(''); renderSetup(); }
   function removeOpt(i,j) { if(questions[i].options.length>2){questions[i].options.splice(j,1);renderSetup();} }
-  function toggleMS(i,v) { questions[i].multiSelect=v; }
+  function setMS(i,v) { questions[i].multiSelect = v; }
 
   function renderSetup() {
     const el = document.getElementById('q-list');
-    if (!questions.length) { el.innerHTML = '<div class="empty-state">No questions yet.</div>'; return; }
+    if (!questions.length) {
+      el.innerHTML = '<div class="empty-state">No questions yet. Add below.</div>';
+      return;
+    }
     el.innerHTML = questions.map((q,i) => `
       <div class="q-card">
-        <div class="q-card-header">
+        <div class="q-card-hdr">
           <div class="q-num">${i+1}</div>
           <div class="q-badge ${q.type}">${q.type==='poll'?'📊 Poll':'☁️ Word Cloud'}</div>
-          <div class="q-actions">
-            <button class="icon-btn move" onclick="moveQ(${i},-1)" ${i===0?'disabled':''}>↑</button>
-            <button class="icon-btn move" onclick="moveQ(${i},1)" ${i===questions.length-1?'disabled':''}>↓</button>
+          <div class="q-acts">
+            <button class="icon-btn mv" onclick="moveQ(${i},-1)" ${!i?'disabled':''}>↑</button>
+            <button class="icon-btn mv" onclick="moveQ(${i},1)" ${i===questions.length-1?'disabled':''}>↓</button>
             <button class="icon-btn" onclick="removeQ(${i})">✕</button>
           </div>
         </div>
@@ -235,40 +252,48 @@
         <input type="text" value="${esc(q.question)}" placeholder="Type your question..." oninput="questions[${i}].question=this.value"/>
         ${q.type==='poll'?`
           <label>Options</label>
-          <div class="options-list">
-            ${q.options.map((o,j)=>`<div class="opt-row"><input type="text" value="${esc(o)}" placeholder="Option ${String.fromCharCode(65+j)}" oninput="questions[${i}].options[${j}]=this.value"/><button class="remove-opt" onclick="removeOpt(${i},${j})">×</button></div>`).join('')}
+          <div class="opts-list">${q.options.map((o,j)=>`
+            <div class="opt-row">
+              <input type="text" value="${esc(o)}" placeholder="Option ${String.fromCharCode(65+j)}" oninput="questions[${i}].options[${j}]=this.value"/>
+              <button class="rm-opt" onclick="removeOpt(${i},${j})">×</button>
+            </div>`).join('')}
           </div>
-          <button class="add-opt-btn" onclick="addOpt(${i})">+ Add Option</button>
+          <button class="add-opt" onclick="addOpt(${i})">+ Add Option</button>
           <div class="toggle-row">
-            <div class="toggle-label">Allow multiple selections<span class="toggle-sub">Off = pick one · On = pick many</span></div>
-            <label class="toggle"><input type="checkbox" ${q.multiSelect?'checked':''} onchange="toggleMS(${i},this.checked)"/><span class="toggle-slider"></span></label>
+            <div class="toggle-lbl">Allow multiple selections<span class="toggle-sub">Off = one only · On = pick many</span></div>
+            <label class="toggle"><input type="checkbox" ${q.multiSelect?'checked':''} onchange="setMS(${i},this.checked)"/><span class="toggle-sl"></span></label>
           </div>
-        `:'<div style="margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)">Participants type words — unlimited submissions.</div>'}
+        `:`<div style="margin-top:8px;font-size:12px;font-weight:600;color:var(--muted)">Participants type words — unlimited submissions.</div>`}
       </div>`).join('');
   }
 
   function saveAndLaunch() {
-    if (!questions.length) { alert('Add at least one question.'); return; }
-    const ok = questions.every(q => q.question.trim() && (q.type!=='poll' || q.options.filter(o=>o.trim()).length>=2));
-    if (!ok) { alert('Please fill all questions. Polls need at least 2 options.'); return; }
-    const queue = questions.map(q => ({ type:q.type, question:q.question.trim(), options:q.options.map(o=>o.trim()).filter(Boolean), multiSelect:q.multiSelect||false }));
-    send({ action:'set_queue', queue });
+    if (!questions.length) { alert('Add at least one question first.'); return; }
+    const allOk = questions.every(q => q.question.trim() && (q.type !== 'poll' || q.options.filter(o=>o.trim()).length >= 2));
+    if (!allOk) { alert('Fill in all questions. Polls need at least 2 options.'); return; }
+    const queue = questions.map(q => ({
+      type: q.type,
+      question: q.question.trim(),
+      options: q.options.map(o=>o.trim()).filter(Boolean),
+      multiSelect: q.multiSelect || false,
+    }));
+    send({ action: 'set_queue', queue });
     switchTab('live');
   }
 
   // --- LIVE ---
-  const bColors = ['#F97316','#00B5B8','#7C3AED','#16A34A','#F59E0B','#EC4899'];
+  const barC = ['#F97316','#00B5B8','#7C3AED','#16A34A','#F59E0B','#EC4899'];
 
   function renderLive() {
     const s = sv;
     const total = s.queue?.length || 0;
-    document.getElementById('q-tot').textContent = total;
+    document.getElementById('q-tot').textContent = total || '0';
     document.getElementById('q-num').textContent = s.currentIndex >= 0 ? s.currentIndex+1 : '-';
 
-    // Queue list
-    const ql = document.getElementById('q-list-live');
-    if (!total) { ql.innerHTML = '<div class="empty-state">No questions. Go to Setup.</div>'; }
-    else {
+    const ql = document.getElementById('q-live-list');
+    if (!total) {
+      ql.innerHTML = '<div class="empty-state">No questions. Set up questions first.</div>';
+    } else {
       ql.innerHTML = (s.queue||[]).map((q,i) => `
         <div class="q-item ${i===s.currentIndex?'active':''} ${i<s.currentIndex?'done':''}">
           <div class="q-item-n">${i+1}</div>
@@ -279,119 +304,154 @@
 
     const cur = s.current;
     const card = document.getElementById('cur-card');
-
     if (!cur) {
-      card.className = 'current-card';
+      card.className = 'cur-card';
       document.getElementById('cur-tag').textContent = '';
-      document.getElementById('cur-q').textContent = total ? 'Ready — press Open to start Q1' : 'No questions loaded';
-      document.getElementById('cur-status').textContent = 'Waiting';
-      document.getElementById('cur-status').className = 'cur-status idle';
+      document.getElementById('cur-q').textContent = total ? 'Ready — press Open to start Q1' : 'No questions loaded yet';
+      document.getElementById('cur-st').textContent = 'Waiting';
+      document.getElementById('cur-st').className = 'cur-st idle';
       document.getElementById('live-stats').innerHTML = '';
-      renderCtrlBtns('idle');
+      renderCtrl('idle');
       return;
     }
 
-    card.className = `current-card ${s.phase==='collecting'?'coll':s.phase==='results'?'res':''}`;
+    card.className = `cur-card ${s.phase==='collecting'?'coll':s.phase==='results'?'res':''}`;
     const tag = document.getElementById('cur-tag');
     tag.textContent = cur.type==='poll' ? '📊 LIVE POLL' : '☁️ WORD CLOUD';
     tag.className = `cur-tag ${cur.type}`;
     document.getElementById('cur-q').textContent = cur.question;
 
-    const st = document.getElementById('cur-status');
-    if (s.phase==='collecting') { st.textContent='🟡 Collecting answers...'; st.className='cur-status collecting'; }
-    else if (s.phase==='results') { st.textContent='✅ Showing results'; st.className='cur-status results'; }
+    const st = document.getElementById('cur-st');
+    if (s.phase==='collecting') { st.textContent='🟡 Collecting answers...'; st.className='cur-st coll'; }
+    else if (s.phase==='results') { st.textContent='✅ Showing results'; st.className='cur-st res'; }
+    else { st.textContent='Waiting'; st.className='cur-st idle'; }
 
     const stats = document.getElementById('live-stats');
-    if (cur.type==='poll') {
-      const tv = cur.totalVoters||0;
-      stats.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Voters: <b style="color:var(--text)">${tv}</b></div>` +
-        cur.options.map((o,i) => { const v=cur.votes?.[i]||0; const p=tv>0?Math.round(v/tv*100):0;
-          return `<div class="stat-row"><div class="stat-meta"><span>${esc(o)}</span><span>${v} (${p}%)</span></div><div class="stat-track"><div class="stat-fill barC${i}" style="width:${p}%"></div></div></div>`;
+    if (cur.type === 'poll') {
+      const tv = cur.totalVoters || 0;
+      stats.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:7px;font-weight:700">Voters: <b style="color:var(--text)">${tv}</b></div>` +
+        (cur.options||[]).map((o,i) => {
+          const v = cur.votes?.[i] || 0;
+          const p = tv > 0 ? Math.round(v/tv*100) : 0;
+          return `<div class="stat-row"><div class="stat-meta"><span>${esc(o)}</span><span>${v} (${p}%)</span></div><div class="stat-track"><div class="stat-fill bc${i}" style="width:${p}%"></div></div></div>`;
         }).join('');
     } else {
       const words = [...(cur.words||[])].sort((a,b)=>b.count-a.count).slice(0,10);
       const tot = (cur.words||[]).reduce((a,w)=>a+w.count,0);
-      stats.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Responses: <b style="color:var(--text)">${tot}</b></div><div class="word-chips">${words.map(w=>`<div class="word-chip">${esc(w.text)} <span style="opacity:0.7">${w.count}</span></div>`).join('')}</div>`;
+      stats.innerHTML = `<div style="font-size:12px;color:var(--muted);margin-bottom:7px;font-weight:700">Responses: <b style="color:var(--text)">${tot}</b></div><div class="word-chips">${words.map(w=>`<div class="word-chip">${esc(w.text)} <span style="opacity:0.7">${w.count}</span></div>`).join('')}</div>`;
     }
 
-    renderCtrlBtns(s.phase);
+    renderCtrl(s.phase);
   }
 
-  function renderCtrlBtns(phase) {
+  function renderCtrl(phase) {
     const s = sv;
     const total = s.queue?.length || 0;
     const isLast = total > 0 && s.currentIndex === total - 1;
-    const isFirst = s.currentIndex === -1;
     const el = document.getElementById('ctrl-btns');
 
     if (phase === 'idle') {
-      el.innerHTML = `<button class="ctrl-btn open" onclick="openQ()">▶ ${isFirst?'Start — Open Q1':'Open Next Question'}</button>`;
+      if (!total) {
+        el.innerHTML = '<button class="ctrl-btn open" style="opacity:0.4;cursor:not-allowed" disabled>No questions loaded</button>';
+      } else {
+        el.innerHTML = `<button class="ctrl-btn open" onclick="openQ()">▶ ${s.currentIndex===-1?'Start — Open Q1':'Open Next Question'}</button>`;
+      }
     } else if (phase === 'collecting') {
       el.innerHTML = `<button class="ctrl-btn show-r" onclick="showResults()">📊 Close & Show Results</button>`;
     } else if (phase === 'results') {
-      if (isLast) {
-        el.innerHTML = `<button class="ctrl-btn end-last" onclick="doEndSession()">🏁 End Session</button>`;
-      } else {
-        el.innerHTML = `<button class="ctrl-btn next-q" onclick="nextQ()">Next Question →</button>`;
-      }
+      el.innerHTML = isLast
+        ? `<button class="ctrl-btn end-last" onclick="doEnd()">🏁 End Session</button>`
+        : `<button class="ctrl-btn next-q" onclick="nextQ()">Next Question →</button>`;
     }
   }
 
   function openQ() {
     const idx = (sv.currentIndex ?? -1) + 1;
     if (idx >= (sv.queue?.length||0)) return;
-    send({ action:'open_question', index: idx });
+    send({ action: 'open_question', index: idx });
   }
 
-  function showResults() { send({ action:'show_results' }); }
+  function showResults() { send({ action: 'show_results' }); }
 
   function nextQ() {
-    send({ action:'close' });
+    send({ action: 'close' });
     setTimeout(() => {
       const idx = (sv.currentIndex ?? -1) + 1;
-      if (idx < (sv.queue?.length||0)) send({ action:'open_question', index: idx });
-    }, 300);
+      if (idx < (sv.queue?.length||0)) send({ action: 'open_question', index: idx });
+    }, 350);
   }
 
-  // End Session: show Thank You on all screens, keep questions, go back to Setup
-  function doEndSession() {
-    send({ action:'end_session' });
-    // After a moment, go back to setup with questions still there
-    setTimeout(() => switchTab('setup'), 800);
+  function doEnd() {
+    send({ action: 'end_session' });
+    setTimeout(() => switchTab('setup'), 600);
   }
 
-  // Restart: fresh answers, back to Q1
   function doRestart() {
-    send({ action:'restart' });
+    send({ action: 'restart' });
     switchTab('live');
   }
 
-  // Full Reset: clear everything
-  function doFullReset() {
-    send({ action:'reset' });
+  function doReset() {
+    send({ action: 'reset' });
     questions = [];
     renderSetup();
     switchTab('setup');
   }
 
-  // WebSocket
-  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-  const ws = new WebSocket(`${proto}://${location.host}?presenter=1`);
+  // --- WebSocket with robust reconnect and queued sends ---
+  let ws = null;
 
-  ws.onmessage = (e) => {
-    try {
-      const msg = JSON.parse(e.data);
-      if (msg.type === 'state') {
-        sv = msg.state;
-        if (document.getElementById('view-live').style.display !== 'none') renderLive();
+  function connect() {
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    ws = new WebSocket(`${proto}://${location.host}?presenter=1`);
+
+    ws.onopen = () => {
+      wsReady = true;
+      document.getElementById('conn-bar').className = 'conn-bar ok';
+      document.getElementById('conn-text').textContent = 'Connected';
+      // Flush pending send
+      if (pendingSend) {
+        ws.send(JSON.stringify({ type: 'presenter', ...pendingSend }));
+        pendingSend = null;
       }
-    } catch {}
-  };
+    };
 
-  function send(data) {
-    if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type:'presenter', ...data }));
+    ws.onclose = () => {
+      wsReady = false;
+      document.getElementById('conn-bar').className = 'conn-bar bad';
+      document.getElementById('conn-text').textContent = 'Reconnecting...';
+      setTimeout(connect, 2000);
+    };
+
+    ws.onerror = () => {};
+
+    ws.onmessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data);
+        if (msg.type === 'state') {
+          sv = msg.state;
+          // Sync local questions from server state if we have none
+          if (questions.length === 0 && sv.queue && sv.queue.length > 0) {
+            questions = sv.queue.map(q => ({ ...q }));
+            renderSetup();
+          }
+          if (document.getElementById('view-live').style.display !== 'none') renderLive();
+        }
+      } catch {}
+    };
   }
 
+  function send(data) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: 'presenter', ...data }));
+    } else {
+      // Queue it — will send on reconnect
+      pendingSend = data;
+      document.getElementById('conn-text').textContent = 'Sending when connected...';
+    }
+  }
+
+  connect();
   renderSetup();
 </script>
 </body>
