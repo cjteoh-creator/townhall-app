@@ -46,21 +46,22 @@ wss.on('connection', (ws, req) => {
   const role = qs.includes('presenter=1') ? 'presenter' : qs.includes('display=1') ? 'display' : 'participant';
   clientRoles.set(ws, role);
 
-  // Update count and tell everyone
-  state.participantCount = getParticipantCount();
+  // Mark as alive for heartbeat
+  ws.isAlive = true;
+  ws.on('pong', () => { ws.isAlive = true; });
 
-  // Send current state to new connection immediately (includes updated count)
+  // Count after a short delay to ensure ws is fully registered in wss.clients
+  setTimeout(() => {
+    state.participantCount = getParticipantCount();
+    broadcast({ type: 'state', state });
+  }, 50);
+
+  // Send current state to new connection immediately
   ws.send(JSON.stringify({ type: 'state', state }));
 
-  // Broadcast updated count to everyone else
-  broadcast({ type: 'state', state });
-
   ws.on('close', () => {
-    // Recount after disconnect and broadcast
-    setTimeout(() => {
-      state.participantCount = getParticipantCount();
-      broadcast({ type: 'state', state });
-    }, 100);
+    state.participantCount = getParticipantCount();
+    broadcast({ type: 'state', state });
   });
 
   ws.on('message', (raw) => {
@@ -163,11 +164,18 @@ wss.on('connection', (ws, req) => {
   });
 });
 
-// Heartbeat: ping all clients every 30s to keep connections alive on Render
+// Heartbeat: ping all clients every 30s, terminate unresponsive ones
 setInterval(() => {
   wss.clients.forEach(c => {
+    if (c.isAlive === false) return c.terminate();
+    c.isAlive = false;
     if (c.readyState === 1) c.ping();
   });
+  // Recount after clearing dead clients
+  setTimeout(() => {
+    state.participantCount = getParticipantCount();
+    broadcast({ type: 'state', state });
+  }, 1000);
 }, 30000);
 
 const PORT = process.env.PORT || 3000;
