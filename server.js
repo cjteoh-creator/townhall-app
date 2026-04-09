@@ -29,6 +29,9 @@ wss.on('connection', (ws, req) => {
   const qs = req.url.split('?')[1] || '';
   const isParticipant = !qs.includes('presenter=1') && !qs.includes('display=1');
 
+  const role = qs.includes('presenter=1') ? 'presenter' : qs.includes('display=1') ? 'display' : 'participant';
+  console.log(`[CONNECT] ${role} connected (total WS clients: ${wss.clients.size}, participants: ${state.participantCount + (isParticipant ? 1 : 0)})`);
+
   // Simple increment/decrement for participant counting
   if (isParticipant) {
     state.participantCount++;
@@ -38,10 +41,11 @@ wss.on('connection', (ws, req) => {
   ws.send(JSON.stringify({ type: 'state', state }));
   broadcast({ type: 'state', state });
 
-  ws.on('close', () => {
+  ws.on('close', (code, reason) => {
     if (isParticipant && state.participantCount > 0) {
       state.participantCount--;
     }
+    console.log(`[DISCONNECT] ${role} disconnected (code: ${code}, reason: "${reason || 'none'}", participants: ${state.participantCount})`);
     broadcast({ type: 'state', state });
   });
 
@@ -62,6 +66,7 @@ wss.on('connection', (ws, req) => {
             }
           });
           state.current.totalVoters = (state.current.totalVoters || 0) + 1;
+          console.log(`[VOTE] options: [${indices}], totalVoters: ${state.current.totalVoters}`);
           broadcast({ type: 'state', state });
         }
       }
@@ -76,6 +81,7 @@ wss.on('connection', (ws, req) => {
         const ex = state.current.words.find(w => w.text === text);
         if (ex) ex.count++;
         else state.current.words.push({ text, count: 1 });
+        console.log(`[WORD] "${text}" (total words: ${state.current.words.length})`);
         broadcast({ type: 'state', state });
       }
       return;
