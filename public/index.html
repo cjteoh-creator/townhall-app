@@ -76,6 +76,9 @@
     .ended-hearts { font-size: 28px; margin-top: 16px; letter-spacing: 6px; }
 
     .conn-status { color: var(--muted); font-size: 12px; text-align: center; margin-top: 28px; position: relative; z-index: 1; font-weight: 700; background: var(--cream); border-radius: 99px; padding: 5px 16px; }
+    .ws-debug { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; background: #1C1917; color: #EF4444; font-family: monospace; font-size: 14px; font-weight: 700; padding: 12px 16px; max-height: 40vh; overflow-y: auto; line-height: 1.6; }
+    .ws-debug .ok { color: #4ade80; }
+    .ws-debug .warn { color: #fbbf24; }
   </style>
 </head>
 <body>
@@ -134,6 +137,7 @@
   </div>
 
   <div class="conn-status" id="conn-status" style="display:none">Connecting...</div>
+  <div class="ws-debug" id="ws-debug"></div>
 
   <script>
     // Floating emojis
@@ -164,6 +168,13 @@
 
     // WebSocket — single reference, no closure issues
     let ws = null;
+    const dbg = document.getElementById('ws-debug');
+
+    function wsLog(msg, cls) {
+      const t = new Date().toLocaleTimeString();
+      dbg.innerHTML += `<div class="${cls||''}">[${t}] ${msg}</div>`;
+      dbg.scrollTop = dbg.scrollHeight;
+    }
 
     function getWsUrl() {
       const proto = location.protocol === 'https:' ? 'wss' : 'ws';
@@ -171,19 +182,25 @@
     }
 
     function connect() {
-      ws = new WebSocket(getWsUrl());
+      const url = getWsUrl();
+      wsLog(`Connecting to ${url}...`, 'warn');
+      ws = new WebSocket(url);
 
       ws.onopen = () => {
+        wsLog('CONNECTED — WebSocket open', 'ok');
         document.getElementById('conn-status').style.display = 'none';
       };
 
-      ws.onclose = () => {
+      ws.onclose = (e) => {
+        wsLog(`CLOSED — code: ${e.code}, reason: "${e.reason || 'none'}", clean: ${e.wasClean}`);
         document.getElementById('conn-status').style.display = 'block';
         document.getElementById('conn-status').textContent = 'Reconnecting...';
         setTimeout(connect, 2000);
       };
 
-      ws.onerror = () => {};
+      ws.onerror = (e) => {
+        wsLog(`ERROR — ${e.message || 'WebSocket error (no details available)'}`);
+      };
 
       ws.onmessage = (e) => {
         try {
