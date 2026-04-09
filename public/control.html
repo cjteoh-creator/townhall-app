@@ -267,6 +267,8 @@
       </div>`).join('');
   }
 
+  let pendingQueue = null;
+
   function saveAndLaunch() {
     if (!questions.length) { alert('Add at least one question first.'); return; }
     const allOk = questions.every(q => q.question.trim() && (q.type !== 'poll' || q.options.filter(o=>o.trim()).length >= 2));
@@ -277,8 +279,14 @@
       options: q.options.map(o=>o.trim()).filter(Boolean),
       multiSelect: q.multiSelect || false,
     }));
-    send({ action: 'set_queue', queue });
-    switchTab('live');
+    pendingQueue = queue;
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ type: 'presenter', action: 'set_queue', queue }));
+      document.getElementById('conn-text').textContent = 'Saving questions...';
+    } else {
+      pendingSend = { action: 'set_queue', queue };
+      alert('Not connected yet — wait for the green Connected bar, then click Save & Go Live again.');
+    }
   }
 
   // --- LIVE ---
@@ -414,6 +422,11 @@
         ws.send(JSON.stringify({ type: 'presenter', ...pendingSend }));
         pendingSend = null;
       }
+      // Also resend queue if we have one waiting
+      if (pendingQueue) {
+        ws.send(JSON.stringify({ type: 'presenter', action: 'set_queue', queue: pendingQueue }));
+        document.getElementById('conn-text').textContent = 'Connected — sending questions...';
+      }
     };
 
     ws.onclose = () => {
@@ -430,10 +443,17 @@
         const msg = JSON.parse(e.data);
         if (msg.type === 'state') {
           sv = msg.state;
-          // Sync local questions from server state if we have none
+          // Sync local questions from server state if we have none locally
           if (questions.length === 0 && sv.queue && sv.queue.length > 0) {
             questions = sv.queue.map(q => ({ ...q }));
             renderSetup();
+          }
+          // If server now has our queue, switch to live and update conn bar
+          if (pendingQueue && sv.queue && sv.queue.length === pendingQueue.length) {
+            pendingQueue = null;
+            document.getElementById('conn-bar').className = 'conn-bar ok';
+            document.getElementById('conn-text').textContent = 'Connected — ' + sv.queue.length + ' questions loaded';
+            switchTab('live');
           }
           if (document.getElementById('view-live').style.display !== 'none') renderLive();
         }
