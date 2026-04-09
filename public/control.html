@@ -197,6 +197,9 @@
     <div id="queue-list-live"></div>
   </div>
 
+  <div style="display:flex;gap:10px;margin-bottom:16px">
+    <button class="ctrl-btn" style="flex:1;background:#1e1e2e;border:1.5px solid #fbbf24;color:#fbbf24;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;padding:13px;border-radius:11px;cursor:pointer" onclick="endSession()">🏁 End Session</button>
+  </div>
   <button class="reset-btn" onclick="fullReset()">↺ Full Reset</button>
 </div>
 
@@ -416,6 +419,12 @@
 
   function closeSession() {
     send({ action: 'close' });
+  }
+
+  function endSession() {
+    if (confirm('End the session? This will show the Thank You screen to all participants.')) {
+      send({ action: 'end_session' });
+    }
   }
 
   function fullReset() {

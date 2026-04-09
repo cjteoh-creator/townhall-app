@@ -4,66 +4,284 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Join Session</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #0f0f13; --surface: #1a1a24; --border: #2a2a38;
-      --accent: #6c63ff; --accent2: #ff6584; --text: #f0f0f5;
-      --muted: #888899; --success: #4ade80;
+      --accent: #6c63ff; --accent2: #ff6584; --accent3: #43e8c0;
+      --text: #f0f0f5; --muted: #888899; --success: #4ade80;
     }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; }
-    .logo { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 40px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+    }
 
-    /* IDLE */
-    #screen-idle { text-align: center; }
-    .idle-icon { font-size: 52px; margin-bottom: 14px; }
-    .idle-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-    .idle-sub { font-size: 14px; color: var(--muted); }
+    /* ---- WAITING SCREEN ---- */
+    #screen-idle {
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+    }
 
-    /* POLL */
-    #screen-poll { width: 100%; max-width: 420px; display: none; }
-    .question-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-    .question-text { font-size: 19px; font-weight: 700; line-height: 1.35; margin-bottom: 24px; }
-    .option-btn { width: 100%; background: var(--surface); border: 2px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; padding: 15px 18px; border-radius: 12px; cursor: pointer; text-align: left; margin-bottom: 10px; transition: all 0.18s; display: flex; align-items: center; gap: 12px; }
-    .option-btn:hover, .option-btn:active { border-color: var(--accent); background: rgba(108,99,255,0.12); }
-    .option-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .face {
+      font-size: 64px;
+      line-height: 1;
+      margin-bottom: 16px;
+      display: block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .big-title {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #6c63ff, #ff6584);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .idle-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .count-box {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .count-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent3);
+      font-variant-numeric: tabular-nums;
+      transition: all 0.3s;
+    }
+
+    .count-num.bump {
+      transform: scale(1.3);
+      color: var(--accent2);
+    }
+
+    .count-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: left;
+      line-height: 1.3;
+    }
+
+    .qr-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .qr-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .url-chip {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      word-break: break-all;
+      margin-top: 10px;
+    }
+
+    .floating-emojis {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .emoji-float {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.4; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+
+    /* ---- POLL ---- */
+    #screen-poll { width: 100%; max-width: 420px; display: none; position: relative; z-index: 1; }
+
+    .question-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+
+    .question-text {
+      font-size: 19px; font-weight: 700; line-height: 1.35; margin-bottom: 24px;
+    }
+
+    .option-btn {
+      width: 100%; background: var(--surface); border: 2px solid var(--border);
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px;
+      font-weight: 500; padding: 15px 18px; border-radius: 12px; cursor: pointer;
+      text-align: left; margin-bottom: 10px; transition: all 0.18s;
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .option-btn:hover { border-color: var(--accent); background: rgba(108,99,255,0.12); }
+
+    .option-letter {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+
     .voted-msg { text-align: center; padding: 28px 0; display: none; }
-    .voted-msg .check { font-size: 48px; margin-bottom: 10px; }
+    .voted-msg .check { font-size: 52px; margin-bottom: 10px; }
     .voted-msg p { font-size: 17px; font-weight: 600; color: var(--success); }
     .voted-msg small { color: var(--muted); font-size: 13px; display: block; margin-top: 5px; }
 
-    /* WORD CLOUD */
-    #screen-wordcloud { width: 100%; max-width: 420px; display: none; }
-    .word-input { width: 100%; background: var(--surface); border: 2px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 500; padding: 15px 18px; border-radius: 12px; margin-top: 18px; margin-bottom: 14px; outline: none; transition: border-color 0.18s; }
-    .word-input:focus { border-color: var(--accent2); }
-    .submit-btn { width: 100%; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; padding: 15px; border: none; border-radius: 12px; cursor: pointer; transition: opacity 0.18s; }
-    .submit-btn:hover { opacity: 0.88; }
-    .word-submitted { text-align: center; padding: 28px 0; display: none; }
-    .word-submitted .check { font-size: 48px; margin-bottom: 10px; }
-    .word-submitted p { font-size: 17px; font-weight: 600; color: var(--success); }
-    .word-submitted small { color: var(--muted); font-size: 13px; display: block; margin-top: 5px; }
-    .submit-another { background: transparent; border: 2px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 11px 22px; border-radius: 10px; cursor: pointer; margin-top: 14px; transition: border-color 0.18s; }
-    .submit-another:hover { border-color: var(--accent2); }
+    /* ---- WORD CLOUD ---- */
+    #screen-wordcloud { width: 100%; max-width: 420px; display: none; position: relative; z-index: 1; }
 
-    /* RESULTS WAITING */
-    #screen-results { text-align: center; display: none; }
+    .word-input {
+      width: 100%; background: var(--surface); border: 2px solid var(--border);
+      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 18px;
+      font-weight: 500; padding: 15px 18px; border-radius: 12px;
+      margin-top: 16px; margin-bottom: 14px; outline: none; transition: border-color 0.18s;
+    }
+
+    .word-input:focus { border-color: var(--accent2); }
+
+    .submit-btn {
+      width: 100%; background: var(--accent2); color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700;
+      padding: 15px; border: none; border-radius: 12px; cursor: pointer;
+      transition: opacity 0.18s, transform 0.1s;
+    }
+
+    .submit-btn:hover { opacity: 0.88; }
+    .submit-btn:active { transform: scale(0.98); }
+
+    .word-count-badge {
+      text-align: center; font-size: 13px; color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .word-count-badge span { color: var(--accent3); font-weight: 700; }
+
+    .submitted-toast {
+      background: rgba(67,232,192,0.15);
+      border: 1.5px solid var(--accent3);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent3);
+      text-align: center;
+      margin-bottom: 12px;
+      display: none;
+      animation: fadeToast 2s ease forwards;
+    }
+
+    @keyframes fadeToast {
+      0% { opacity: 0; transform: translateY(-8px); }
+      15% { opacity: 1; transform: translateY(0); }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* ---- RESULTS WAITING ---- */
+    #screen-results { text-align: center; display: none; position: relative; z-index: 1; }
     .results-icon { font-size: 52px; margin-bottom: 14px; }
     .results-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
     .results-sub { font-size: 14px; color: var(--muted); }
 
-    .conn-status { color: var(--muted); font-size: 13px; text-align: center; margin-top: 40px; }
+    /* ---- ENDED ---- */
+    #screen-ended {
+      text-align: center;
+      max-width: 340px;
+      display: none;
+      position: relative; z-index: 1;
+    }
+
+    .ended-emoji { font-size: 64px; margin-bottom: 16px; animation: bounce 2s ease-in-out infinite; }
+
+    .ended-title {
+      font-size: 24px; font-weight: 800; margin-bottom: 10px;
+      background: linear-gradient(135deg, #43e8c0, #6c63ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ended-sub { font-size: 15px; color: var(--muted); line-height: 1.5; }
+    .ended-hearts { font-size: 28px; margin-top: 16px; letter-spacing: 6px; }
+
+    .conn-status { color: var(--muted); font-size: 13px; text-align: center; margin-top: 40px; position: relative; z-index: 1; }
+
+    #screen-idle { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
-  <div class="logo">Live Session</div>
 
+  <!-- Floating emojis background -->
+  <div class="floating-emojis" id="floats"></div>
+
+  <!-- IDLE / WAITING -->
   <div id="screen-idle">
-    <div class="idle-icon">⏳</div>
-    <div class="idle-title">Waiting for presenter...</div>
-    <div class="idle-sub">Stay on this page. The question will appear here.</div>
+    <span class="face" id="face-emoji">😊</span>
+    <div class="big-title">We want to hear from you!</div>
+    <div class="idle-sub">Session starting soon. Stay on this page.</div>
+
+    <div class="count-box">
+      <div class="count-num" id="participant-count">0</div>
+      <div class="count-label">people have<br/>joined 🎉</div>
+    </div>
+
+    <div class="qr-label">Share this link with participants:</div>
+    <div class="qr-box">
+      <div id="qr-code"></div>
+    </div>
+    <div class="url-chip" id="join-url-chip"></div>
   </div>
 
+  <!-- POLL -->
   <div id="screen-poll">
     <div class="question-label">📊 Live Poll</div>
     <div class="question-text" id="poll-question"></div>
@@ -75,59 +293,126 @@
     </div>
   </div>
 
+  <!-- WORD CLOUD -->
   <div id="screen-wordcloud">
     <div class="question-label">☁️ Word Cloud</div>
     <div class="question-text" id="wc-question"></div>
-    <div id="wc-form">
-      <input class="word-input" id="word-input" type="text" placeholder="Type your word here..." maxlength="40" autocomplete="off" />
-      <button class="submit-btn" onclick="submitWord()">Submit →</button>
-    </div>
-    <div class="word-submitted" id="word-submitted">
-      <div class="check">✅</div>
-      <p>Word submitted!</p>
-      <small>Presenter will show results shortly.</small>
-      <br/>
-      <button class="submit-another" onclick="submitAnother()">+ Submit another</button>
-    </div>
+    <div class="submitted-toast" id="submitted-toast">✅ Word submitted!</div>
+    <input class="word-input" id="word-input" type="text" placeholder="Type your word here..." maxlength="40" autocomplete="off" />
+    <button class="submit-btn" onclick="submitWord()">Submit →</button>
+    <div class="word-count-badge">You've submitted <span id="word-submit-count">0</span> word(s) this round</div>
   </div>
 
+  <!-- RESULTS WAITING (poll only) -->
   <div id="screen-results">
     <div class="results-icon">📊</div>
     <div class="results-title">Results are on screen!</div>
     <div class="results-sub">Next question coming up...</div>
   </div>
 
+  <!-- ENDED -->
+  <div id="screen-ended">
+    <div class="ended-emoji">🙏</div>
+    <div class="ended-title">Thank you for your feedback!</div>
+    <div class="ended-sub">All feedback matters to us.<br/>Your voice helps us grow together.</div>
+    <div class="ended-hearts">❤️ 🧡 💛 💚 💙</div>
+  </div>
+
   <div class="conn-status" id="conn-status">Connecting...</div>
 
   <script>
+    // Generate QR code for this page
+    const joinUrl = location.origin + '/';
+    document.getElementById('join-url-chip').textContent = joinUrl;
+    new QRCode(document.getElementById('qr-code'), {
+      text: joinUrl,
+      width: 160,
+      height: 160,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+    });
+
+    // Floating emojis
+    const floatEmojis = ['🎉','✨','💬','🙌','👏','💡','🔥','⭐','💪','😊'];
+    const floatsEl = document.getElementById('floats');
+    floatEmojis.forEach((em, i) => {
+      const el = document.createElement('div');
+      el.className = 'emoji-float';
+      el.textContent = em;
+      el.style.left = (5 + i * 9.5) + '%';
+      el.style.animationDuration = (8 + Math.random() * 6) + 's';
+      el.style.animationDelay = (Math.random() * 6) + 's';
+      el.style.fontSize = (18 + Math.random() * 14) + 'px';
+      floatsEl.appendChild(el);
+    });
+
+    // Face cycle
+    const faces = ['😊','😄','🥳','😎','🤩','😁','🎊','💫'];
+    let faceIdx = 0;
+    setInterval(() => {
+      faceIdx = (faceIdx + 1) % faces.length;
+      document.getElementById('face-emoji').textContent = faces[faceIdx];
+    }, 2000);
+
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
     const ws = new WebSocket(`${proto}://${location.host}`);
     let hasVoted = false;
     let lastQuestionIndex = -1;
+    let wordSubmitCount = 0;
+    let lastCount = 0;
 
     ws.onopen = () => { document.getElementById('conn-status').style.display = 'none'; };
     ws.onerror = () => { document.getElementById('conn-status').textContent = 'Connection error. Please refresh.'; };
+
     ws.onmessage = (e) => {
       const msg = JSON.parse(e.data);
       if (msg.type === 'state') render(msg.state);
     };
 
     function render(state) {
-      // Reset voted flag if new question
+      // Participant count with animation
+      const countEl = document.getElementById('participant-count');
+      const newCount = state.participantCount || 0;
+      if (newCount !== lastCount) {
+        animateCount(countEl, lastCount, newCount);
+        lastCount = newCount;
+        countEl.classList.add('bump');
+        setTimeout(() => countEl.classList.remove('bump'), 400);
+      }
+
+      // Reset per new question
       if (state.currentIndex !== lastQuestionIndex) {
         hasVoted = false;
+        wordSubmitCount = 0;
+        document.getElementById('word-submit-count').textContent = '0';
         lastQuestionIndex = state.currentIndex;
       }
 
-      ['screen-idle','screen-poll','screen-wordcloud','screen-results'].forEach(id => {
-        document.getElementById(id).style.display = 'none';
-      });
+      const screens = ['screen-idle','screen-poll','screen-wordcloud','screen-results','screen-ended'];
+      screens.forEach(id => document.getElementById(id).style.display = 'none');
+
+      if (state.phase === 'ended') {
+        document.getElementById('screen-ended').style.display = 'block';
+        return;
+      }
 
       if (state.phase === 'idle' || !state.current) {
         document.getElementById('screen-idle').style.display = 'block';
-      } else if (state.phase === 'results') {
-        document.getElementById('screen-results').style.display = 'block';
-      } else if (state.phase === 'collecting') {
+        return;
+      }
+
+      if (state.phase === 'results') {
+        if (state.current.type === 'poll') {
+          document.getElementById('screen-results').style.display = 'block';
+        } else {
+          // Word cloud - keep showing input during results too
+          document.getElementById('screen-wordcloud').style.display = 'block';
+          document.getElementById('wc-question').textContent = state.current.question;
+        }
+        return;
+      }
+
+      if (state.phase === 'collecting') {
         if (state.current.type === 'poll') {
           document.getElementById('screen-poll').style.display = 'block';
           document.getElementById('poll-question').textContent = state.current.question;
@@ -154,6 +439,18 @@
       }
     }
 
+    function animateCount(el, from, to) {
+      const diff = to - from;
+      const duration = 600;
+      const steps = 20;
+      let step = 0;
+      const timer = setInterval(() => {
+        step++;
+        el.textContent = Math.round(from + (diff * step / steps));
+        if (step >= steps) { el.textContent = to; clearInterval(timer); }
+      }, duration / steps);
+    }
+
     function vote(idx) {
       ws.send(JSON.stringify({ type: 'vote', option: idx }));
       hasVoted = true;
@@ -167,17 +464,22 @@
       if (!text) return;
       ws.send(JSON.stringify({ type: 'word', text }));
       input.value = '';
-      document.getElementById('wc-form').style.display = 'none';
-      document.getElementById('word-submitted').style.display = 'block';
+      input.focus();
+      wordSubmitCount++;
+      document.getElementById('word-submit-count').textContent = wordSubmitCount;
+
+      // Show toast
+      const toast = document.getElementById('submitted-toast');
+      toast.style.display = 'block';
+      toast.style.animation = 'none';
+      void toast.offsetWidth; // reflow
+      toast.style.animation = 'fadeToast 2s ease forwards';
+      setTimeout(() => { toast.style.display = 'none'; }, 2100);
     }
 
-    function submitAnother() {
-      document.getElementById('word-submitted').style.display = 'none';
-      document.getElementById('wc-form').style.display = 'block';
-      document.getElementById('word-input').focus();
-    }
-
-    document.getElementById('word-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitWord(); });
+    document.getElementById('word-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitWord();
+    });
   </script>
 </body>
 </html>

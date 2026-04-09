@@ -14,16 +14,26 @@
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
     /* IDLE */
-    #screen-idle { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
-    .idle-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s ease-in-out infinite; }
+    #screen-idle { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+    .idle-big-title { font-family: 'Syne', sans-serif; font-size: clamp(32px, 5vw, 64px); font-weight: 800; text-align: center; background: linear-gradient(135deg, #6c63ff, #ff6584); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; padding: 0 40px; }
+    .idle-sub { font-size: 20px; color: var(--muted); }
+    .idle-count { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1.5px solid #2a2a3e; border-radius: 20px; padding: 18px 36px; margin-top: 10px; }
+    .idle-count-num { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800; color: var(--accent3); font-variant-numeric: tabular-nums; transition: all 0.3s; }
+    .idle-count-label { font-size: 18px; color: var(--muted); }
+    .idle-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
-    .idle-label { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--muted); }
-    .idle-sub { font-size: 16px; color: var(--muted); }
 
-    /* POLL */
+    /* COLLECTING - show question + waiting */
+    #screen-collecting { flex: 1; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 48px 72px; gap: 20px; }
+    .collecting-tag { font-size: 14px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); }
+    .collecting-tag.wc { color: var(--accent2); }
+    .collecting-q { font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 52px); font-weight: 800; text-align: center; line-height: 1.15; }
+    .collecting-status { font-size: 18px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+    .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent2); animation: pulse 1.2s ease infinite; }
+
+    /* POLL RESULTS */
     #screen-poll { flex: 1; display: none; flex-direction: column; padding: 48px 72px; }
     .screen-tag { font-size: 13px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-    .screen-tag.wc { color: var(--accent2); }
     .big-question { font-family: 'Syne', sans-serif; font-size: clamp(26px, 3.5vw, 48px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 36px; }
     .poll-bars { flex: 1; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
     .bar-row { display: flex; flex-direction: column; gap: 7px; }
@@ -36,21 +46,24 @@
     .total-count { margin-top: 28px; font-size: 16px; color: var(--muted); }
     .total-count span { color: var(--text); font-weight: 700; }
 
-    /* RESULTS BANNER on poll */
-    .results-banner { background: rgba(67,232,192,0.12); border: 1.5px solid var(--accent3); border-radius: 12px; padding: 10px 20px; font-size: 14px; font-weight: 700; color: var(--accent3); margin-bottom: 20px; display: inline-block; }
-
-    /* WORD CLOUD */
-    #screen-wordcloud { flex: 1; display: none; flex-direction: column; padding: 48px 72px; }
+    /* WORD CLOUD - LIVE */
+    #screen-wordcloud { flex: 1; display: none; flex-direction: column; padding: 40px 60px; }
+    .wc-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .wc-live-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: var(--accent2); }
+    .wc-response-count { font-size: 14px; color: var(--muted); }
     #wc-canvas { flex: 1; position: relative; overflow: hidden; }
-    .wc-word { position: absolute; font-family: 'Syne', sans-serif; font-weight: 800; white-space: nowrap; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
+    .wc-word { position: absolute; font-family: 'Syne', sans-serif; font-weight: 800; white-space: nowrap; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes popIn { from{opacity:0;transform:scale(0.3)} to{opacity:1;transform:scale(1)} }
 
-    /* WAITING */
-    #screen-waiting { flex: 1; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
-    .waiting-icon { font-size: 60px; }
-    .waiting-label { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--muted); }
+    /* ENDED */
+    #screen-ended { flex: 1; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+    .ended-emoji-big { font-size: 80px; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    .ended-title { font-family: 'Syne', sans-serif; font-size: clamp(32px, 5vw, 60px); font-weight: 800; text-align: center; background: linear-gradient(135deg, #43e8c0, #6c63ff, #ff6584); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; padding: 0 40px; }
+    .ended-sub { font-size: 22px; color: var(--muted); text-align: center; }
+    .ended-hearts { font-size: 36px; letter-spacing: 10px; animation: pulse 2s ease infinite; }
 
-    /* Status bar */
+    /* STATUS BAR */
     .status-bar { padding: 10px 72px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #1e1e2e; }
     .status-live { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: #4ade80; }
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; animation: pulse 1.4s ease infinite; }
@@ -61,30 +74,53 @@
 </head>
 <body>
 
+  <!-- IDLE: waiting for session to start -->
   <div id="screen-idle">
     <div class="idle-dot"></div>
-    <div class="idle-label">Session Ready</div>
-    <div class="idle-sub">Waiting for presenter to start</div>
+    <div class="idle-big-title">We want to hear from you!</div>
+    <div class="idle-sub">Session starting soon...</div>
+    <div class="idle-count">
+      <div class="idle-count-num" id="display-count">0</div>
+      <div class="idle-count-label">participants joined 🎉</div>
+    </div>
   </div>
 
+  <!-- COLLECTING: show question while collecting answers -->
+  <div id="screen-collecting">
+    <div class="collecting-tag" id="collecting-tag">LIVE POLL</div>
+    <div class="collecting-q" id="collecting-q"></div>
+    <div class="collecting-status">
+      <div class="pulse-dot"></div>
+      <span id="collecting-sub">Collecting answers...</span>
+    </div>
+  </div>
+
+  <!-- POLL RESULTS (only shown when presenter clicks Show Results) -->
   <div id="screen-poll">
-    <div id="results-banner" class="results-banner" style="display:none">✅ Results</div>
-    <div class="screen-tag" id="poll-tag">📊 Live Poll</div>
+    <div class="screen-tag">📊 Poll Results</div>
     <div class="big-question" id="poll-question"></div>
     <div class="poll-bars" id="poll-bars"></div>
     <div class="total-count">Total votes: <span id="total-votes">0</span></div>
   </div>
 
+  <!-- WORD CLOUD: live, updates as people type -->
   <div id="screen-wordcloud">
-    <div id="results-banner-wc" class="results-banner" style="display:none">✅ Results</div>
-    <div class="screen-tag wc">☁️ Word Cloud</div>
-    <div class="big-question" id="wc-question"></div>
+    <div class="wc-header">
+      <div>
+        <div class="screen-tag" style="color:var(--accent2)">☁️ Word Cloud — Live</div>
+        <div class="big-question" id="wc-question" style="font-size:clamp(20px,2.8vw,38px)"></div>
+      </div>
+      <div class="wc-response-count" id="wc-response-count">0 responses</div>
+    </div>
     <div id="wc-canvas"></div>
   </div>
 
-  <div id="screen-waiting">
-    <div class="waiting-icon">💬</div>
-    <div class="waiting-label">Collecting answers...</div>
+  <!-- ENDED -->
+  <div id="screen-ended">
+    <div class="ended-emoji-big">🙏</div>
+    <div class="ended-title">Thank you for your feedback!</div>
+    <div class="ended-sub">All feedback matters to us.</div>
+    <div class="ended-hearts">❤️ 🧡 💛 💚 💙</div>
   </div>
 
   <div class="status-bar">
@@ -96,8 +132,9 @@
   <script>
     document.getElementById('join-url').textContent = location.host;
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-    const ws = new WebSocket(`${proto}://${location.host}`);
+    const ws = new WebSocket(`${proto}://${location.host}?display=1`);
     const colors = ['#6c63ff','#ff6584','#43e8c0','#ffd166','#a78bfa','#fb923c'];
+    let lastCount = 0;
 
     ws.onmessage = (e) => {
       const msg = JSON.parse(e.data);
@@ -105,13 +142,25 @@
     };
 
     function render(state) {
-      ['screen-idle','screen-poll','screen-wordcloud','screen-waiting'].forEach(id => {
-        document.getElementById(id).style.display = 'none';
-      });
+      // Participant count
+      const countEl = document.getElementById('display-count');
+      const newCount = state.participantCount || 0;
+      if (newCount !== lastCount) {
+        animateCount(countEl, lastCount, newCount);
+        lastCount = newCount;
+      }
 
       const total = state.queue?.length || 0;
       const idx = state.currentIndex;
       document.getElementById('q-counter').textContent = total ? `Q${idx+1} of ${total}` : '';
+
+      const screens = ['screen-idle','screen-collecting','screen-poll','screen-wordcloud','screen-ended'];
+      screens.forEach(id => document.getElementById(id).style.display = 'none');
+
+      if (state.phase === 'ended') {
+        document.getElementById('screen-ended').style.display = 'flex';
+        return;
+      }
 
       if (state.phase === 'idle' || !state.current) {
         document.getElementById('screen-idle').style.display = 'flex';
@@ -119,63 +168,70 @@
       }
 
       const cur = state.current;
-      const isResults = state.phase === 'results';
 
       if (cur.type === 'poll') {
-        if (!isResults) {
-          // Show waiting screen while collecting
-          document.getElementById('screen-waiting').style.display = 'flex';
-          // But still update the poll data silently
-          updatePollData(cur, isResults);
-          return;
+        if (state.phase === 'collecting') {
+          // Show question + waiting — NOT the results
+          document.getElementById('screen-collecting').style.display = 'flex';
+          document.getElementById('collecting-tag').textContent = '📊 LIVE POLL';
+          document.getElementById('collecting-tag').style.color = 'var(--accent)';
+          document.getElementById('collecting-q').textContent = cur.question;
+          const voteCount = Object.values(cur.votes || {}).reduce((a,b)=>a+b,0);
+          document.getElementById('collecting-sub').textContent = `${voteCount} vote${voteCount !== 1 ? 's' : ''} received...`;
+        } else if (state.phase === 'results') {
+          // NOW show full results
+          document.getElementById('screen-poll').style.display = 'flex';
+          document.getElementById('poll-question').textContent = cur.question;
+          const totalVotes = Object.values(cur.votes || {}).reduce((a,b)=>a+b,0);
+          document.getElementById('total-votes').textContent = totalVotes;
+          const container = document.getElementById('poll-bars');
+          container.innerHTML = '';
+          cur.options.forEach((opt, i) => {
+            const votes = cur.votes?.[i] || 0;
+            const pct = totalVotes > 0 ? Math.round(votes/totalVotes*100) : 0;
+            const row = document.createElement('div');
+            row.className = 'bar-row';
+            row.innerHTML = `
+              <div class="bar-meta">
+                <span class="bar-label">${opt}</span>
+                <span class="bar-count">${pct}% <span style="font-size:16px;color:var(--muted)">(${votes})</span></span>
+              </div>
+              <div class="bar-track"><div class="bar-fill c${i}" style="width:${pct}%"></div></div>`;
+            container.appendChild(row);
+          });
         }
-        document.getElementById('screen-poll').style.display = 'flex';
-        document.getElementById('results-banner').style.display = isResults ? 'inline-block' : 'none';
-        updatePollData(cur, isResults);
       } else if (cur.type === 'wordcloud') {
-        if (!isResults) {
-          document.getElementById('screen-waiting').style.display = 'flex';
-          return;
-        }
+        // Word cloud always shows live — during collecting AND results
         document.getElementById('screen-wordcloud').style.display = 'flex';
-        document.getElementById('results-banner-wc').style.display = 'inline-block';
         document.getElementById('wc-question').textContent = cur.question;
+        const totalWords = (cur.words || []).reduce((a,w)=>a+w.count, 0);
+        document.getElementById('wc-response-count').textContent = `${totalWords} response${totalWords !== 1 ? 's' : ''}`;
         renderWordCloud(cur.words || []);
       }
     }
 
-    function updatePollData(cur, isResults) {
-      document.getElementById('poll-question').textContent = cur.question;
-      const totalVotes = Object.values(cur.votes || {}).reduce((a,b)=>a+b,0);
-      document.getElementById('total-votes').textContent = totalVotes;
-      const container = document.getElementById('poll-bars');
-      container.innerHTML = '';
-      cur.options.forEach((opt, i) => {
-        const votes = cur.votes?.[i] || 0;
-        const pct = totalVotes > 0 ? Math.round(votes/totalVotes*100) : 0;
-        const row = document.createElement('div');
-        row.className = 'bar-row';
-        row.innerHTML = `
-          <div class="bar-meta">
-            <span class="bar-label">${opt}</span>
-            <span class="bar-count">${pct}% <span style="font-size:16px;color:var(--muted)">(${votes})</span></span>
-          </div>
-          <div class="bar-track"><div class="bar-fill c${i}" style="width:${pct}%"></div></div>`;
-        container.appendChild(row);
-      });
+    function animateCount(el, from, to) {
+      const diff = to - from;
+      const steps = 20;
+      let step = 0;
+      const timer = setInterval(() => {
+        step++;
+        el.textContent = Math.round(from + diff * step / steps);
+        if (step >= steps) { el.textContent = to; clearInterval(timer); }
+      }, 600 / steps);
     }
 
     function renderWordCloud(words) {
       const canvas = document.getElementById('wc-canvas');
       canvas.innerHTML = '';
       if (!words.length) return;
-      const W = canvas.offsetWidth || 800;
-      const H = canvas.offsetHeight || 400;
+      const W = canvas.offsetWidth || 900;
+      const H = canvas.offsetHeight || 420;
       const maxCount = Math.max(...words.map(w => w.count));
       const sorted = [...words].sort((a,b) => b.count - a.count);
       const placed = [];
       sorted.forEach((w, idx) => {
-        const size = Math.round(28 + (w.count/maxCount)*70);
+        const size = Math.round(26 + (w.count / maxCount) * 74);
         const el = document.createElement('div');
         el.className = 'wc-word';
         el.textContent = w.text;
@@ -186,16 +242,16 @@
         const elW = el.offsetWidth || size * w.text.length * 0.6;
         const elH = el.offsetHeight || size * 1.3;
         let x, y, placed_ok = false;
-        for (let r = 0; r < 300 && !placed_ok; r += 4) {
-          for (let angle = 0; angle < Math.PI * 2 && !placed_ok; angle += 0.3) {
-            x = W/2 + r*Math.cos(angle+idx*0.5) - elW/2;
-            y = H/2 + r*Math.sin(angle+idx*0.5)*0.7 - elH/2;
-            if (x<0||y<0||x+elW>W||y+elH>H) continue;
-            const overlap = placed.some(p => x<p.x+p.w+8&&x+elW+8>p.x&&y<p.y+p.h+8&&y+elH+8>p.y);
+        for (let r = 0; r < 300 && !placed_ok; r += 3) {
+          for (let angle = 0; angle < Math.PI * 2 && !placed_ok; angle += 0.25) {
+            x = W/2 + r*Math.cos(angle + idx*0.5) - elW/2;
+            y = H/2 + r*Math.sin(angle + idx*0.5)*0.7 - elH/2;
+            if (x < 0 || y < 0 || x+elW > W || y+elH > H) continue;
+            const overlap = placed.some(p => x<p.x+p.w+6&&x+elW+6>p.x&&y<p.y+p.h+6&&y+elH+6>p.y);
             if (!overlap) { placed.push({x,y,w:elW,h:elH}); placed_ok = true; }
           }
         }
-        if (!placed_ok) { x=Math.random()*Math.max(0,W-elW); y=Math.random()*Math.max(0,H-elH); }
+        if (!placed_ok) { x = Math.random()*Math.max(0,W-elW); y = Math.random()*Math.max(0,H-elH); }
         el.style.left = x + 'px';
         el.style.top = y + 'px';
         el.style.opacity = '1';

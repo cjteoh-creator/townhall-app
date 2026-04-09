@@ -15,7 +15,10 @@ let state = {
   queue: [],
   currentIndex: -1,
   current: null,
+  participantCount: 0,
 };
+
+let participantCount = 0;
 
 function broadcast(data) {
   const msg = JSON.stringify(data);
@@ -24,8 +27,25 @@ function broadcast(data) {
   });
 }
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, req) => {
+  const isPresenter = req.url.includes('presenter=1');
+  const isDisplay = req.url.includes('display=1');
+
+  if (!isPresenter && !isDisplay) {
+    participantCount++;
+    state.participantCount = participantCount;
+    broadcast({ type: 'state', state });
+  }
+
   ws.send(JSON.stringify({ type: 'state', state }));
+
+  ws.on('close', () => {
+    if (!isPresenter && !isDisplay) {
+      participantCount = Math.max(0, participantCount - 1);
+      state.participantCount = participantCount;
+      broadcast({ type: 'state', state });
+    }
+  });
 
   ws.on('message', (raw) => {
     let msg;
@@ -89,8 +109,14 @@ wss.on('connection', (ws) => {
         broadcast({ type: 'state', state });
       }
 
+      if (msg.action === 'end_session') {
+        state.phase = 'ended';
+        broadcast({ type: 'state', state });
+      }
+
       if (msg.action === 'reset') {
-        state = { phase: 'idle', queue: [], currentIndex: -1, current: null };
+        participantCount = 0;
+        state = { phase: 'idle', queue: [], currentIndex: -1, current: null, participantCount: 0 };
         broadcast({ type: 'state', state });
       }
     }
