@@ -9,383 +9,183 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #FFF8F0;
-      --surface: #FFFFFF;
-      --orange: #F97316;
-      --orange-light: #FED7AA;
-      --orange-dark: #EA580C;
-      --gold: #F59E0B;
-      --text: #1C1917;
-      --muted: #78716C;
-      --border: #E7E0D8;
-      --success: #16A34A;
-      --cream: #FEF3E2;
+      --bg: #FFF8F0; --surface: #FFFFFF;
+      --orange: #F97316; --orange-dark: #EA580C; --orange-light: #FED7AA;
+      --teal: #00B5B8; --teal-dark: #008F92; --teal-light: #CCEFF0;
+      --text: #1C1917; --muted: #78716C; --border: #E7E0D8;
+      --success: #16A34A; --cream: #FEF3E2;
     }
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .blob { position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.2; pointer-events: none; z-index: 0; }
+    .blob-1 { width: 500px; height: 500px; background: var(--orange); bottom: -150px; left: -150px; }
+    .blob-2 { width: 400px; height: 400px; background: var(--teal); top: -120px; right: -120px; }
+    .emoji-float { position: fixed; animation: floatUp linear infinite; opacity: 0; pointer-events: none; z-index: 1; }
+    @keyframes floatUp { 0%{transform:translateY(100vh) rotate(0deg);opacity:0} 10%{opacity:0.7} 90%{opacity:0.4} 100%{transform:translateY(-130px) rotate(20deg);opacity:0} }
 
-    /* Blob decorations */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.25;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .blob-1 { width: 400px; height: 400px; background: var(--orange); bottom: -100px; left: -100px; }
-    .blob-2 { width: 300px; height: 300px; background: var(--gold); top: -80px; right: -80px; }
-
-    /* Floating emojis */
-    .emoji-float {
-      position: fixed;
-      font-size: 28px;
-      animation: floatUp linear infinite;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.5; }
-      100% { transform: translateY(-120px) rotate(20deg); opacity: 0; }
-    }
-
-    /* All screens */
-    #screen-idle, #screen-collecting, #screen-poll, #screen-wordcloud, #screen-ended {
-      flex: 1;
-      display: none;
-      position: relative;
-      z-index: 2;
-    }
+    .screen { flex: 1; display: none; position: relative; z-index: 2; }
 
     /* IDLE */
-    #screen-idle {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 40px;
-    }
-    .idle-title {
-      font-size: clamp(36px, 5.5vw, 72px);
-      font-weight: 900;
-      text-align: center;
-      color: var(--orange);
-      line-height: 1.1;
-    }
-    .idle-sub {
-      font-size: 20px;
-      color: var(--muted);
-      font-weight: 600;
-    }
-    .count-pill {
-      background: var(--surface);
-      border: 2px solid var(--orange-light);
-      border-radius: 20px;
-      padding: 16px 36px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 4px 24px rgba(249,115,22,0.1);
-    }
-    .count-num {
-      font-size: 52px;
-      font-weight: 900;
-      color: var(--orange);
-      font-variant-numeric: tabular-nums;
-      min-width: 70px;
-      text-align: center;
-    }
-    .count-label { font-size: 18px; font-weight: 700; color: var(--muted); }
-
-    .qr-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .qr-box {
-      background: #fff;
-      border-radius: 16px;
-      padding: 12px;
-      border: 2px solid var(--orange-light);
-      box-shadow: 0 4px 20px rgba(249,115,22,0.12);
-    }
-    .qr-label {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-    .qr-url {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--orange);
-      background: var(--cream);
-      border-radius: 10px;
-      padding: 8px 20px;
-    }
-
-    .idle-row {
-      display: flex;
-      align-items: center;
-      gap: 48px;
-    }
+    #screen-idle { flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 48px; }
+    .idle-title { font-size: clamp(36px, 5.5vw, 72px); font-weight: 900; text-align: center; color: var(--orange); line-height: 1.1; }
+    .idle-sub { font-size: 22px; font-weight: 700; color: var(--muted); }
+    .count-pill { background: var(--surface); border: 3px solid var(--orange-light); border-radius: 24px; padding: 20px 48px; display: flex; align-items: center; gap: 20px; box-shadow: 0 6px 32px rgba(249,115,22,0.12); }
+    .count-num-big { font-size: 64px; font-weight: 900; color: var(--orange); font-variant-numeric: tabular-nums; min-width: 80px; text-align: center; }
+    .count-label-big { font-size: 20px; font-weight: 700; color: var(--muted); line-height: 1.4; }
+    .idle-row { display: flex; align-items: center; gap: 60px; }
+    .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .qr-box { background: #fff; border-radius: 18px; padding: 14px; border: 3px solid var(--orange-light); box-shadow: 0 4px 24px rgba(249,115,22,0.14); }
+    .qr-label { font-size: 15px; font-weight: 800; color: var(--muted); }
+    .qr-url { font-size: 18px; font-weight: 900; color: var(--orange); background: var(--cream); border-radius: 12px; padding: 8px 22px; }
 
     /* COLLECTING */
-    #screen-collecting {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 80px;
-      gap: 24px;
-    }
-    .collecting-tag {
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-      background: var(--cream);
-      border-radius: 99px;
-      padding: 6px 20px;
-    }
-    .collecting-q {
-      font-size: clamp(28px, 4vw, 54px);
-      font-weight: 900;
-      text-align: center;
-      line-height: 1.15;
-      color: var(--text);
-    }
-    .collecting-status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-    .pulse-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--orange);
-      animation: pulse 1.2s ease infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
+    #screen-collecting { flex-direction: column; align-items: center; justify-content: center; padding: 48px 80px; gap: 24px; }
+    .collecting-tag { font-size: 14px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); background: var(--cream); border-radius: 99px; padding: 7px 22px; }
+    .collecting-tag.wc { color: var(--teal-dark); background: var(--teal-light); }
+    .collecting-q { font-size: clamp(28px, 4vw, 56px); font-weight: 900; text-align: center; line-height: 1.15; color: var(--text); }
+    .collecting-status { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; color: var(--muted); }
+    .pulse-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--orange); animation: pulse 1.2s ease infinite; }
+    .pulse-dot.teal { background: var(--teal); }
+    @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.3)} }
 
     /* POLL RESULTS */
-    #screen-poll {
-      flex-direction: column;
-      padding: 40px 72px;
-    }
-    .screen-tag {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-      background: var(--cream);
-      border-radius: 99px;
-      padding: 5px 16px;
-      display: inline-block;
-      margin-bottom: 16px;
-    }
-    .big-question {
-      font-size: clamp(24px, 3.2vw, 44px);
-      font-weight: 900;
-      line-height: 1.15;
-      margin-bottom: 32px;
-      color: var(--text);
-    }
+    #screen-poll { flex-direction: column; padding: 40px 72px; }
+    .screen-tag { font-size: 13px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); background: var(--cream); border-radius: 99px; padding: 6px 18px; display: inline-block; margin-bottom: 16px; }
+    .screen-tag.wc { color: var(--teal-dark); background: var(--teal-light); }
+    .big-q { font-size: clamp(24px, 3.2vw, 46px); font-weight: 900; line-height: 1.15; margin-bottom: 32px; color: var(--text); }
     .poll-bars { flex: 1; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
-    .bar-row { display: flex; flex-direction: column; gap: 6px; }
+    .bar-row { display: flex; flex-direction: column; gap: 7px; }
     .bar-meta { display: flex; justify-content: space-between; align-items: baseline; }
-    .bar-label { font-size: 17px; font-weight: 700; color: var(--text); }
-    .bar-count { font-size: 24px; font-weight: 900; color: var(--orange); }
-    .bar-track { height: 18px; background: var(--cream); border-radius: 999px; overflow: hidden; border: 1.5px solid var(--border); }
-    .bar-fill { height: 100%; border-radius: 999px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); min-width: 4px; }
-    .c0{background:#F97316} .c1{background:#F59E0B} .c2{background:#10B981} .c3{background:#6366F1} .c4{background:#EC4899} .c5{background:#14B8A6}
-    .total-count { margin-top: 20px; font-size: 15px; font-weight: 700; color: var(--muted); }
-    .total-count span { color: var(--orange); }
+    .bar-label { font-size: 18px; font-weight: 800; color: var(--text); }
+    .bar-pct { font-size: 28px; font-weight: 900; color: var(--orange); }
+    .bar-track { height: 20px; background: var(--cream); border-radius: 999px; overflow: hidden; border: 2px solid var(--border); }
+    .bar-fill { height: 100%; border-radius: 999px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); min-width: 6px; }
+    .bc0{background:var(--orange)} .bc1{background:var(--teal)} .bc2{background:#7C3AED} .bc3{background:var(--success)} .bc4{background:#F59E0B} .bc5{background:#EC4899}
+    .total-line { margin-top: 20px; font-size: 16px; font-weight: 700; color: var(--muted); }
+    .total-line span { color: var(--orange); font-weight: 900; }
 
     /* WORD CLOUD */
-    #screen-wordcloud {
-      flex-direction: column;
-      padding: 36px 60px;
-    }
-    .wc-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
-    .wc-resp-count { font-size: 14px; font-weight: 700; color: var(--muted); background: var(--cream); border-radius: 99px; padding: 4px 14px; }
+    #screen-wordcloud { flex-direction: column; padding: 36px 60px; }
+    .wc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .wc-resp { font-size: 14px; font-weight: 800; color: var(--teal-dark); background: var(--teal-light); border-radius: 99px; padding: 5px 16px; }
     #wc-canvas { flex: 1; position: relative; overflow: hidden; }
     .wc-word { position: absolute; font-family: 'Nunito', sans-serif; font-weight: 900; white-space: nowrap; animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes popIn { from{opacity:0;transform:scale(0.2)} to{opacity:1;transform:scale(1)} }
 
     /* ENDED */
-    #screen-ended {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 48px;
-    }
-    .ended-emoji { font-size: 80px; animation: bounce 2s ease-in-out infinite; }
-    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
-    .ended-title {
-      font-size: clamp(32px, 5vw, 64px);
-      font-weight: 900;
-      text-align: center;
-      color: var(--orange);
-      line-height: 1.15;
-    }
-    .ended-sub { font-size: 22px; font-weight: 700; color: var(--muted); text-align: center; }
-    .ended-hearts { font-size: 40px; letter-spacing: 10px; }
+    #screen-ended { flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 48px; }
+    .ended-emoji-big { font-size: 90px; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+    .ended-title-big { font-size: clamp(32px, 5vw, 66px); font-weight: 900; text-align: center; color: var(--orange); line-height: 1.15; }
+    .ended-sub-big { font-size: 24px; font-weight: 700; color: var(--muted); text-align: center; }
+    .ended-hearts-big { font-size: 44px; letter-spacing: 12px; }
 
     /* STATUS BAR */
-    .status-bar {
-      padding: 10px 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 2px solid var(--border);
-      background: var(--surface);
-      position: relative;
-      z-index: 2;
-    }
-    .status-live { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; color: var(--success); }
+    .status-bar { padding: 10px 60px; display: flex; align-items: center; justify-content: space-between; border-top: 2px solid var(--border); background: var(--surface); position: relative; z-index: 2; }
+    .status-live { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; color: var(--success); }
     .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 1.4s ease infinite; }
-    .join-url { font-size: 12px; font-weight: 700; color: var(--muted); }
-    .join-url span { color: var(--orange); }
-    .q-counter { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .join-url { font-size: 13px; font-weight: 700; color: var(--muted); }
+    .join-url span { color: var(--orange); font-weight: 900; }
+    .q-ctr { font-size: 13px; font-weight: 700; color: var(--muted); }
   </style>
 </head>
 <body>
-
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
-  <div id="emoji-container"></div>
+  <div id="floats"></div>
 
-  <!-- IDLE -->
-  <div id="screen-idle">
+  <div id="screen-idle" class="screen">
     <div class="idle-title">We want to hear from you! 🎉</div>
     <div class="idle-sub">Session starting soon...</div>
     <div class="idle-row">
       <div class="count-pill">
-        <div class="count-num" id="display-count">0</div>
-        <div class="count-label">participants<br/>joined 🎊</div>
+        <div class="count-num-big" id="display-count">0</div>
+        <div class="count-label-big">participants<br/>joined 🎊</div>
       </div>
-      <div class="qr-wrapper">
+      <div class="qr-wrap">
         <div class="qr-label">📱 Scan to join:</div>
         <div class="qr-box"><div id="qr-code"></div></div>
-        <div class="qr-url" id="qr-url-label"></div>
+        <div class="qr-url" id="qr-url-text"></div>
       </div>
     </div>
   </div>
 
-  <!-- COLLECTING -->
-  <div id="screen-collecting">
+  <div id="screen-collecting" class="screen">
     <div class="collecting-tag" id="collecting-tag">📊 LIVE POLL</div>
     <div class="collecting-q" id="collecting-q"></div>
     <div class="collecting-status">
-      <div class="pulse-dot"></div>
+      <div class="pulse-dot" id="pulse-dot"></div>
       <span id="collecting-sub">Collecting answers...</span>
     </div>
   </div>
 
-  <!-- POLL RESULTS -->
-  <div id="screen-poll">
+  <div id="screen-poll" class="screen">
     <div class="screen-tag">📊 Poll Results</div>
-    <div class="big-question" id="poll-question"></div>
+    <div class="big-q" id="poll-q"></div>
     <div class="poll-bars" id="poll-bars"></div>
-    <div class="total-count">Total responses: <span id="total-votes">0</span></div>
+    <div class="total-line">Total responses: <span id="total-votes">0</span></div>
   </div>
 
-  <!-- WORD CLOUD LIVE -->
-  <div id="screen-wordcloud">
-    <div class="wc-header">
+  <div id="screen-wordcloud" class="screen">
+    <div class="wc-top">
       <div>
-        <div class="screen-tag">☁️ Word Cloud — Live</div>
-        <div class="big-question" id="wc-question" style="font-size:clamp(20px,2.8vw,38px);margin-bottom:0"></div>
+        <div class="screen-tag wc">☁️ Word Cloud — Live</div>
+        <div class="big-q" id="wc-q" style="font-size:clamp(20px,2.8vw,38px);margin-bottom:0"></div>
       </div>
-      <div class="wc-resp-count" id="wc-resp-count">0 responses</div>
+      <div class="wc-resp" id="wc-resp">0 responses</div>
     </div>
     <div id="wc-canvas"></div>
   </div>
 
-  <!-- ENDED -->
-  <div id="screen-ended">
-    <div class="ended-emoji">🙏</div>
-    <div class="ended-title">Thank you for your feedback!</div>
-    <div class="ended-sub">All feedback matters to us.</div>
-    <div class="ended-hearts">❤️ 🧡 💛 💚 💙</div>
+  <div id="screen-ended" class="screen">
+    <div class="ended-emoji-big">🙏</div>
+    <div class="ended-title-big">Thank you for your feedback!</div>
+    <div class="ended-sub-big">All feedback matters to us.</div>
+    <div class="ended-hearts-big">❤️ 🧡 💛 💚 💙</div>
   </div>
 
   <div class="status-bar">
     <div class="status-live"><div class="live-dot"></div> LIVE</div>
     <div class="join-url">Join at: <span id="join-url"></span></div>
-    <div class="q-counter" id="q-counter"></div>
+    <div class="q-ctr" id="q-ctr"></div>
   </div>
 
   <script>
     const joinUrl = location.origin + '/';
     document.getElementById('join-url').textContent = location.host;
-    document.getElementById('qr-url-label').textContent = location.host;
-
-    // Generate QR
-    new QRCode(document.getElementById('qr-code'), {
-      text: joinUrl, width: 160, height: 160,
-      colorDark: '#1C1917', colorLight: '#ffffff'
-    });
+    document.getElementById('qr-url-text').textContent = location.host;
+    new QRCode(document.getElementById('qr-code'), { text: joinUrl, width: 160, height: 160, colorDark: '#1C1917', colorLight: '#ffffff' });
 
     // Floating emojis
-    const emojis = ['🎉','✨','💬','🙌','👏','💡','🔥','⭐','💪','😊','🎊','💫','🌟','👍'];
-    const ec = document.getElementById('emoji-container');
-    for (let i = 0; i < 14; i++) {
+    const ems = ['🎉','✨','💬','🙌','👏','💡','🔥','⭐','💪','😊','🎊','💫','🌟','👍'];
+    ems.forEach((em, i) => {
       const el = document.createElement('div');
       el.className = 'emoji-float';
-      el.textContent = emojis[i % emojis.length];
+      el.textContent = em;
       el.style.left = (2 + i * 7) + '%';
-      el.style.animationDuration = (10 + Math.random() * 8) + 's';
-      el.style.animationDelay = (Math.random() * 8) + 's';
-      el.style.fontSize = (20 + Math.random() * 16) + 'px';
-      ec.appendChild(el);
-    }
+      el.style.fontSize = (22 + Math.random() * 16) + 'px';
+      el.style.animationDuration = (12 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 10) + 's';
+      document.getElementById('floats').appendChild(el);
+    });
 
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
     const ws = new WebSocket(`${proto}://${location.host}?display=1`);
-    const colors = ['#F97316','#F59E0B','#10B981','#6366F1','#EC4899','#14B8A6'];
+    const barColors = ['#F97316','#00B5B8','#7C3AED','#16A34A','#F59E0B','#EC4899'];
     let lastCount = 0;
 
-    ws.onmessage = (e) => {
-      const msg = JSON.parse(e.data);
-      if (msg.type === 'state') render(msg.state);
-    };
+    ws.onmessage = (e) => { try { const m = JSON.parse(e.data); if (m.type === 'state') render(m.state); } catch {} };
 
     function render(state) {
-      // Count
-      const countEl = document.getElementById('display-count');
       const nc = state.participantCount || 0;
-      if (nc !== lastCount) { animateCount(countEl, lastCount, nc); lastCount = nc; }
-
+      if (nc !== lastCount) { animateCount(document.getElementById('display-count'), lastCount, nc); lastCount = nc; }
       const total = state.queue?.length || 0;
-      const idx = state.currentIndex;
-      document.getElementById('q-counter').textContent = total ? `Q${idx+1} of ${total}` : '';
+      document.getElementById('q-ctr').textContent = total ? `Q${(state.currentIndex||0)+1} of ${total}` : '';
 
       const screens = ['screen-idle','screen-collecting','screen-poll','screen-wordcloud','screen-ended'];
       screens.forEach(id => document.getElementById(id).style.display = 'none');
 
-      if (state.phase === 'ended') {
-        document.getElementById('screen-ended').style.display = 'flex'; return;
-      }
-      if (state.phase === 'idle' || !state.current) {
-        document.getElementById('screen-idle').style.display = 'flex'; return;
-      }
+      if (state.phase === 'ended') { document.getElementById('screen-ended').style.display = 'flex'; return; }
+      if (state.phase === 'idle' || !state.current) { document.getElementById('screen-idle').style.display = 'flex'; return; }
 
       const cur = state.current;
 
@@ -393,47 +193,49 @@
         if (state.phase === 'collecting') {
           document.getElementById('screen-collecting').style.display = 'flex';
           document.getElementById('collecting-tag').textContent = '📊 LIVE POLL';
-          document.getElementById('collecting-tag').style.color = 'var(--orange)';
+          document.getElementById('collecting-tag').className = 'collecting-tag';
           document.getElementById('collecting-q').textContent = cur.question;
+          document.getElementById('pulse-dot').className = 'pulse-dot';
           const v = cur.totalVoters || 0;
-          document.getElementById('collecting-sub').textContent = `${v} response${v !== 1 ? 's' : ''} received...`;
+          document.getElementById('collecting-sub').textContent = `${v} vote${v !== 1 ? 's' : ''} received...`;
         } else if (state.phase === 'results') {
           document.getElementById('screen-poll').style.display = 'flex';
-          document.getElementById('poll-question').textContent = cur.question;
+          document.getElementById('poll-q').textContent = cur.question;
           const tv = cur.totalVoters || 0;
           document.getElementById('total-votes').textContent = tv;
           const container = document.getElementById('poll-bars');
           container.innerHTML = '';
           cur.options.forEach((opt, i) => {
-            const votes = cur.votes?.[i] || 0;
-            const pct = tv > 0 ? Math.round(votes / tv * 100) : 0;
+            const v = cur.votes?.[i] || 0;
+            const pct = tv > 0 ? Math.round(v / tv * 100) : 0;
             const row = document.createElement('div');
             row.className = 'bar-row';
             row.innerHTML = `
               <div class="bar-meta">
                 <span class="bar-label">${opt}</span>
-                <span class="bar-count">${pct}% <span style="font-size:15px;color:var(--muted)">(${votes})</span></span>
+                <span class="bar-pct">${pct}% <span style="font-size:16px;color:var(--muted);font-weight:700">(${v})</span></span>
               </div>
-              <div class="bar-track"><div class="bar-fill c${i}" style="width:${pct}%"></div></div>`;
+              <div class="bar-track"><div class="bar-fill bc${i}" style="width:${pct}%"></div></div>`;
             container.appendChild(row);
           });
         }
       } else if (cur.type === 'wordcloud') {
+        // Word cloud always shows live
         document.getElementById('screen-wordcloud').style.display = 'flex';
-        document.getElementById('wc-question').textContent = cur.question;
+        document.getElementById('wc-q').textContent = cur.question;
         const tw = (cur.words || []).reduce((a, w) => a + w.count, 0);
-        document.getElementById('wc-resp-count').textContent = `${tw} response${tw !== 1 ? 's' : ''}`;
+        document.getElementById('wc-resp').textContent = `${tw} response${tw !== 1 ? 's' : ''}`;
+        if (state.phase === 'collecting') {
+          document.getElementById('collecting-tag').textContent = '☁️ WORD CLOUD';
+          document.getElementById('collecting-tag').className = 'collecting-tag wc';
+        }
         renderWordCloud(cur.words || []);
       }
     }
 
     function animateCount(el, from, to) {
       const diff = to - from; const steps = 20; let step = 0;
-      const t = setInterval(() => {
-        step++;
-        el.textContent = Math.round(from + diff * step / steps);
-        if (step >= steps) { el.textContent = to; clearInterval(t); }
-      }, 600 / steps);
+      const t = setInterval(() => { step++; el.textContent = Math.round(from + diff * step / steps); if (step >= steps) { el.textContent = to; clearInterval(t); } }, 600 / steps);
     }
 
     function renderWordCloud(words) {
@@ -442,32 +244,33 @@
       if (!words.length) return;
       const W = canvas.offsetWidth || 900;
       const H = canvas.offsetHeight || 400;
-      const maxCount = Math.max(...words.map(w => w.count));
+      const maxC = Math.max(...words.map(w => w.count));
       const sorted = [...words].sort((a, b) => b.count - a.count);
       const placed = [];
+      const wColors = ['#F97316','#00B5B8','#7C3AED','#16A34A','#F59E0B','#EC4899'];
       sorted.forEach((w, idx) => {
-        const size = Math.round(24 + (w.count / maxCount) * 76);
+        const size = Math.round(26 + (w.count / maxC) * 74);
         const el = document.createElement('div');
         el.className = 'wc-word';
         el.textContent = w.text;
         el.style.fontSize = size + 'px';
-        el.style.color = colors[idx % colors.length];
+        el.style.color = wColors[idx % wColors.length];
         el.style.opacity = '0';
         canvas.appendChild(el);
         const elW = el.offsetWidth || size * w.text.length * 0.6;
         const elH = el.offsetHeight || size * 1.3;
-        let x, y, placed_ok = false;
-        for (let r = 0; r < 300 && !placed_ok; r += 3) {
-          for (let angle = 0; angle < Math.PI * 2 && !placed_ok; angle += 0.25) {
-            x = W/2 + r*Math.cos(angle+idx*0.5) - elW/2;
-            y = H/2 + r*Math.sin(angle+idx*0.5)*0.7 - elH/2;
+        let x, y, ok = false;
+        for (let r = 0; r < 300 && !ok; r += 3) {
+          for (let a = 0; a < Math.PI * 2 && !ok; a += 0.25) {
+            x = W/2 + r*Math.cos(a+idx*0.5) - elW/2;
+            y = H/2 + r*Math.sin(a+idx*0.5)*0.7 - elH/2;
             if (x<0||y<0||x+elW>W||y+elH>H) continue;
             const ov = placed.some(p => x<p.x+p.w+6&&x+elW+6>p.x&&y<p.y+p.h+6&&y+elH+6>p.y);
-            if (!ov) { placed.push({x,y,w:elW,h:elH}); placed_ok=true; }
+            if (!ov) { placed.push({x,y,w:elW,h:elH}); ok=true; }
           }
         }
-        if (!placed_ok) { x=Math.random()*Math.max(0,W-elW); y=Math.random()*Math.max(0,H-elH); }
-        el.style.left = x+'px'; el.style.top = y+'px'; el.style.opacity = '1';
+        if (!ok) { x=Math.random()*Math.max(0,W-elW); y=Math.random()*Math.max(0,H-elH); }
+        el.style.left=x+'px'; el.style.top=y+'px'; el.style.opacity='1';
       });
     }
   </script>

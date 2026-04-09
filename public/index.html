@@ -9,78 +9,81 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #FFF8F0; --surface: #FFFFFF; --orange: #F97316;
-      --orange-light: #FED7AA; --orange-dark: #EA580C; --gold: #F59E0B;
+      --orange-light: #FED7AA; --orange-dark: #EA580C;
+      --teal: #00B5B8; --teal-dark: #008F92; --teal-light: #CCEFF0;
       --text: #1C1917; --muted: #78716C; --border: #E7E0D8;
       --success: #16A34A; --cream: #FEF3E2;
     }
-    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; position: relative; }
-    .blob { position: fixed; border-radius: 50%; filter: blur(50px); opacity: 0.2; pointer-events: none; z-index: 0; }
-    .blob-1 { width: 300px; height: 300px; background: var(--orange); bottom: -80px; left: -80px; }
-    .blob-2 { width: 200px; height: 200px; background: var(--gold); top: -60px; right: -60px; }
-    .emoji-float { position: fixed; font-size: 20px; animation: floatUp linear infinite; opacity: 0; pointer-events: none; z-index: 0; }
-    @keyframes floatUp { 0%{transform:translateY(100vh);opacity:0} 10%{opacity:0.5} 90%{opacity:0.3} 100%{transform:translateY(-100px);opacity:0} }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; position: relative; overflow-x: hidden; }
+    .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.18; pointer-events: none; z-index: 0; }
+    .blob-1 { width: 320px; height: 320px; background: var(--orange); bottom: -100px; left: -100px; }
+    .blob-2 { width: 240px; height: 240px; background: var(--teal); top: -80px; right: -80px; }
+    .emoji-float { position: fixed; animation: floatUp linear infinite; opacity: 0; pointer-events: none; z-index: 0; }
+    @keyframes floatUp { 0%{transform:translateY(100vh) rotate(0deg);opacity:0} 10%{opacity:0.6} 90%{opacity:0.3} 100%{transform:translateY(-120px) rotate(15deg);opacity:0} }
     .screen { position: relative; z-index: 1; width: 100%; max-width: 420px; }
 
     /* IDLE */
     #screen-idle { text-align: center; }
-    .face { font-size: 60px; display: block; animation: bounce 2s ease-in-out infinite; margin-bottom: 12px; }
-    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .big-title { font-size: 24px; font-weight: 900; margin-bottom: 6px; color: var(--orange); line-height: 1.2; }
-    .idle-sub { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 20px; }
-    .count-box { background: var(--surface); border: 2px solid var(--orange-light); border-radius: 16px; padding: 14px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 4px 16px rgba(249,115,22,0.08); }
-    .count-num { font-size: 40px; font-weight: 900; color: var(--orange); font-variant-numeric: tabular-nums; transition: transform 0.3s; }
-    .count-num.bump { transform: scale(1.3); }
-    .count-label { font-size: 13px; font-weight: 700; color: var(--muted); text-align: left; line-height: 1.4; }
+    .face { font-size: 64px; display: block; animation: bounce 2s ease-in-out infinite; margin-bottom: 14px; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .big-title { font-size: 26px; font-weight: 900; color: var(--orange); line-height: 1.2; margin-bottom: 6px; }
+    .idle-sub { font-size: 14px; color: var(--muted); font-weight: 600; margin-bottom: 22px; }
+    .count-box { background: var(--surface); border: 2.5px solid var(--orange-light); border-radius: 18px; padding: 16px 22px; display: flex; align-items: center; justify-content: center; gap: 14px; box-shadow: 0 4px 20px rgba(249,115,22,0.1); }
+    .count-num { font-size: 44px; font-weight: 900; color: var(--orange); font-variant-numeric: tabular-nums; min-width: 60px; text-align: center; transition: transform 0.3s; }
+    .count-num.bump { transform: scale(1.35); }
+    .count-label { font-size: 14px; font-weight: 700; color: var(--muted); text-align: left; line-height: 1.4; }
 
     /* POLL */
     #screen-poll { display: none; }
-    .question-label { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); background: var(--cream); border-radius: 99px; padding: 4px 14px; display: inline-block; margin-bottom: 12px; }
-    .question-label.wc { color: var(--gold); }
-    .question-text { font-size: 18px; font-weight: 800; line-height: 1.35; margin-bottom: 20px; color: var(--text); }
-    .multi-hint { font-size: 12px; font-weight: 700; color: var(--muted); background: var(--cream); border-radius: 8px; padding: 6px 12px; margin-bottom: 12px; text-align: center; }
-    .option-btn { width: 100%; background: var(--surface); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; padding: 13px 16px; border-radius: 12px; cursor: pointer; text-align: left; margin-bottom: 9px; transition: all 0.18s; display: flex; align-items: center; gap: 12px; }
-    .option-btn:hover, .option-btn.selected { border-color: var(--orange); background: var(--cream); }
-    .option-letter { width: 26px; height: 26px; border-radius: 50%; background: var(--orange-light); color: var(--orange-dark); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; }
+    .q-label { font-size: 11px; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); background: var(--cream); border-radius: 99px; padding: 5px 14px; display: inline-block; margin-bottom: 14px; }
+    .q-label.wc { color: var(--teal-dark); background: var(--teal-light); }
+    .q-text { font-size: 19px; font-weight: 800; line-height: 1.35; margin-bottom: 20px; color: var(--text); }
+    .multi-hint { font-size: 12px; font-weight: 700; color: var(--teal-dark); background: var(--teal-light); border-radius: 8px; padding: 7px 14px; margin-bottom: 14px; text-align: center; }
+    .option-btn { width: 100%; background: var(--surface); border: 2.5px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; padding: 14px 16px; border-radius: 14px; cursor: pointer; text-align: left; margin-bottom: 10px; transition: all 0.18s; display: flex; align-items: center; gap: 12px; }
+    .option-btn:hover { border-color: var(--orange); background: var(--cream); }
+    .option-btn.selected { border-color: var(--orange); background: var(--cream); }
+    .option-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--orange-light); color: var(--orange-dark); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; transition: all 0.18s; }
     .option-btn.selected .option-letter { background: var(--orange); color: #fff; }
-    .submit-vote-btn { width: 100%; background: var(--orange); color: #fff; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; padding: 14px; border: none; border-radius: 12px; cursor: pointer; margin-top: 6px; transition: opacity 0.18s; display: none; }
+    .submit-vote-btn { width: 100%; background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 8px; display: none; box-shadow: 0 4px 16px rgba(249,115,22,0.3); transition: opacity 0.18s; }
     .submit-vote-btn:hover { opacity: 0.88; }
-    .voted-msg { text-align: center; padding: 24px 0; display: none; }
-    .voted-msg .check { font-size: 50px; margin-bottom: 10px; }
-    .voted-msg p { font-size: 17px; font-weight: 800; color: var(--success); }
-    .voted-msg small { color: var(--muted); font-size: 13px; display: block; margin-top: 5px; font-weight: 600; }
+    .voted-msg { text-align: center; padding: 28px 0; display: none; }
+    .voted-check { font-size: 56px; margin-bottom: 12px; }
+    .voted-msg p { font-size: 18px; font-weight: 800; color: var(--success); }
+    .voted-msg small { color: var(--muted); font-size: 13px; display: block; margin-top: 6px; font-weight: 600; }
 
     /* WORD CLOUD */
     #screen-wordcloud { display: none; }
-    .word-input { width: 100%; background: var(--surface); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 700; padding: 14px 16px; border-radius: 12px; margin-top: 14px; margin-bottom: 12px; outline: none; transition: border-color 0.18s; }
-    .word-input:focus { border-color: var(--orange); }
-    .wc-submit-btn { width: 100%; background: var(--orange); color: #fff; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; padding: 14px; border: none; border-radius: 12px; cursor: pointer; transition: opacity 0.18s; }
-    .wc-submit-btn:hover { opacity: 0.88; }
-    .word-count-badge { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 10px; }
-    .word-count-badge span { color: var(--orange); }
-    .submitted-toast { background: #DCFCE7; border: 1.5px solid #86EFAC; border-radius: 10px; padding: 9px 16px; font-size: 13px; font-weight: 700; color: var(--success); text-align: center; margin-bottom: 10px; display: none; animation: fadeToast 2.2s ease forwards; }
-    @keyframes fadeToast { 0%{opacity:0;transform:translateY(-6px)} 15%{opacity:1;transform:translateY(0)} 70%{opacity:1} 100%{opacity:0} }
+    .word-input { width: 100%; background: var(--surface); border: 2.5px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 700; padding: 15px 16px; border-radius: 14px; margin-top: 16px; margin-bottom: 14px; outline: none; transition: border-color 0.18s; }
+    .word-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,181,184,0.12); }
+    .wc-btn { width: 100%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,181,184,0.3); transition: opacity 0.18s; }
+    .wc-btn:hover { opacity: 0.88; }
+    .wc-count { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 12px; }
+    .wc-count span { color: var(--teal-dark); font-weight: 900; }
+    .toast { background: #DCFCE7; border: 2px solid #86EFAC; border-radius: 12px; padding: 10px 16px; font-size: 14px; font-weight: 700; color: var(--success); text-align: center; margin-bottom: 12px; display: none; }
+    @keyframes fadeToast { 0%{opacity:0;transform:translateY(-8px)} 15%{opacity:1;transform:translateY(0)} 75%{opacity:1} 100%{opacity:0} }
 
-    /* RESULTS */
+    /* RESULTS WAIT */
     #screen-results { display: none; text-align: center; }
-    .results-icon { font-size: 50px; margin-bottom: 12px; }
-    .results-title { font-size: 18px; font-weight: 800; color: var(--orange); margin-bottom: 6px; }
+    .results-icon { font-size: 56px; margin-bottom: 14px; }
+    .results-title { font-size: 20px; font-weight: 800; color: var(--teal-dark); margin-bottom: 6px; }
     .results-sub { font-size: 14px; font-weight: 600; color: var(--muted); }
 
     /* ENDED */
     #screen-ended { display: none; text-align: center; }
-    .ended-emoji { font-size: 60px; animation: bounce 2s ease-in-out infinite; margin-bottom: 12px; display: block; }
-    .ended-title { font-size: 22px; font-weight: 900; color: var(--orange); margin-bottom: 8px; line-height: 1.2; }
-    .ended-sub { font-size: 15px; font-weight: 600; color: var(--muted); line-height: 1.5; }
-    .ended-hearts { font-size: 26px; margin-top: 14px; letter-spacing: 5px; }
+    .ended-emoji { font-size: 64px; display: block; animation: bounce 2s ease-in-out infinite; margin-bottom: 14px; }
+    .ended-title { font-size: 24px; font-weight: 900; color: var(--orange); margin-bottom: 10px; line-height: 1.2; }
+    .ended-sub { font-size: 15px; font-weight: 600; color: var(--muted); line-height: 1.6; }
+    .ended-hearts { font-size: 28px; margin-top: 16px; letter-spacing: 6px; }
 
-    .conn-status { color: var(--muted); font-size: 13px; text-align: center; margin-top: 32px; position: relative; z-index: 1; font-weight: 600; }
+    .conn-status { color: var(--muted); font-size: 12px; text-align: center; margin-top: 28px; position: relative; z-index: 1; font-weight: 700; background: var(--cream); border-radius: 99px; padding: 5px 16px; }
   </style>
 </head>
 <body>
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
-  <div id="emoji-container"></div>
+  <div id="floats"></div>
 
+  <!-- IDLE -->
   <div id="screen-idle" class="screen">
     <span class="face" id="face-emoji">😊</span>
     <div class="big-title">We want to hear from you!</div>
@@ -91,34 +94,38 @@
     </div>
   </div>
 
+  <!-- POLL -->
   <div id="screen-poll" class="screen">
-    <div class="question-label">📊 Live Poll</div>
-    <div class="question-text" id="poll-question"></div>
+    <div class="q-label">📊 Live Poll</div>
+    <div class="q-text" id="poll-question"></div>
     <div class="multi-hint" id="multi-hint" style="display:none">✅ Select all that apply, then tap Submit</div>
     <div id="poll-options"></div>
     <button class="submit-vote-btn" id="submit-vote-btn" onclick="submitMultiVote()">Submit My Answer →</button>
     <div class="voted-msg" id="voted-msg">
-      <div class="check">✅</div>
+      <div class="voted-check">✅</div>
       <p>Vote submitted!</p>
       <small>Presenter will show results shortly.</small>
     </div>
   </div>
 
+  <!-- WORD CLOUD -->
   <div id="screen-wordcloud" class="screen">
-    <div class="question-label wc">☁️ Word Cloud</div>
-    <div class="question-text" id="wc-question"></div>
-    <div class="submitted-toast" id="submitted-toast">✅ Submitted!</div>
+    <div class="q-label wc">☁️ Word Cloud</div>
+    <div class="q-text" id="wc-question"></div>
+    <div class="toast" id="toast">✅ Submitted!</div>
     <input class="word-input" id="word-input" type="text" placeholder="Type your word here..." maxlength="40" autocomplete="off"/>
-    <button class="wc-submit-btn" onclick="submitWord()">Submit →</button>
-    <div class="word-count-badge">You've submitted <span id="word-submit-count">0</span> word(s)</div>
+    <button class="wc-btn" onclick="submitWord()">Submit →</button>
+    <div class="wc-count">You've submitted <span id="wc-count">0</span> word(s) this round</div>
   </div>
 
+  <!-- RESULTS WAITING -->
   <div id="screen-results" class="screen">
     <div class="results-icon">📊</div>
-    <div class="results-title">Results are on screen!</div>
+    <div class="results-title">Results showing on screen!</div>
     <div class="results-sub">Next question coming up...</div>
   </div>
 
+  <!-- ENDED -->
   <div id="screen-ended" class="screen">
     <span class="ended-emoji">🙏</span>
     <div class="ended-title">Thank you for your feedback!</div>
@@ -126,107 +133,180 @@
     <div class="ended-hearts">❤️ 🧡 💛 💚 💙</div>
   </div>
 
-  <div class="conn-status" id="conn-status">Connecting...</div>
+  <div class="conn-status" id="conn-status" style="display:none">Connecting...</div>
 
   <script>
     // Floating emojis
-    ['🎉','✨','💬','🙌','👏','💡','🔥','⭐','💪','😊'].forEach((em, i) => {
+    const floatList = ['🎉','✨','💬','🙌','👏','💡','🔥','⭐','💪','😊'];
+    floatList.forEach((em, i) => {
       const el = document.createElement('div');
       el.className = 'emoji-float';
       el.textContent = em;
       el.style.left = (3 + i * 10) + '%';
-      el.style.animationDuration = (9 + Math.random() * 7) + 's';
-      el.style.animationDelay = (Math.random() * 7) + 's';
-      document.getElementById('emoji-container').appendChild(el);
+      el.style.fontSize = (18 + Math.random() * 14) + 'px';
+      el.style.animationDuration = (10 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 8) + 's';
+      document.getElementById('floats').appendChild(el);
     });
 
+    // Face cycling
     const faces = ['😊','😄','🥳','😎','🤩','😁','🎊','💫'];
-    let faceIdx = 0;
-    setInterval(() => { document.getElementById('face-emoji').textContent = faces[++faceIdx % faces.length]; }, 2000);
+    let fi = 0;
+    setInterval(() => { document.getElementById('face-emoji').textContent = faces[++fi % faces.length]; }, 2000);
 
-    let ws, hasVoted = false, lastQIdx = -1, wordCount = 0, lastCount = 0;
-    let selectedOptions = new Set(), currentMultiSelect = false;
+    // State
+    let hasVoted = false;
+    let lastQIdx = -1;
+    let wcCount = 0;
+    let lastPCount = 0;
+    let selectedOptions = new Set();
+    let isMultiSelect = false;
+
+    // WebSocket — single reference, no closure issues
+    let ws = null;
+
+    function getWsUrl() {
+      const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+      return `${proto}://${location.host}`;
+    }
 
     function connect() {
-      const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-      ws = new WebSocket(`${proto}://${location.host}`);
-      ws.onopen = () => { document.getElementById('conn-status').style.display = 'none'; };
+      ws = new WebSocket(getWsUrl());
+
+      ws.onopen = () => {
+        document.getElementById('conn-status').style.display = 'none';
+      };
+
       ws.onclose = () => {
-        document.getElementById('conn-status').textContent = 'Reconnecting...';
         document.getElementById('conn-status').style.display = 'block';
+        document.getElementById('conn-status').textContent = 'Reconnecting...';
         setTimeout(connect, 2000);
       };
+
       ws.onerror = () => {};
-      ws.onmessage = (e) => { const msg = JSON.parse(e.data); if (msg.type === 'state') render(msg.state); };
+
+      ws.onmessage = (e) => {
+        try {
+          const msg = JSON.parse(e.data);
+          if (msg.type === 'state') render(msg.state);
+        } catch {}
+      };
     }
+
     connect();
 
-    function render(state) {
-      const countEl = document.getElementById('participant-count');
-      const nc = state.participantCount || 0;
-      if (nc !== lastCount) { animateCount(countEl, lastCount, nc); lastCount = nc; countEl.classList.add('bump'); setTimeout(() => countEl.classList.remove('bump'), 400); }
+    function sendWs(data) {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(data));
+      }
+    }
 
+    function render(state) {
+      // Update participant count
+      const nc = state.participantCount || 0;
+      if (nc !== lastPCount) {
+        animateCount(document.getElementById('participant-count'), lastPCount, nc);
+        lastPCount = nc;
+        const el = document.getElementById('participant-count');
+        el.classList.add('bump');
+        setTimeout(() => el.classList.remove('bump'), 400);
+      }
+
+      // Reset state on new question
       if (state.currentIndex !== lastQIdx) {
-        hasVoted = false; wordCount = 0; selectedOptions = new Set();
-        document.getElementById('word-submit-count').textContent = '0';
+        hasVoted = false;
+        wcCount = 0;
+        selectedOptions = new Set();
+        document.getElementById('wc-count').textContent = '0';
         lastQIdx = state.currentIndex;
       }
 
-      ['screen-idle','screen-poll','screen-wordcloud','screen-results','screen-ended'].forEach(id => document.getElementById(id).style.display = 'none');
+      // Hide all screens
+      ['screen-idle','screen-poll','screen-wordcloud','screen-results','screen-ended'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
 
-      if (state.phase === 'ended') { document.getElementById('screen-ended').style.display = 'block'; return; }
-      if (state.phase === 'idle' || !state.current) { document.getElementById('screen-idle').style.display = 'block'; return; }
+      if (state.phase === 'ended') {
+        document.getElementById('screen-ended').style.display = 'block';
+        return;
+      }
+
+      if (state.phase === 'idle' || !state.current) {
+        document.getElementById('screen-idle').style.display = 'block';
+        return;
+      }
 
       const cur = state.current;
 
       if (state.phase === 'results') {
-        if (cur.type === 'poll') { document.getElementById('screen-results').style.display = 'block'; }
-        else { document.getElementById('screen-wordcloud').style.display = 'block'; document.getElementById('wc-question').textContent = cur.question; }
+        if (cur.type === 'poll') {
+          document.getElementById('screen-results').style.display = 'block';
+        } else {
+          // Word cloud stays open during results
+          showWordCloudScreen(cur);
+        }
         return;
       }
 
       if (state.phase === 'collecting') {
         if (cur.type === 'poll') {
-          document.getElementById('screen-poll').style.display = 'block';
-          document.getElementById('poll-question').textContent = cur.question;
-          currentMultiSelect = cur.multiSelect || false;
-          if (!hasVoted) {
-            document.getElementById('voted-msg').style.display = 'none';
-            document.getElementById('multi-hint').style.display = currentMultiSelect ? 'block' : 'none';
-            const container = document.getElementById('poll-options');
-            container.style.display = 'block'; container.innerHTML = '';
-            cur.options.forEach((opt, i) => {
-              const btn = document.createElement('button');
-              btn.className = 'option-btn' + (selectedOptions.has(i) ? ' selected' : '');
-              btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65+i)}</span> ${opt}`;
-              btn.onclick = () => handleOptionClick(i, btn, currentMultiSelect);
-              container.appendChild(btn);
-            });
-            document.getElementById('submit-vote-btn').style.display = currentMultiSelect ? 'block' : 'none';
-          } else {
-            document.getElementById('poll-options').style.display = 'none';
-            document.getElementById('submit-vote-btn').style.display = 'none';
-            document.getElementById('multi-hint').style.display = 'none';
-            document.getElementById('voted-msg').style.display = 'block';
-          }
-        } else if (cur.type === 'wordcloud') {
-          document.getElementById('screen-wordcloud').style.display = 'block';
-          document.getElementById('wc-question').textContent = cur.question;
+          showPollScreen(cur);
+        } else {
+          showWordCloudScreen(cur);
         }
       }
     }
 
-    function handleOptionClick(idx, btn, multi) {
-      if (multi) {
-        if (selectedOptions.has(idx)) { selectedOptions.delete(idx); btn.classList.remove('selected'); }
-        else { selectedOptions.add(idx); btn.classList.add('selected'); }
-      } else { vote([idx]); }
+    function showPollScreen(cur) {
+      document.getElementById('screen-poll').style.display = 'block';
+      document.getElementById('poll-question').textContent = cur.question;
+      isMultiSelect = cur.multiSelect || false;
+
+      if (hasVoted) {
+        document.getElementById('poll-options').style.display = 'none';
+        document.getElementById('submit-vote-btn').style.display = 'none';
+        document.getElementById('multi-hint').style.display = 'none';
+        document.getElementById('voted-msg').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('voted-msg').style.display = 'none';
+      document.getElementById('multi-hint').style.display = isMultiSelect ? 'block' : 'none';
+      document.getElementById('submit-vote-btn').style.display = isMultiSelect ? 'block' : 'none';
+
+      const container = document.getElementById('poll-options');
+      container.style.display = 'block';
+      container.innerHTML = '';
+      cur.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn' + (selectedOptions.has(i) ? ' selected' : '');
+        btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65+i)}</span>${opt}`;
+        btn.onclick = () => handleOptionClick(i, btn);
+        container.appendChild(btn);
+      });
     }
 
-    function submitMultiVote() { if (selectedOptions.size > 0) vote([...selectedOptions]); }
+    function showWordCloudScreen(cur) {
+      document.getElementById('screen-wordcloud').style.display = 'block';
+      document.getElementById('wc-question').textContent = cur.question;
+    }
+
+    function handleOptionClick(idx, btn) {
+      if (isMultiSelect) {
+        if (selectedOptions.has(idx)) { selectedOptions.delete(idx); btn.classList.remove('selected'); btn.querySelector('.option-letter').style.background = ''; }
+        else { selectedOptions.add(idx); btn.classList.add('selected'); }
+      } else {
+        vote([idx]);
+      }
+    }
+
+    function submitMultiVote() {
+      if (selectedOptions.size === 0) return;
+      vote([...selectedOptions]);
+    }
 
     function vote(indices) {
-      if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'vote', options: indices }));
+      sendWs({ type: 'vote', options: indices });
       hasVoted = true;
       document.getElementById('poll-options').style.display = 'none';
       document.getElementById('submit-vote-btn').style.display = 'none';
@@ -238,21 +318,31 @@
       const input = document.getElementById('word-input');
       const text = input.value.trim();
       if (!text) return;
-      if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'word', text }));
-      input.value = ''; input.focus();
-      wordCount++;
-      document.getElementById('word-submit-count').textContent = wordCount;
-      const toast = document.getElementById('submitted-toast');
-      toast.style.display = 'block'; toast.style.animation = 'none';
-      void toast.offsetWidth; toast.style.animation = 'fadeToast 2.2s ease forwards';
-      setTimeout(() => { toast.style.display = 'none'; }, 2300);
+      sendWs({ type: 'word', text });
+      input.value = '';
+      input.focus();
+      wcCount++;
+      document.getElementById('wc-count').textContent = wcCount;
+      // Show toast
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      toast.style.animation = 'none';
+      void toast.offsetWidth;
+      toast.style.animation = 'fadeToast 2.2s ease forwards';
+      setTimeout(() => { toast.style.display = 'none'; }, 2400);
     }
 
     document.getElementById('word-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitWord(); });
 
     function animateCount(el, from, to) {
-      const diff = to - from; const steps = 20; let step = 0;
-      const t = setInterval(() => { step++; el.textContent = Math.round(from + diff * step / steps); if (step >= steps) { el.textContent = to; clearInterval(t); } }, 600 / steps);
+      const diff = to - from;
+      const steps = 20;
+      let step = 0;
+      const t = setInterval(() => {
+        step++;
+        el.textContent = Math.round(from + diff * step / steps);
+        if (step >= steps) { el.textContent = to; clearInterval(t); }
+      }, 600 / steps);
     }
   </script>
 </body>

@@ -1,83 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Control Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #F0FAFA;
-      --surface: #FFFFFF;
-      --surface2: #E0F5F5;
-      --border: #A8DEDE;
-      --orange: #F97316;
-      --orange-dark: #EA580C;
-      --orange-light: #FED7AA;
-      --teal: #00B5B8;
-      --teal-dark: #008F92;
-      --teal-light: #CCEFF0;
-      --text: #1A3A3A;
-      --muted: #5A8A8A;
-      --success: #16A34A;
-      --danger: #DC2626;
+      --bg: #F0FAFA; --surface: #FFFFFF; --surface2: #E0F5F5; --border: #A8DEDE;
+      --orange: #F97316; --orange-dark: #EA580C; --orange-light: #FED7AA;
+      --teal: #00B5B8; --teal-dark: #008F92; --teal-light: #CCEFF0;
+      --text: #1A3A3A; --muted: #5A8A8A; --success: #16A34A; --danger: #DC2626;
+      --cream: #FEF3E2;
     }
-
     body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 32px; }
+    .header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    h1 { font-size: 22px; font-weight: 900; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .subtitle { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 18px; }
 
-    .header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-    h1 { font-size: 22px; font-weight: 900; color: var(--text); }
-    .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
-    .brand-dot2 { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); }
-    .subtitle { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 20px; }
-
-    /* LINKS */
-    .links-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    .links-row { display: flex; gap: 10px; margin-bottom: 18px; }
     .link-chip { flex: 1; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
-    .link-chip-name { font-size: 12px; font-weight: 800; color: var(--muted); }
-    .copy-btn { background: var(--teal); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 8px; cursor: pointer; transition: opacity 0.15s; }
+    .link-name { font-size: 12px; font-weight: 800; color: var(--muted); }
+    .copy-btn { background: var(--teal); border: none; color: #fff; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: opacity 0.15s; }
     .copy-btn:hover { opacity: 0.85; }
 
-    /* TABS */
-    .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--surface2); border-radius: 14px; padding: 4px; width: fit-content; border: 2px solid var(--border); }
+    .tabs { display: flex; gap: 4px; margin-bottom: 22px; background: var(--surface2); border-radius: 14px; padding: 4px; width: fit-content; border: 2px solid var(--border); }
     .tab { padding: 8px 22px; border-radius: 11px; font-size: 14px; font-weight: 800; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.15s; font-family: 'Nunito', sans-serif; }
     .tab.active { background: var(--orange); color: #fff; box-shadow: 0 2px 10px rgba(249,115,22,0.3); }
-    .tab.active.teal { background: var(--teal); box-shadow: 0 2px 10px rgba(0,181,184,0.3); }
-
-    #view-setup { display: block; }
-    #view-live { display: none; }
+    .tab.active.live { background: var(--teal); box-shadow: 0 2px 10px rgba(0,181,184,0.3); }
 
     .section-title { font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-
-    /* QUESTION CARDS */
     .q-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
     .q-card { background: var(--surface); border: 2px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(0,181,184,0.07); }
     .q-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
     .q-num { width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .q-type-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; }
-    .q-type-badge.poll { background: var(--orange-light); color: var(--orange-dark); }
-    .q-type-badge.wordcloud { background: var(--teal-light); color: var(--teal-dark); }
-    .q-card-actions { margin-left: auto; display: flex; gap: 6px; }
+    .q-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 99px; }
+    .q-badge.poll { background: var(--orange-light); color: var(--orange-dark); }
+    .q-badge.wordcloud { background: var(--teal-light); color: var(--teal-dark); }
+    .q-actions { margin-left: auto; display: flex; gap: 6px; }
     .icon-btn { background: none; border: 2px solid var(--border); color: var(--muted); font-size: 13px; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: all 0.15s; }
     .icon-btn:hover { border-color: var(--danger); color: var(--danger); }
     .icon-btn.move:hover { border-color: var(--teal); color: var(--teal); }
-
     label { display: block; font-size: 11px; font-weight: 900; color: var(--muted); margin-bottom: 5px; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
     label:first-of-type { margin-top: 0; }
     input[type="text"] { width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 13px; border-radius: 10px; outline: none; transition: border-color 0.15s; }
     input[type="text"]:focus { border-color: var(--teal); }
-
     .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; background: var(--surface2); border-radius: 10px; border: 2px solid var(--border); }
     .toggle-label { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
-    .toggle-sublabel { font-size: 11px; font-weight: 600; color: var(--muted); display: block; }
+    .toggle-sub { font-size: 11px; font-weight: 600; color: var(--muted); display: block; }
     .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
     .toggle input { opacity: 0; width: 0; height: 0; }
     .toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 99px; cursor: pointer; transition: 0.2s; }
     .toggle-slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
     .toggle input:checked + .toggle-slider { background: var(--orange); }
     .toggle input:checked + .toggle-slider:before { transform: translateX(20px); }
-
     .options-list { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
     .opt-row { display: flex; gap: 7px; align-items: center; }
     .opt-row input { flex: 1; }
@@ -85,397 +63,315 @@
     .remove-opt:hover { color: var(--danger); }
     .add-opt-btn { background: none; border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; padding: 8px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 7px; transition: all 0.15s; }
     .add-opt-btn:hover { border-color: var(--teal); color: var(--teal); }
-
     .add-q-row { display: flex; gap: 10px; }
     .add-q-btn { flex: 1; background: var(--surface); border: 2px dashed var(--border); color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 14px; cursor: pointer; transition: all 0.15s; }
-    .add-q-btn:hover { border-color: var(--orange); color: var(--orange); background: #FFF7F0; }
+    .add-q-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--cream); }
     .add-q-btn.wc:hover { border-color: var(--teal); color: var(--teal); background: var(--surface2); }
-
-    .launch-btn { width: 100%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; transition: opacity 0.15s; box-shadow: 0 4px 16px rgba(0,181,184,0.3); }
+    .launch-btn { width: 100%; background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; padding: 15px; border: none; border-radius: 14px; cursor: pointer; margin-top: 18px; box-shadow: 0 4px 16px rgba(0,181,184,0.3); transition: opacity 0.15s; }
     .launch-btn:hover { opacity: 0.88; }
 
-    /* LIVE VIEW */
-    .live-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    /* LIVE */
+    .live-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
     .live-badge { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 800; color: var(--success); }
     .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 1.4s ease infinite; }
     @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.3)} }
     .q-progress { font-size: 13px; font-weight: 700; color: var(--muted); }
-    .q-progress span { color: var(--text); font-weight: 900; }
-
-    .current-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 14px rgba(0,181,184,0.1); }
-    .current-card.collecting-active { border-color: var(--orange); }
-    .current-card.results-active { border-color: var(--teal); }
-    .current-tag { font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-    .current-tag.poll { color: var(--orange); }
-    .current-tag.wordcloud { color: var(--teal); }
-    .current-q { font-size: 18px; font-weight: 900; margin-bottom: 8px; color: var(--text); }
-    .current-status { font-size: 12px; font-weight: 700; margin-bottom: 16px; padding: 5px 12px; border-radius: 99px; display: inline-block; }
-    .current-status.collecting { background: #FEF3C7; color: #D97706; }
-    .current-status.results { background: var(--teal-light); color: var(--teal-dark); }
-    .current-status.idle { background: var(--surface2); color: var(--muted); }
-
-    .live-stats { margin-bottom: 16px; }
-    .stat-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .q-progress b { color: var(--text); }
+    .current-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 14px rgba(0,181,184,0.08); transition: border-color 0.3s; }
+    .current-card.coll { border-color: var(--orange); }
+    .current-card.res { border-color: var(--teal); }
+    .cur-tag { font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .cur-tag.poll { color: var(--orange); }
+    .cur-tag.wordcloud { color: var(--teal-dark); }
+    .cur-q { font-size: 18px; font-weight: 900; margin-bottom: 8px; }
+    .cur-status { font-size: 12px; font-weight: 700; margin-bottom: 14px; padding: 5px 12px; border-radius: 99px; display: inline-block; }
+    .cur-status.collecting { background: #FEF3C7; color: #D97706; }
+    .cur-status.results { background: var(--teal-light); color: var(--teal-dark); }
+    .cur-status.idle { background: var(--surface2); color: var(--muted); }
+    .live-stats { margin-bottom: 14px; }
+    .stat-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 9px; }
     .stat-meta { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; }
-    .stat-bar-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
-    .stat-bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
-    .word-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .stat-track { height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+    .stat-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
+    .word-chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .word-chip { background: var(--teal-light); border: 1.5px solid var(--teal); border-radius: 8px; padding: 4px 12px; font-size: 13px; font-weight: 700; color: var(--teal-dark); }
-
-    .ctrl-buttons { display: flex; gap: 10px; }
+    .ctrl-btns { display: flex; gap: 10px; }
     .ctrl-btn { flex: 1; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 14px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s, transform 0.1s; }
     .ctrl-btn:hover { opacity: 0.88; }
     .ctrl-btn:active { transform: scale(0.98); }
-    .ctrl-btn.open { background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
-    .ctrl-btn.show-results { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
-    .ctrl-btn.next { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
-    .ctrl-btn.end { background: linear-gradient(135deg, #F97316, #EA580C); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
+    .ctrl-btn.open { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
+    .ctrl-btn.show-r { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
+    .ctrl-btn.next-q { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.35); }
+    .ctrl-btn.end-last { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.35); }
+    .queue-card { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 18px; margin-bottom: 14px; }
+    .q-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; margin-bottom: 4px; transition: background 0.15s; }
+    .q-item:hover { background: var(--surface2); }
+    .q-item.active { background: var(--teal-light); border: 2px solid var(--teal); }
+    .q-item.done { opacity: 0.35; }
+    .q-item-n { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+    .q-item.active .q-item-n { background: var(--teal); color: #fff; }
+    .q-item-txt { font-size: 13px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .q-item-ico { font-size: 14px; flex-shrink: 0; }
 
-    .queue-overview { background: var(--surface); border: 2px solid var(--border); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
-    .queue-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; margin-bottom: 5px; transition: background 0.15s; }
-    .queue-item:hover { background: var(--surface2); }
-    .queue-item.active { background: var(--teal-light); border: 2px solid var(--teal); }
-    .queue-item.done { opacity: 0.4; }
-    .q-item-num { width: 22px; height: 22px; border-radius: 50%; background: var(--border); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
-    .queue-item.active .q-item-num { background: var(--teal); color: #fff; }
-    .q-item-text { font-size: 13px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
-    .q-item-type { font-size: 14px; flex-shrink: 0; }
-
-    .bottom-actions { display: flex; gap: 10px; margin-top: 4px; }
-    .end-btn { flex: 1; background: linear-gradient(135deg, var(--orange), var(--orange-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 12px; cursor: pointer; border: none; box-shadow: 0 3px 12px rgba(249,115,22,0.3); transition: opacity 0.15s; }
-    .end-btn:hover { opacity: 0.88; }
-    .reset-btn { flex: 1; background: none; border: 2px solid var(--danger); color: var(--danger); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; padding: 13px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-    .reset-btn:hover { background: #FEF2F2; }
-
-    /* ENDED state in control */
-    #view-ended { display: none; text-align: center; padding: 48px 20px; }
-    .ended-ctl-icon { font-size: 60px; margin-bottom: 16px; }
-    .ended-ctl-title { font-size: 22px; font-weight: 900; color: var(--orange); margin-bottom: 8px; }
-    .ended-ctl-sub { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 28px; }
-    .new-session-btn { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: #fff; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; padding: 14px 36px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 3px 12px rgba(0,181,184,0.3); transition: opacity 0.15s; margin-right: 10px; }
-    .new-session-btn:hover { opacity: 0.88; }
-    .reset-session-btn { background: none; border: 2px solid var(--danger); color: var(--danger); font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; padding: 14px 36px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
-    .reset-session-btn:hover { background: #FEF2F2; }
+    /* 3-BUTTON ROW */
+    .action-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 4px; }
+    .action-btn { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; padding: 12px 8px; border-radius: 12px; cursor: pointer; border: none; transition: opacity 0.15s; text-align: center; line-height: 1.3; }
+    .action-btn:hover { opacity: 0.85; }
+    .action-btn.end { background: linear-gradient(135deg,var(--orange),var(--orange-dark)); color: #fff; box-shadow: 0 3px 12px rgba(249,115,22,0.3); }
+    .action-btn.restart { background: linear-gradient(135deg,var(--teal),var(--teal-dark)); color: #fff; box-shadow: 0 3px 12px rgba(0,181,184,0.3); }
+    .action-btn.reset { background: none; border: 2px solid var(--danger); color: var(--danger); }
+    .action-btn.reset:hover { background: #FEF2F2; }
 
     .empty-state { text-align: center; padding: 24px; color: var(--muted); font-size: 14px; font-weight: 600; }
+    .barC0{background:var(--orange)} .barC1{background:var(--teal)} .barC2{background:#7C3AED} .barC3{background:var(--success)} .barC4{background:#F59E0B} .barC5{background:#EC4899}
   </style>
 </head>
 <body>
 
 <div class="header-row">
-  <div class="brand-dot"></div>
+  <div class="dot" style="background:var(--orange)"></div>
   <h1>Control Panel</h1>
-  <div class="brand-dot2"></div>
+  <div class="dot" style="background:var(--teal)"></div>
 </div>
 <div class="subtitle">Townhall Live Session — Presenter Only</div>
 
 <div class="links-row">
   <div class="link-chip">
-    <div class="link-chip-name">📱 Participant Link</div>
-    <button class="copy-btn" onclick="copyUrl('/')">Copy Link</button>
+    <div class="link-name">📱 Participant Link</div>
+    <button class="copy-btn" onclick="copyUrl('/')">Copy</button>
   </div>
   <div class="link-chip">
-    <div class="link-chip-name">🖥️ Big Screen Display</div>
-    <button class="copy-btn" onclick="copyUrl('/display.html')">Copy Link</button>
+    <div class="link-name">🖥️ Big Screen</div>
+    <button class="copy-btn" onclick="copyUrl('/display.html')">Copy</button>
   </div>
 </div>
 
 <div class="tabs">
-  <button class="tab active" id="tab-setup" onclick="switchTab('setup')">⚙️ Setup Questions</button>
-  <button class="tab teal" id="tab-live" onclick="switchTab('live')">🔴 Live Control</button>
+  <button class="tab active" id="tab-setup" onclick="switchTab('setup')">⚙️ Setup</button>
+  <button class="tab live" id="tab-live" onclick="switchTab('live')">🔴 Live Control</button>
 </div>
 
-<!-- SETUP VIEW -->
+<!-- SETUP -->
 <div id="view-setup">
-  <div class="section-title">Your Question Queue</div>
+  <div class="section-title">Question Queue</div>
   <div class="q-list" id="q-list"></div>
   <div class="add-q-row">
-    <button class="add-q-btn" onclick="addQuestion('poll')">+ Add Poll Question</button>
-    <button class="add-q-btn wc" onclick="addQuestion('wordcloud')">+ Add Word Cloud</button>
+    <button class="add-q-btn" onclick="addQ('poll')">+ Add Poll</button>
+    <button class="add-q-btn wc" onclick="addQ('wordcloud')">+ Add Word Cloud</button>
   </div>
-  <button class="launch-btn" onclick="saveAndLaunch()">✅ Save & Go to Live Control →</button>
+  <button class="launch-btn" onclick="saveAndLaunch()">✅ Save & Go Live →</button>
 </div>
 
-<!-- LIVE VIEW -->
-<div id="view-live">
+<!-- LIVE -->
+<div id="view-live" style="display:none">
   <div class="live-header">
     <div class="live-badge"><div class="live-dot"></div> LIVE SESSION</div>
-    <div class="q-progress">Question <span id="q-current-num">-</span> of <span id="q-total">-</span></div>
+    <div class="q-progress">Q <b id="q-num">-</b> of <b id="q-tot">-</b></div>
   </div>
 
-  <div class="current-card" id="current-card">
-    <div class="current-tag" id="current-tag"></div>
-    <div class="current-q" id="current-q">Ready — press Open to start</div>
-    <div class="current-status idle" id="current-status">Waiting</div>
+  <div class="current-card" id="cur-card">
+    <div class="cur-tag" id="cur-tag"></div>
+    <div class="cur-q" id="cur-q">Ready — press Open to start Q1</div>
+    <div class="cur-status idle" id="cur-status">Waiting</div>
     <div class="live-stats" id="live-stats"></div>
-    <div class="ctrl-buttons" id="ctrl-buttons"></div>
+    <div class="ctrl-btns" id="ctrl-btns"></div>
   </div>
 
-  <div class="queue-overview">
+  <div class="queue-card">
     <div class="section-title">All Questions</div>
-    <div id="queue-list-live"></div>
+    <div id="q-list-live"></div>
   </div>
 
-  <div class="bottom-actions">
-    <button class="reset-btn" onclick="fullReset()">↺ Full Reset</button>
-  </div>
-</div>
-
-<!-- ENDED VIEW -->
-<div id="view-ended">
-  <div class="ended-ctl-icon">🎊</div>
-  <div class="ended-ctl-title">Session Complete!</div>
-  <div class="ended-ctl-sub">Thank You screen is showing to all participants.</div>
-  <div>
-    <button class="new-session-btn" onclick="runAgain()">▶ Run Again (Same Questions)</button>
-    <button class="reset-session-btn" onclick="fullReset()">↺ Reset Everything</button>
+  <div class="action-row">
+    <button class="action-btn end" onclick="doEndSession()">🏁 End Session</button>
+    <button class="action-btn restart" onclick="doRestart()">🔄 Restart</button>
+    <button class="action-btn reset" onclick="doFullReset()">↺ Full Reset</button>
   </div>
 </div>
 
 <script>
   const base = location.origin;
   let questions = [];
-  let serverState = {};
+  let sv = {};
 
-  function copyUrl(path) {
-    navigator.clipboard.writeText(base + path).then(() => alert('Copied: ' + base + path));
+  function copyUrl(p) { navigator.clipboard.writeText(base + p).then(() => alert('Copied!')); }
+
+  function switchTab(t) {
+    document.getElementById('tab-setup').classList.toggle('active', t === 'setup');
+    document.getElementById('tab-setup').classList.remove('live');
+    document.getElementById('tab-live').classList.toggle('active', t === 'live');
+    if (t === 'live') document.getElementById('tab-live').classList.add('live');
+    else document.getElementById('tab-live').classList.remove('live');
+    document.getElementById('view-setup').style.display = t === 'setup' ? 'block' : 'none';
+    document.getElementById('view-live').style.display = t === 'live' ? 'block' : 'none';
+    if (t === 'live') renderLive();
   }
 
-  function switchTab(tab) {
-    document.getElementById('tab-setup').classList.toggle('active', tab === 'setup');
-    document.getElementById('tab-live').classList.toggle('active', tab === 'live');
-    document.getElementById('view-setup').style.display = tab === 'setup' ? 'block' : 'none';
-    document.getElementById('view-live').style.display = tab === 'live' ? 'block' : 'none';
-    document.getElementById('view-ended').style.display = 'none';
-    if (tab === 'live') renderLiveView();
-  }
-
-  function showEndedView() {
-    document.getElementById('view-setup').style.display = 'none';
-    document.getElementById('view-live').style.display = 'none';
-    document.getElementById('view-ended').style.display = 'block';
-    document.getElementById('tab-setup').classList.remove('active');
-    document.getElementById('tab-live').classList.remove('active');
-  }
+  function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
   // --- SETUP ---
-  function addQuestion(type) {
-    questions.push({ type, question: '', options: type === 'poll' ? ['', ''] : [], multiSelect: false });
-    renderSetup();
-  }
-
-  function removeQuestion(i) { questions.splice(i, 1); renderSetup(); }
-
-  function moveQuestion(i, dir) {
-    const j = i + dir;
-    if (j < 0 || j >= questions.length) return;
-    [questions[i], questions[j]] = [questions[j], questions[i]];
-    renderSetup();
-  }
-
-  function addOption(i) { questions[i].options.push(''); renderSetup(); }
-
-  function removeOption(i, j) {
-    if (questions[i].options.length > 2) { questions[i].options.splice(j, 1); renderSetup(); }
-  }
-
-  function toggleMultiSelect(i, val) { questions[i].multiSelect = val; }
-
-  function escHtml(str) { return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+  function addQ(type) { questions.push({ type, question: '', options: type === 'poll' ? ['',''] : [], multiSelect: false }); renderSetup(); }
+  function removeQ(i) { questions.splice(i,1); renderSetup(); }
+  function moveQ(i,d) { const j=i+d; if(j<0||j>=questions.length)return; [questions[i],questions[j]]=[questions[j],questions[i]]; renderSetup(); }
+  function addOpt(i) { questions[i].options.push(''); renderSetup(); }
+  function removeOpt(i,j) { if(questions[i].options.length>2){questions[i].options.splice(j,1);renderSetup();} }
+  function toggleMS(i,v) { questions[i].multiSelect=v; }
 
   function renderSetup() {
-    const list = document.getElementById('q-list');
-    if (questions.length === 0) {
-      list.innerHTML = '<div class="empty-state">No questions yet. Add a poll or word cloud below.</div>';
-      return;
-    }
-    list.innerHTML = questions.map((q, i) => `
+    const el = document.getElementById('q-list');
+    if (!questions.length) { el.innerHTML = '<div class="empty-state">No questions yet.</div>'; return; }
+    el.innerHTML = questions.map((q,i) => `
       <div class="q-card">
         <div class="q-card-header">
-          <div class="q-num">${i + 1}</div>
-          <div class="q-type-badge ${q.type}">${q.type === 'poll' ? '📊 Poll' : '☁️ Word Cloud'}</div>
-          <div class="q-card-actions">
-            <button class="icon-btn move" onclick="moveQuestion(${i},-1)" ${i === 0 ? 'disabled' : ''}>↑</button>
-            <button class="icon-btn move" onclick="moveQuestion(${i},1)" ${i === questions.length - 1 ? 'disabled' : ''}>↓</button>
-            <button class="icon-btn" onclick="removeQuestion(${i})">✕</button>
+          <div class="q-num">${i+1}</div>
+          <div class="q-badge ${q.type}">${q.type==='poll'?'📊 Poll':'☁️ Word Cloud'}</div>
+          <div class="q-actions">
+            <button class="icon-btn move" onclick="moveQ(${i},-1)" ${i===0?'disabled':''}>↑</button>
+            <button class="icon-btn move" onclick="moveQ(${i},1)" ${i===questions.length-1?'disabled':''}>↓</button>
+            <button class="icon-btn" onclick="removeQ(${i})">✕</button>
           </div>
         </div>
         <label>Question</label>
-        <input type="text" value="${escHtml(q.question)}" placeholder="Type your question here..." oninput="questions[${i}].question=this.value" />
-        ${q.type === 'poll' ? `
-          <label>Answer Options</label>
+        <input type="text" value="${esc(q.question)}" placeholder="Type your question..." oninput="questions[${i}].question=this.value"/>
+        ${q.type==='poll'?`
+          <label>Options</label>
           <div class="options-list">
-            ${q.options.map((opt, j) => `
-              <div class="opt-row">
-                <input type="text" value="${escHtml(opt)}" placeholder="Option ${String.fromCharCode(65 + j)}" oninput="questions[${i}].options[${j}]=this.value" />
-                <button class="remove-opt" onclick="removeOption(${i},${j})">×</button>
-              </div>
-            `).join('')}
+            ${q.options.map((o,j)=>`<div class="opt-row"><input type="text" value="${esc(o)}" placeholder="Option ${String.fromCharCode(65+j)}" oninput="questions[${i}].options[${j}]=this.value"/><button class="remove-opt" onclick="removeOpt(${i},${j})">×</button></div>`).join('')}
           </div>
-          <button class="add-opt-btn" onclick="addOption(${i})">+ Add Option</button>
+          <button class="add-opt-btn" onclick="addOpt(${i})">+ Add Option</button>
           <div class="toggle-row">
-            <div class="toggle-label">
-              Allow multiple selections
-              <span class="toggle-sublabel">Off = pick one only · On = pick many</span>
-            </div>
-            <label class="toggle">
-              <input type="checkbox" ${q.multiSelect ? 'checked' : ''} onchange="toggleMultiSelect(${i}, this.checked)" />
-              <span class="toggle-slider"></span>
-            </label>
+            <div class="toggle-label">Allow multiple selections<span class="toggle-sub">Off = pick one · On = pick many</span></div>
+            <label class="toggle"><input type="checkbox" ${q.multiSelect?'checked':''} onchange="toggleMS(${i},this.checked)"/><span class="toggle-slider"></span></label>
           </div>
-        ` : '<div style="margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)">Participants can submit multiple words.</div>'}
-      </div>
-    `).join('');
+        `:'<div style="margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)">Participants type words — unlimited submissions.</div>'}
+      </div>`).join('');
   }
 
   function saveAndLaunch() {
-    if (questions.length === 0) { alert('Add at least one question first.'); return; }
-    const valid = questions.every(q => {
-      if (!q.question.trim()) return false;
-      if (q.type === 'poll' && q.options.filter(o => o.trim()).length < 2) return false;
-      return true;
-    });
-    if (!valid) { alert('Please fill in all questions. Polls need at least 2 options.'); return; }
-    const cleanQueue = questions.map(q => ({
-      type: q.type,
-      question: q.question.trim(),
-      options: q.options.map(o => o.trim()).filter(Boolean),
-      multiSelect: q.multiSelect || false,
-    }));
-    send({ action: 'set_queue', queue: cleanQueue });
+    if (!questions.length) { alert('Add at least one question.'); return; }
+    const ok = questions.every(q => q.question.trim() && (q.type!=='poll' || q.options.filter(o=>o.trim()).length>=2));
+    if (!ok) { alert('Please fill all questions. Polls need at least 2 options.'); return; }
+    const queue = questions.map(q => ({ type:q.type, question:q.question.trim(), options:q.options.map(o=>o.trim()).filter(Boolean), multiSelect:q.multiSelect||false }));
+    send({ action:'set_queue', queue });
     switchTab('live');
   }
 
-  // --- LIVE CONTROL ---
-  const barColors = ['#F97316', '#00B5B8', '#7C3AED', '#16A34A', '#F59E0B', '#EC4899'];
+  // --- LIVE ---
+  const bColors = ['#F97316','#00B5B8','#7C3AED','#16A34A','#F59E0B','#EC4899'];
 
-  function renderLiveView() {
-    const s = serverState;
+  function renderLive() {
+    const s = sv;
     const total = s.queue?.length || 0;
-    document.getElementById('q-total').textContent = total;
-    document.getElementById('q-current-num').textContent = s.currentIndex >= 0 ? s.currentIndex + 1 : '-';
+    document.getElementById('q-tot').textContent = total;
+    document.getElementById('q-num').textContent = s.currentIndex >= 0 ? s.currentIndex+1 : '-';
 
     // Queue list
-    const qll = document.getElementById('queue-list-live');
-    if (!total) {
-      qll.innerHTML = '<div class="empty-state">No questions loaded. Go to Setup first.</div>';
-    } else {
-      qll.innerHTML = (s.queue || []).map((q, i) => `
-        <div class="queue-item ${i === s.currentIndex ? 'active' : ''} ${i < s.currentIndex ? 'done' : ''}">
-          <div class="q-item-num">${i + 1}</div>
-          <div class="q-item-text">${escHtml(q.question)}</div>
-          <div class="q-item-type">${q.type === 'poll' ? '📊' : '☁️'}</div>
-        </div>
-      `).join('');
+    const ql = document.getElementById('q-list-live');
+    if (!total) { ql.innerHTML = '<div class="empty-state">No questions. Go to Setup.</div>'; }
+    else {
+      ql.innerHTML = (s.queue||[]).map((q,i) => `
+        <div class="q-item ${i===s.currentIndex?'active':''} ${i<s.currentIndex?'done':''}">
+          <div class="q-item-n">${i+1}</div>
+          <div class="q-item-txt">${esc(q.question)}</div>
+          <div class="q-item-ico">${q.type==='poll'?'📊':'☁️'}</div>
+        </div>`).join('');
     }
 
     const cur = s.current;
-    const card = document.getElementById('current-card');
+    const card = document.getElementById('cur-card');
 
     if (!cur) {
       card.className = 'current-card';
-      document.getElementById('current-tag').textContent = '';
-      document.getElementById('current-q').textContent = total ? 'Ready — press Open to start Q1' : 'No questions loaded';
-      document.getElementById('current-status').textContent = 'Waiting';
-      document.getElementById('current-status').className = 'current-status idle';
+      document.getElementById('cur-tag').textContent = '';
+      document.getElementById('cur-q').textContent = total ? 'Ready — press Open to start Q1' : 'No questions loaded';
+      document.getElementById('cur-status').textContent = 'Waiting';
+      document.getElementById('cur-status').className = 'cur-status idle';
       document.getElementById('live-stats').innerHTML = '';
-      renderCtrlButtons('idle');
+      renderCtrlBtns('idle');
       return;
     }
 
-    card.className = `current-card ${s.phase === 'collecting' ? 'collecting-active' : s.phase === 'results' ? 'results-active' : ''}`;
+    card.className = `current-card ${s.phase==='collecting'?'coll':s.phase==='results'?'res':''}`;
+    const tag = document.getElementById('cur-tag');
+    tag.textContent = cur.type==='poll' ? '📊 LIVE POLL' : '☁️ WORD CLOUD';
+    tag.className = `cur-tag ${cur.type}`;
+    document.getElementById('cur-q').textContent = cur.question;
 
-    const tagEl = document.getElementById('current-tag');
-    tagEl.textContent = cur.type === 'poll' ? '📊 LIVE POLL' : '☁️ WORD CLOUD';
-    tagEl.className = `current-tag ${cur.type}`;
-    document.getElementById('current-q').textContent = cur.question;
+    const st = document.getElementById('cur-status');
+    if (s.phase==='collecting') { st.textContent='🟡 Collecting answers...'; st.className='cur-status collecting'; }
+    else if (s.phase==='results') { st.textContent='✅ Showing results'; st.className='cur-status results'; }
 
-    const statusEl = document.getElementById('current-status');
-    if (s.phase === 'collecting') { statusEl.textContent = '🟡 Collecting answers...'; statusEl.className = 'current-status collecting'; }
-    else if (s.phase === 'results') { statusEl.textContent = '✅ Showing results'; statusEl.className = 'current-status results'; }
-
-    const statsEl = document.getElementById('live-stats');
-    if (cur.type === 'poll') {
-      const tv = cur.totalVoters || 0;
-      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Total voters: <strong style="color:var(--text)">${tv}</strong></div>` +
-        cur.options.map((opt, i) => {
-          const v = cur.votes?.[i] || 0;
-          const pct = tv > 0 ? Math.round(v / tv * 100) : 0;
-          return `<div class="stat-row">
-            <div class="stat-meta"><span>${escHtml(opt)}</span><span>${v} (${pct}%)</span></div>
-            <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%;background:${barColors[i % barColors.length]}"></div></div>
-          </div>`;
+    const stats = document.getElementById('live-stats');
+    if (cur.type==='poll') {
+      const tv = cur.totalVoters||0;
+      stats.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Voters: <b style="color:var(--text)">${tv}</b></div>` +
+        cur.options.map((o,i) => { const v=cur.votes?.[i]||0; const p=tv>0?Math.round(v/tv*100):0;
+          return `<div class="stat-row"><div class="stat-meta"><span>${esc(o)}</span><span>${v} (${p}%)</span></div><div class="stat-track"><div class="stat-fill barC${i}" style="width:${p}%"></div></div></div>`;
         }).join('');
     } else {
-      const words = [...(cur.words || [])].sort((a, b) => b.count - a.count).slice(0, 10);
-      const total = (cur.words || []).reduce((a, w) => a + w.count, 0);
-      statsEl.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Responses: <strong style="color:var(--text)">${total}</strong></div>
-        <div class="word-chips">${words.map(w => `<div class="word-chip">${escHtml(w.text)} <span style="opacity:0.7">${w.count}</span></div>`).join('')}</div>`;
+      const words = [...(cur.words||[])].sort((a,b)=>b.count-a.count).slice(0,10);
+      const tot = (cur.words||[]).reduce((a,w)=>a+w.count,0);
+      stats.innerHTML = `<div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Responses: <b style="color:var(--text)">${tot}</b></div><div class="word-chips">${words.map(w=>`<div class="word-chip">${esc(w.text)} <span style="opacity:0.7">${w.count}</span></div>`).join('')}</div>`;
     }
 
-    renderCtrlButtons(s.phase);
+    renderCtrlBtns(s.phase);
   }
 
-  function renderCtrlButtons(phase) {
-    const s = serverState;
+  function renderCtrlBtns(phase) {
+    const s = sv;
     const total = s.queue?.length || 0;
-    const isFirst = s.currentIndex === -1;
     const isLast = total > 0 && s.currentIndex === total - 1;
-    const el = document.getElementById('ctrl-buttons');
+    const isFirst = s.currentIndex === -1;
+    const el = document.getElementById('ctrl-btns');
 
     if (phase === 'idle') {
-      if (isFirst) {
-        el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Start — Open Q1</button>`;
-      } else {
-        // After showing results and closing — shouldn't normally hit idle mid-session
-        el.innerHTML = `<button class="ctrl-btn open" onclick="openQuestion()">▶ Open Next Question</button>`;
-      }
+      el.innerHTML = `<button class="ctrl-btn open" onclick="openQ()">▶ ${isFirst?'Start — Open Q1':'Open Next Question'}</button>`;
     } else if (phase === 'collecting') {
-      el.innerHTML = `<button class="ctrl-btn show-results" onclick="showResults()">📊 Close & Show Results</button>`;
+      el.innerHTML = `<button class="ctrl-btn show-r" onclick="showResults()">📊 Close & Show Results</button>`;
     } else if (phase === 'results') {
       if (isLast) {
-        // Last question — show End Session
-        el.innerHTML = `<button class="ctrl-btn end" onclick="endSession()">🏁 End Session</button>`;
+        el.innerHTML = `<button class="ctrl-btn end-last" onclick="doEndSession()">🏁 End Session</button>`;
       } else {
-        el.innerHTML = `<button class="ctrl-btn next" onclick="nextQuestion()">Next Question →</button>`;
+        el.innerHTML = `<button class="ctrl-btn next-q" onclick="nextQ()">Next Question →</button>`;
       }
     }
   }
 
-  function openQuestion() {
-    const nextIdx = (serverState.currentIndex ?? -1) + 1;
-    if (nextIdx >= (serverState.queue?.length || 0)) return;
-    send({ action: 'open_question', index: nextIdx });
+  function openQ() {
+    const idx = (sv.currentIndex ?? -1) + 1;
+    if (idx >= (sv.queue?.length||0)) return;
+    send({ action:'open_question', index: idx });
   }
 
-  function showResults() { send({ action: 'show_results' }); }
+  function showResults() { send({ action:'show_results' }); }
 
-  function nextQuestion() {
-    send({ action: 'close' });
+  function nextQ() {
+    send({ action:'close' });
     setTimeout(() => {
-      const nextIdx = (serverState.currentIndex ?? -1) + 1;
-      if (nextIdx < (serverState.queue?.length || 0)) send({ action: 'open_question', index: nextIdx });
+      const idx = (sv.currentIndex ?? -1) + 1;
+      if (idx < (sv.queue?.length||0)) send({ action:'open_question', index: idx });
     }, 300);
   }
 
-  function endSession() {
-    // NO confirmation — directly end
-    send({ action: 'end_session' });
+  // End Session: show Thank You on all screens, keep questions, go back to Setup
+  function doEndSession() {
+    send({ action:'end_session' });
+    // After a moment, go back to setup with questions still there
+    setTimeout(() => switchTab('setup'), 800);
   }
 
-  function runAgain() {
-    // Reset session state but keep questions
-    send({ action: 'reset_session_keep_queue' });
+  // Restart: fresh answers, back to Q1
+  function doRestart() {
+    send({ action:'restart' });
     switchTab('live');
   }
 
-  function fullReset() {
-    if (confirm('Full reset? This clears all questions and answers.')) {
-      send({ action: 'reset' });
-      questions = [];
-      renderSetup();
-      switchTab('setup');
-    }
+  // Full Reset: clear everything
+  function doFullReset() {
+    send({ action:'reset' });
+    questions = [];
+    renderSetup();
+    switchTab('setup');
   }
 
   // WebSocket
@@ -483,19 +379,17 @@
   const ws = new WebSocket(`${proto}://${location.host}?presenter=1`);
 
   ws.onmessage = (e) => {
-    const msg = JSON.parse(e.data);
-    if (msg.type === 'state') {
-      serverState = msg.state;
-      if (msg.state.phase === 'ended') {
-        showEndedView();
-      } else if (document.getElementById('view-live').style.display !== 'none') {
-        renderLiveView();
+    try {
+      const msg = JSON.parse(e.data);
+      if (msg.type === 'state') {
+        sv = msg.state;
+        if (document.getElementById('view-live').style.display !== 'none') renderLive();
       }
-    }
+    } catch {}
   };
 
   function send(data) {
-    if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'presenter', ...data }));
+    if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type:'presenter', ...data }));
   }
 
   renderSetup();
