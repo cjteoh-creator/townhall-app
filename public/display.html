@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presenter Display</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07070d;
+      --surface: #13131f;
+      --accent: #6c63ff;
+      --accent2: #ff6584;
+      --accent3: #43e8c0;
+      --text: #f4f4f9;
+      --muted: #666680;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* IDLE */
+    #screen-idle {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .idle-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .idle-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: -0.02em;
+    }
+
+    .idle-sub {
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    /* POLL DISPLAY */
+    #screen-poll {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      padding: 48px 72px;
+    }
+
+    .screen-tag {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .big-question {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+    }
+
+    .poll-bars {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .bar-label {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .bar-count {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'Syne', sans-serif;
+    }
+
+    .bar-track {
+      height: 18px;
+      background: var(--surface);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent);
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 4px;
+    }
+
+    .bar-fill.c0 { background: #6c63ff; }
+    .bar-fill.c1 { background: #ff6584; }
+    .bar-fill.c2 { background: #43e8c0; }
+    .bar-fill.c3 { background: #ffd166; }
+
+    .total-count {
+      margin-top: 32px;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .total-count span {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* WORD CLOUD DISPLAY */
+    #screen-wordcloud {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      padding: 48px 72px;
+    }
+
+    #wc-canvas {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wc-word {
+      position: absolute;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      white-space: nowrap;
+      transition: all 0.4s ease;
+      cursor: default;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Status bar */
+    .status-bar {
+      padding: 12px 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #1e1e2e;
+    }
+
+    .status-live {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4ade80;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 1.4s ease infinite;
+    }
+
+    .join-url {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .join-url span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .vote-ticker {
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="screen-idle">
+    <div class="idle-dot"></div>
+    <div class="idle-label">Session Ready</div>
+    <div class="idle-sub">Open the Control Panel to start an activity</div>
+  </div>
+
+  <div id="screen-poll">
+    <div class="screen-tag">📊 Live Poll</div>
+    <div class="big-question" id="poll-question"></div>
+    <div class="poll-bars" id="poll-bars"></div>
+    <div class="total-count">Total votes: <span id="total-votes">0</span></div>
+  </div>
+
+  <div id="screen-wordcloud">
+    <div class="screen-tag">☁️ Word Cloud</div>
+    <div class="big-question" id="wc-question"></div>
+    <div id="wc-canvas"></div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-live">
+      <div class="live-dot"></div>
+      LIVE
+    </div>
+    <div class="join-url">Participants join at: <span id="join-url"></span></div>
+    <div class="vote-ticker" id="vote-ticker"></div>
+  </div>
+
+  <script>
+    document.getElementById('join-url').textContent = location.host;
+
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    const ws = new WebSocket(`${proto}://${location.host}`);
+
+    ws.onmessage = (e) => {
+      const msg = JSON.parse(e.data);
+      if (msg.type === 'state') render(msg.state);
+    };
+
+    const colors = ['#6c63ff','#ff6584','#43e8c0','#ffd166','#a78bfa','#fb923c'];
+
+    function render(state) {
+      document.getElementById('screen-idle').style.display = 'none';
+      document.getElementById('screen-poll').style.display = 'none';
+      document.getElementById('screen-wordcloud').style.display = 'none';
+
+      if (state.mode === 'idle') {
+        document.getElementById('screen-idle').style.display = 'flex';
+        document.getElementById('vote-ticker').textContent = '';
+      } else if (state.mode === 'poll') {
+        document.getElementById('screen-poll').style.display = 'flex';
+        document.getElementById('poll-question').textContent = state.poll.question;
+
+        const totalVotes = Object.values(state.poll.votes).reduce((a, b) => a + b, 0);
+        document.getElementById('total-votes').textContent = totalVotes;
+        document.getElementById('vote-ticker').textContent = `${totalVotes} response${totalVotes !== 1 ? 's' : ''}`;
+
+        const container = document.getElementById('poll-bars');
+        container.innerHTML = '';
+        state.poll.options.forEach((opt, i) => {
+          const votes = state.poll.votes[i] || 0;
+          const pct = totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
+          const row = document.createElement('div');
+          row.className = 'bar-row';
+          row.innerHTML = `
+            <div class="bar-meta">
+              <span class="bar-label">${opt}</span>
+              <span class="bar-count">${pct}% <span style="font-size:18px;color:var(--muted)">(${votes})</span></span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill c${i}" style="width:${pct}%"></div>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+      } else if (state.mode === 'wordcloud') {
+        document.getElementById('screen-wordcloud').style.display = 'flex';
+        document.getElementById('wc-question').textContent = state.wordcloud.question;
+        renderWordCloud(state.wordcloud.words);
+        const total = state.wordcloud.words.reduce((a, w) => a + w.count, 0);
+        document.getElementById('vote-ticker').textContent = `${total} response${total !== 1 ? 's' : ''}`;
+      }
+    }
+
+    function renderWordCloud(words) {
+      const canvas = document.getElementById('wc-canvas');
+      canvas.innerHTML = '';
+      if (!words.length) return;
+
+      const W = canvas.offsetWidth || 800;
+      const H = canvas.offsetHeight || 400;
+
+      const maxCount = Math.max(...words.map(w => w.count));
+      const sorted = [...words].sort((a, b) => b.count - a.count);
+
+      const placed = [];
+
+      sorted.forEach((w, idx) => {
+        const size = Math.round(28 + ((w.count / maxCount) * 72));
+        const el = document.createElement('div');
+        el.className = 'wc-word';
+        el.textContent = w.text;
+        el.style.fontSize = size + 'px';
+        el.style.color = colors[idx % colors.length];
+        el.style.opacity = '0';
+        canvas.appendChild(el);
+
+        const elW = el.offsetWidth || size * w.text.length * 0.6;
+        const elH = el.offsetHeight || size * 1.3;
+
+        let x, y, attempts = 0, placed_ok = false;
+
+        // Spiral placement
+        for (let r = 0; r < 300 && !placed_ok; r += 4) {
+          for (let angle = 0; angle < Math.PI * 2 && !placed_ok; angle += 0.3) {
+            x = W / 2 + r * Math.cos(angle + idx * 0.5) - elW / 2;
+            y = H / 2 + r * Math.sin(angle + idx * 0.5) * 0.7 - elH / 2;
+
+            if (x < 0 || y < 0 || x + elW > W || y + elH > H) continue;
+
+            const overlap = placed.some(p =>
+              x < p.x + p.w + 8 && x + elW + 8 > p.x &&
+              y < p.y + p.h + 8 && y + elH + 8 > p.y
+            );
+
+            if (!overlap) {
+              placed.push({ x, y, w: elW, h: elH });
+              placed_ok = true;
+            }
+            attempts++;
+          }
+        }
+
+        if (!placed_ok) {
+          x = Math.random() * Math.max(0, W - elW);
+          y = Math.random() * Math.max(0, H - elH);
+        }
+
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.opacity = '1';
+      });
+    }
+  </script>
+</body>
+</html>
