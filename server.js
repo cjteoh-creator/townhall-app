@@ -18,17 +18,6 @@ let state = {
   participantCount: 0,
 };
 
-// Tag each WebSocket connection with its role
-const clientRoles = new WeakMap(); // ws -> 'participant' | 'presenter' | 'display'
-
-function getParticipantCount() {
-  let count = 0;
-  wss.clients.forEach(c => {
-    if (c.readyState === 1 && clientRoles.get(c) === 'participant') count++;
-  });
-  return count;
-}
-
 function broadcast(data) {
   const msg = JSON.stringify(data);
   wss.clients.forEach(c => {
@@ -36,31 +25,23 @@ function broadcast(data) {
   });
 }
 
-function broadcastCount() {
-  state.participantCount = getParticipantCount();
-  broadcast({ type: 'state', state });
-}
-
 wss.on('connection', (ws, req) => {
   const qs = req.url.split('?')[1] || '';
-  const role = qs.includes('presenter=1') ? 'presenter' : qs.includes('display=1') ? 'display' : 'participant';
-  clientRoles.set(ws, role);
+  const isParticipant = !qs.includes('presenter=1') && !qs.includes('display=1');
 
-  // Mark as alive for heartbeat
-  ws.isAlive = true;
-  ws.on('pong', () => { ws.isAlive = true; });
-
-  // Count after a short delay to ensure ws is fully registered in wss.clients
-  setTimeout(() => {
-    state.participantCount = getParticipantCount();
-    broadcast({ type: 'state', state });
-  }, 50);
+  // Simple increment/decrement for participant counting
+  if (isParticipant) {
+    state.participantCount++;
+  }
 
   // Send current state to new connection immediately
   ws.send(JSON.stringify({ type: 'state', state }));
+  broadcast({ type: 'state', state });
 
   ws.on('close', () => {
-    state.participantCount = getParticipantCount();
+    if (isParticipant && state.participantCount > 0) {
+      state.participantCount--;
+    }
     broadcast({ type: 'state', state });
   });
 
@@ -164,35 +145,23 @@ wss.on('connection', (ws, req) => {
   });
 });
 
-// Heartbeat: ping all clients every 30s, terminate unresponsive ones
+// Heartbeat: ping all clients every 30s to keep connections alive
 setInterval(() => {
   wss.clients.forEach(c => {
-    if (c.isAlive === false) return c.terminate();
-    c.isAlive = false;
     if (c.readyState === 1) c.ping();
   });
-  // Recount after clearing dead clients
-  setTimeout(() => {
-    state.participantCount = getParticipantCount();
-    broadcast({ type: 'state', state });
-  }, 1000);
 }, 30000);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Townhall running on port ${PORT}`));
 
-// Debug endpoint — visit /debug to see live server state
+// Debug endpoint
 app.get('/debug', (req, res) => {
-  const clients = [];
-  wss.clients.forEach(c => {
-    clients.push({ role: clientRoles.get(c), readyState: c.readyState });
-  });
   res.json({
     phase: state.phase,
     queueLength: state.queue.length,
     participantCount: state.participantCount,
     currentIndex: state.currentIndex,
-    liveClients: clients,
     totalWsClients: wss.clients.size,
   });
 });
