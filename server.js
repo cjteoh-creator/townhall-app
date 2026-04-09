@@ -163,6 +163,13 @@ wss.on('connection', (ws, req) => {
   });
 });
 
+// Heartbeat: ping all clients every 30s to keep connections alive on Render
+setInterval(() => {
+  wss.clients.forEach(c => {
+    if (c.readyState === 1) c.ping();
+  });
+}, 30000);
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Townhall running on port ${PORT}`));
 
