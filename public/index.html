@@ -217,6 +217,7 @@
         hasVoted = false;
         wcCount = 0;
         selectedOptions = new Set();
+        lastRenderedQuestion = null;
         document.getElementById('wc-count').textContent = '0';
         lastQIdx = state.currentIndex;
       }
@@ -257,6 +258,8 @@
       }
     }
 
+    let lastRenderedQuestion = null;
+
     function showPollScreen(cur) {
       document.getElementById('screen-poll').style.display = 'block';
       document.getElementById('poll-question').textContent = cur.question;
@@ -270,6 +273,37 @@
         return;
       }
 
+      document.getElementById('voted-msg').style.display = 'none';
+      document.getElementById('multi-hint').style.display = isMultiSelect ? 'block' : 'none';
+      document.getElementById('submit-vote-btn').style.display = isMultiSelect ? 'block' : 'none';
+
+      // Only rebuild buttons if question changed — prevents losing selected state on re-render
+      if (lastRenderedQuestion === cur.question) {
+        // Just refresh selected state on existing buttons
+        const btns = document.querySelectorAll('.option-btn');
+        btns.forEach((btn, i) => {
+          btn.classList.toggle('selected', selectedOptions.has(i));
+          const letter = btn.querySelector('.option-letter');
+          if (letter) {
+            letter.style.background = selectedOptions.has(i) ? 'var(--orange)' : '';
+            letter.style.color = selectedOptions.has(i) ? '#fff' : '';
+          }
+        });
+        return;
+      }
+
+      lastRenderedQuestion = cur.question;
+      const container = document.getElementById('poll-options');
+      container.style.display = 'block';
+      container.innerHTML = '';
+      cur.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn' + (selectedOptions.has(i) ? ' selected' : '');
+        btn.innerHTML = ;
+        btn.onclick = () => handleOptionClick(i, btn);
+        container.appendChild(btn);
+      });
+    }
       document.getElementById('voted-msg').style.display = 'none';
       document.getElementById('multi-hint').style.display = isMultiSelect ? 'block' : 'none';
       document.getElementById('submit-vote-btn').style.display = isMultiSelect ? 'block' : 'none';
